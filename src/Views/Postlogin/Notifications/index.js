@@ -1,40 +1,55 @@
-import { Alert, SpaceBetween } from '@cloudscape-design/components'
-import React from 'react'
+import React from 'react';
+import { Alert, SpaceBetween, Button, ContentLayout } from '@cloudscape-design/components';
 
 const Notifications = () => {
+  const notifications = [
+    {
+      id: 54764,
+      date: '30-08-2024',
+      time: '11:30 AM',
+      message: 'You have received a new Order ID',
+    },
+    {
+      id: 54764,
+      date: '30-08-2024',
+      time: '11:30 AM',
+      message: 'You have received a new Order ID',
+    },
+    {
+      id: 54764,
+      date: '30-08-2024',
+      time: '11:30 AM',
+      message: 'You have received a new Order ID',
+    },
+    {
+      id: 54764,
+      date: '30-08-2024',
+      time: '11:30 AM',
+      message: 'You have received a new Order ID',
+    },
+  ];
+
   return (
-    <SpaceBetween size='l' direction='vertical'>
+    <ContentLayout
 
-      <Alert
-        dismissible
-        statusIconAriaLabel="info"
-        type="info" header={
-          <>
-            <span>You have received a new </span>
-            <span>Runsheet (5425)</span>
-          </>
-        }
-      >
-        30-08-2024  (11:30 Am)
-      </Alert>
-
-      <Alert
-        dismissible
-        statusIconAriaLabel="info"
-        type="info" header={
-          <>
-            <span>You have received a new </span>
-            <span>Runsheet (5425)</span>
-          </>
-        }
-      >
-        30-08-2024  (11:30 Am)
-      </Alert>
-
-
-
+    disableOverlap
+   
+    >
+    <SpaceBetween size="s" direction="vertical">
+      {notifications.map((notification, index) => (
+        <Alert
+        key={index}
+        type="info"
+        header={`${notification.message} (${notification.id})`}
+        dismissible={true}
+        onDismiss={() => console.log(`Dismissed notification ${notification.id}`)}
+        >
+          {`${notification.date} (${notification.time})`}
+        </Alert>
+      ))}
     </SpaceBetween>
-  )
-}
+      </ContentLayout>
+  );
+};
 
-export default Notifications
+export default Notifications;

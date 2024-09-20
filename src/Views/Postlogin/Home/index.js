@@ -8,8 +8,8 @@ const Home = () => {
   const [acceptRunSheet,setAcceptRunSheet] = useState(false)
   return (
    <>
-<Header actions={  <Button iconName='refresh' variant='icon'/>}>
-Home  
+<Header variant='h2' actions={  <Button iconName='refresh' variant='icon'/>}>
+<span className='header_underline'> Home </span>  
 </Header>   
 
 <div style={{marginTop:12}}>
@@ -20,6 +20,8 @@ header={
   <Header
   description={
     <SpaceBetween>
+
+
     <Box variant='h4' >
      <span style={{color:'#037F0C'}}>10 Orders</span> </Box>
     </SpaceBetween>

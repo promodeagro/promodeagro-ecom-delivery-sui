@@ -1,14 +1,20 @@
 import React, { lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { PREFIX_APP_PATH, PREFIX_AUTH_PATH } from "./../Config/Config";
-import Dashboard from "./Postlogin/Dashboard";
 import Home from "./Postlogin/Home";
 import AmountSummary from "./Postlogin/AmountSummary";
 import ProfileDetails from "./Postlogin/ProfileDetails";
 import CustomerDetails from "./Postlogin/CustomerDetails";
 import Runsheet from "./Postlogin/Home/Runsheet";
 import CreateNewPassword from "./PreLogin/CreateNewPassword";
-import  Notifications  from "./Postlogin/Notifications/index";
+import Notifications from "./Postlogin/Notifications/index";
+import VerifiedOrder from "./Postlogin/CustomerDetails/VerifiedOrder";
+import OtpVerification from "./PreLogin/OtpVerification";
+import Undelivered from "./Postlogin/Home/Runsheet/Undelivered/Undelivered";
+import CapturedVerified from "./Postlogin/CustomerDetails/CapturedVerified";
+import Payment from "./Postlogin/CustomerDetails/CapturedVerified/Payment";
+import Delivered from "./Postlogin/Home/Runsheet/Delivered";
+
 
 // const Dashboards = lazy(() => import("./Postlogin/Dashboard"));
 
@@ -21,19 +27,14 @@ const Views = () => {
     <>
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
+
           <Route
-            exact
-            path={`${PREFIX_APP_PATH}/dashboard`}
-            element={<Dashboard />}
-          />
-         
-         <Route
             exact
             path={`${PREFIX_APP_PATH}/home`}
             element={<Home />}
           />
-          
-           <Route
+
+          <Route
             exact
             path={`${PREFIX_APP_PATH}/home/runsheet`}
             element={<Runsheet />}
@@ -41,26 +42,55 @@ const Views = () => {
 
           <Route
             exact
+            path={`${PREFIX_APP_PATH}/home/runsheet/undelivered`}
+            element={<Undelivered />}
+          />
+          <Route
+            exact
+            path={`${PREFIX_APP_PATH}/home/runsheet/delivered`}
+            element={<Delivered />}
+          />
+
+          <Route
+            exact
             path={`${PREFIX_APP_PATH}/amount-summary`}
             element={<AmountSummary />}
-          />   
-           <Route
+          />
+          <Route
             exact
             path={`${PREFIX_APP_PATH}/profile-details`}
             element={<ProfileDetails />}
-          />  
+          />
           <Route
             exact
             path={`${PREFIX_APP_PATH}/customer-details`}
             element={<CustomerDetails />}
           />
 
-<Route
+          <Route
+            exact
+            path={`${PREFIX_APP_PATH}/customer-details/verify-order`}
+            element={<VerifiedOrder />}
+          />
+
+          <Route
+            exact
+            path={`${PREFIX_APP_PATH}/customer-details/captured-verified`}
+            element={<CapturedVerified />}
+          />
+
+          <Route
+            exact
+            path={`${PREFIX_APP_PATH}/customer-details/captured-verified/payment`}
+            element={<Payment />}
+          />
+
+          <Route
             exact
             path={`${PREFIX_APP_PATH}/notifications`}
             element={<Notifications />}
           />
-         
+
 
           <Route
             exact
@@ -84,10 +114,15 @@ const Views = () => {
           />
           <Route
             exact
+            path={`${PREFIX_AUTH_PATH}/otp-varification`}
+            element={<OtpVerification />}
+          />
+          <Route
+            exact
             path="/app/inventory"
             element={<Navigate to="/app/inventory/raw-materials" />}
           />
-          <Route exact path="/" element={<Navigate to="/auth/signin"/>} />
+          <Route exact path="/" element={<Navigate to="/auth/signin" />} />
 
           <Route path="*" element={<PathNotFOund />} />
         </Routes>
