@@ -8,7 +8,7 @@ const CapturedVerified = () => {
    <>
    <Header variant='h2'>
     <SpaceBetween size='xs'direction='horizontal' alignItems='center'>
-<Button iconName='arrow-left' variant='icon'/>
+<Button onClick={()=> navigate(-2)} iconName='arrow-left' variant='icon'/>
 <span className='header_underline'> Captured Verified </span>  
     </SpaceBetween>
 </Header>   
@@ -52,7 +52,7 @@ footer={
 
 <div style={{marginTop:"40%"}}>
     <Button onClick={()=> navigate('/app/customer-details/captured-verified/payment')} variant='primary' fullWidth>
-    Collected Amount
+    Collect Amount
     </Button>
 </div>
    </>

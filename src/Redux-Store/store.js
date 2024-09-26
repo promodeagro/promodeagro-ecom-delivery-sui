@@ -10,6 +10,8 @@ import ProductsSlice from "./Products/ProductsSlice";
 import RawMaterialsSlice from "./Inventory/RawMaterials/RawMaterialsSlice";
 import PurchaseOrderSlice from "./Inventory/PurchaseOrders/PurchaseOrderSlice";
 import VendorProfilesSlice from "Redux-Store/Inventory/VendorProfile/VendorProfileSlice";
+import UsersSlice from "Redux-Store/Users/UsersSlice"
+import RunsheetsSlice from "Redux-Store/Runsheets/RunsheetSlice"
 const store = configureStore({
   reducer: {
     savedQuotations: QuotationsReducer,
@@ -21,6 +23,8 @@ const store = configureStore({
     rawmaterials: RawMaterialsSlice,
     purchaseorders: PurchaseOrderSlice,
     vendorprofile: VendorProfilesSlice,
+   users:UsersSlice,
+   runsheets:RunsheetsSlice
   },
 });
 

@@ -11,7 +11,7 @@ const AmountSummary = () => {
      <Header variant="h3">
        <SpaceBetween direction='horizontal' size='xs' alignItems='center'>
         <Button onClick={()=> navigate(-1)} iconName='arrow-left' variant='icon'></Button>
-        <span>Amount Summary </span>
+        <span className='header_underline'>Amount Summary </span>
         </SpaceBetween> 
       </Header>
 

@@ -38,6 +38,8 @@ const CustomerDetails = () => {
 
   // reson for canceling the orderz state
   const [reason,setReason ] = React.useState("");
+  const [otherIssue,setOtherIssue ] = React.useState("");
+  
 
   return (
     <>
@@ -156,6 +158,8 @@ const CustomerDetails = () => {
       label="Notes Other Issues"
       >
       <Textarea
+      value={otherIssue}
+      onChange={(e)=> setOtherIssue(e.detail.value)}
        placeholder='Write Here Issue!'
        />
     </FormField>
@@ -163,7 +167,7 @@ const CustomerDetails = () => {
 
        <div style={{marginTop:25}}>
         <SpaceBetween direction='vertical' size='xs'>
-          <Button variant='primary' fullWidth >OK</Button>
+          <Button variant='primary' onClick={()=> navigate(-1)} fullWidth >OK</Button>
           <Button onClick={()=> setVisible(false)} fullWidth>Go back</Button>
         </SpaceBetween>
        </div>

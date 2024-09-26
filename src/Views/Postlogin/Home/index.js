@@ -1,15 +1,30 @@
 import { Box, Button, Container, Header, Icon, SpaceBetween } from '@cloudscape-design/components'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import PackIcon from "../../../Assets/Images/PackIcon.svg"
+
+import { useDispatch, useSelector } from "react-redux";
+import { fetchRunsheets } from 'Redux-Store/Runsheets/RunsheetThunk';
+import status from 'Redux-Store/Constants';
+
 
 const Home = () => {
   const navigate = useNavigate()
-
   const [acceptRunSheet,setAcceptRunSheet] = useState(false)
+
+  const dispatch = useDispatch();
+const runsheetData = useSelector((state) => state.runsheets.runsheetsData);
+
+const runsheets = runsheetData?.data?.UnpackedOrders
+console.log(runsheets,"order from Ui");
+useEffect(() => {
+  dispatch(fetchRunsheets());
+}, [dispatch]);
+
   return (
    <>
-<Header variant='h2' actions={  <Button iconName='refresh' variant='icon'/>}>
-<span className='header_underline'> Home </span>  
+<Header variant='h3' actions={  <Button iconName='refresh' variant='icon'/>}>
+<span className='header_underline'>Home</span>  
 </Header>   
 
 <div style={{marginTop:12}}>
@@ -23,7 +38,12 @@ header={
 
 
     <Box variant='h4' >
-     <span style={{color:'#037F0C'}}>10 Orders</span> </Box>
+
+      <SpaceBetween direction='horizontal' size='xs' alignItems='center'>
+    <img src={PackIcon} alt="" width={20} height={20}/>
+     <span style={{color:'#037F0C'}}>10 Orders</span> 
+      </SpaceBetween>
+     </Box>
     </SpaceBetween>
   }
   ><span style={{color:'#0972D3'}}> Run Sheet</span> - 5425</Header>
@@ -69,13 +89,22 @@ Cash to be Collect : ₹ 15980/-
   </div>
 </SpaceBetween>
 </Container>
+
+
 <Container
 header={
   <Header
   description={
     <SpaceBetween>
+
+
     <Box variant='h4' >
-     <span style={{color:'#037F0C'}}>10 Orders</span> </Box>
+
+      <SpaceBetween direction='horizontal' size='xs' alignItems='center'>
+    <img src={PackIcon} alt="" width={20} height={20}/>
+     <span style={{color:'#037F0C'}}>10 Orders</span> 
+      </SpaceBetween>
+     </Box>
     </SpaceBetween>
   }
   ><span style={{color:'#0972D3'}}> Run Sheet</span> - 5425</Header>

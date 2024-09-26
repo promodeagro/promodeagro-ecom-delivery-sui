@@ -152,7 +152,7 @@ const Payment = () => {
             <Box textAlign='center' color='text-status-success' variant='p'>"The amount has been collected."</Box>
             <Button onClick={()=>{
                 setAmountCollectedModal(false)
-                navigate('/app/home')
+                navigate('/app/home/runsheet')
             }} variant='primary' fullWidth>Done</Button>
           </SpaceBetween>
     </Modal>

@@ -1,56 +1,66 @@
+import React, { useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import SideNavigation from "@cloudscape-design/components/side-navigation";
+import { Badge, Box, Button,Icon } from "@cloudscape-design/components";
 
-import { Badge, Box, SideNavigation } from "@cloudscape-design/components";
-import { useLocation, useNavigate } from "react-router-dom";
+const pages = [
+  { type: "link", text: "Home", href: "/app/Home" },
+  { type: "link", text: "Amount Summary", href: "/app/amount-summary" },
+  { type: "link", text: "Profile Details", href: "/app/profile-details" },
+  { type: "divider" },
+  {
+    type: "link",
+    text: "Notifications",
+    href: "/app/notifications",
+    info: <Badge color="red">23</Badge>,
+  },
+];
 
-import Logo from "../../Assets/Images/Logo.png"
 const Sidebar = () => {
   const navigate = useNavigate();
-  const location = useLocation();
+  const location = useLocation(); // Hook to access current location
+  const [activeHref, setActiveHref] = React.useState("");
 
-  const items = [
-    { type: "link", text: "Home", href: "/app/home" },
-    { type: "link", text: "Amount Summary", href: "/app/amount-summary" },
-    { type: "link", text: "Profile Details", href: "/app/profile-details" },
-  
-    { type: "divider" },
-    { type: "link", text: "Notifications", href: "/app/notifications"
-      ,  info: <Badge color="red">23</Badge>
-     },
-   
-  ];
+  useEffect(() => {
+    setActiveHref(location.pathname); // Set activeHref to current path
+  }, [location.pathname]); // Update activeHref when location changes
 
-  const handleNavigation = (event) => {
-    if (!event.detail.external) {
+  const handleFollow = (event) => {
+    const { href, external } = event.detail;
+    if (!external) {
       event.preventDefault();
-      navigate(event.detail.href);
+      setActiveHref(href);
+      navigate(href); // Use navigate for internal links
     }
   };
 
   return (
-    <>    <SideNavigation
-      activeHref={location.pathname}
-      header={{logo: { alt: "logo", src: Logo}
-      ,href: "#/", text: "PTR Technologies" , }}
-      onFollow={handleNavigation}
-      items={items.map(item => {
-        if (item.type === 'link') {
-          return {
-            ...item,
-            text: (
-              <span style={{
-                color: location.pathname === item.href ? 'blue' : 'black',
-                fontWeight: location.pathname === item.href ? 'bold' : 'normal'
-              }}>
-                {item.text}
-              </span>
-            )
-          };
-        }
-        return item;
-      })}
+    <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", height: "90vh" }}>
+    <SideNavigation
+      activeHref={activeHref}
+      header={{ href: "/", text:<div style={{display:"flex",gap:"20px",alignItems:"center"}}> <div 
+        style={{
+          width:"40px" ,
+          height:"40px" ,
+          borderRadius:"50%" ,
+          display:"flex" ,
+          border:"1px solid #D9D9D9",
+          alignItems:"center" ,
+          justifyContent:"center",
+      
+       
+        }}
+        >
+    <Icon  variant='disabled' name="user-profile" size="medium" />
+    </div> <Box variant="h4">Salman Batuwah</Box></div> }}
+      onFollow={handleFollow}
+      items={pages}
     />
-Logout    </>
 
+    <div style={{marginLeft:"30px"}}>
+    <Button onClick={() => navigate("/auth/signin")}variant="inline-link">Logout</Button>
+    </div>
+    </div>
   );
 };
 

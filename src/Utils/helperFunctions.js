@@ -149,6 +149,27 @@ export const pathFile = {
 };
 
 
-export const navigate = ()=> {
+export const navigate = () => {
 
 }
+
+
+
+
+export const getBreadcrumbItems = (pathname) => {
+  const breadcrumbMap = {
+    "/app/home": [{ text: "Home", href: "/" } , {text:''} ],
+
+    "/app/home/runsheet": [{ text: "Home", href: "/app/home" }, { text: "Runsheet (5425)", href: "/dashboard" }],
+
+
+    "/profile": [{ text: "Home", href: "/" },
+    { text: "Profile", href: "/profile" }],
+    "/verify-order": [{ text: "Home", href: "/" }
+      , { text: "Orders", href: "/orders" },
+    { text: "Verify Order", href: "/verify-order" }],
+    // Add more routes as needed
+  };
+
+  return breadcrumbMap[pathname] || [{ text: "Home", href: "/" }];
+};

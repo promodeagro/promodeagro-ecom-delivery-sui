@@ -1,22 +1,27 @@
 import React, { lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { PREFIX_APP_PATH, PREFIX_AUTH_PATH } from "./../Config/Config";
-import Home from "./Postlogin/Home";
-import AmountSummary from "./Postlogin/AmountSummary";
-import ProfileDetails from "./Postlogin/ProfileDetails";
-import CustomerDetails from "./Postlogin/CustomerDetails";
-import Runsheet from "./Postlogin/Home/Runsheet";
-import CreateNewPassword from "./PreLogin/CreateNewPassword";
-import Notifications from "./Postlogin/Notifications/index";
-import VerifiedOrder from "./Postlogin/CustomerDetails/VerifiedOrder";
-import OtpVerification from "./PreLogin/OtpVerification";
-import Undelivered from "./Postlogin/Home/Runsheet/Undelivered/Undelivered";
-import CapturedVerified from "./Postlogin/CustomerDetails/CapturedVerified";
-import Payment from "./Postlogin/CustomerDetails/CapturedVerified/Payment";
-import Delivered from "./Postlogin/Home/Runsheet/Delivered";
+
 
 
 // const Dashboards = lazy(() => import("./Postlogin/Dashboard"));
+
+
+
+const Home = lazy(() => import("./Postlogin/Home"));
+const AmountSummary = lazy(() => import("./Postlogin/AmountSummary"));
+const ProfileDetails = lazy(() => import("./Postlogin/ProfileDetails"));
+const CustomerDetails = lazy(() => import("./Postlogin/CustomerDetails"));
+const Runsheet = lazy(() => import("./Postlogin/Home/Runsheet"));
+const CreateNewPassword = lazy(() => import("./PreLogin/CreateNewPassword"));
+const Notifications = lazy(() => import("./Postlogin/Notifications/index"));
+const VerifiedOrder = lazy(() => import("./Postlogin/CustomerDetails/VerifiedOrder"));
+const OtpVerification = lazy(() => import("./PreLogin/OtpVerification"));
+const Undelivered = lazy(() => import("./Postlogin/Home/Runsheet/Undelivered/Undelivered"));
+const CapturedVerified = lazy(() => import("./Postlogin/CustomerDetails/CapturedVerified"));
+const Payment = lazy(() => import("./Postlogin/CustomerDetails/CapturedVerified/Payment"));
+const Delivered = lazy(() => import("./Postlogin/Home/Runsheet/Delivered"));
+
 
 const PathNotFOund = lazy(() => import("./PathNotFound"));
 const Signin = lazy(() => import("./PreLogin/Signin"));

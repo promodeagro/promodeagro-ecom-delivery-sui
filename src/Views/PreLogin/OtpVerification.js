@@ -21,19 +21,22 @@ const OtpVerification = () => {
     const handleVerify = () => {
       // Implement verify logic
       console.log("OTP entered:", otp.join(""));
-      navigate("/auth/CreateNewPassword")
+      navigate("/auth/create-password")
     };
   
     return (
         <div className='login_page'>
         <img src={PTRLogo} alt="" />
         <img className='login_page_vector' src={vector} alt="" />
-      <Container className="otp-container">
-        <Header variant="h1" className="otp-header">Enter Your OTP</Header>
-        <p className="otp-subtext">
-          Enter the <span className="highlight">six-digit code</span> sent to you to reset your password
-        </p>
-        
+      <Container className="otp-container"
+      header={
+        <SpaceBetween direction='vertical' alignItems='center'>
+        <Box variant='h1'>Forget Your Password</Box>
+        <Box textAlign='center'  variant='small'>Enter the <span className='highlight'>six-digit code</span> sent to you to reset your password</Box>
+      </SpaceBetween>
+      }
+      >
+
         <SpaceBetween size="m" direction="vertical">
           <div className="otp-inputs">
             {otp.map((data, index) => (
@@ -48,7 +51,11 @@ const OtpVerification = () => {
                 onFocus={e => e.target.select()}
               />
             ))}
-          </div>              
+          </div>
+    
+
+        
+                  
           <Button  variant='primary' onClick={handleVerify} fullWidth>Verify</Button>
             <Button variant='link' fullWidth onClick={() => navigate("/auth/signin")}>Cancel</Button>
         </SpaceBetween>
