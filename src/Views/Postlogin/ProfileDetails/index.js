@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUsers } from 'Redux-Store/Users/UsersThunk';
+import { CreateUser } from 'Redux-Store/CreateUser/CreateUserThunk';
+
+
 
 const ProfileDetails = () => {
 
@@ -36,6 +39,64 @@ console.log("data", data);
 useEffect(() => {
   dispatch(fetchUsers());
 }, []);
+
+
+// states
+
+const [name,setName] = useState("")
+const [mail,setMail] = useState("")
+const [phoneNumber,setPhoneNumber] = useState("")
+const [flat,setFlat] = useState("")
+const [block,setBlock] = useState("")
+const [apartment,setApartment] = useState("")
+const [area,setArea] = useState("")
+const [zipCode,setZipCode] = useState("")
+
+
+
+const { loading, error } = useSelector((state) => state.createUser);
+// send customer data api calling
+
+const handleSubmitUser = (e) => {
+  e.preventDefault()
+  dispatch(CreateUser({name, mail, phoneNumber ,flat , block , apartment , area , zipCode}))
+  console.log('Loading.....', loading)
+  console.log( 'Error happeniung' , error)
+}
+
+const handleCreateUserAndAddress = (e) => {
+  e.preventDefault()
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+
+  const raw = JSON.stringify({
+    "name":name,
+    "email": mail,
+    "phoneNumber":phoneNumber,
+    "flat":flat,
+    "block":block,
+    "apartment":apartment,
+    "area": area,
+    "zipCode":zipCode
+  });
+
+  // Log the data being sent to the API
+  console.log("Request body being sent:", raw);
+
+  const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+  };
+
+  fetch("https://09ubwkjphb.execute-api.us-east-1.amazonaws.com/createUserAndAddress", requestOptions)
+    .then((response) => response.text())
+    .then((result) => {
+      console.log("Response from API:", result);
+    })
+    .catch((error) => console.error("Error:", error));
+}
 
 
 
@@ -98,6 +159,22 @@ useEffect(() => {
           
           </SpaceBetween>
           </form>
+
+
+<form onSubmit={handleSubmitUser}>
+<SpaceBetween direction='vertical' size='l'>
+<Input  onChange={(e)=> setName(e.detail.value)} placeholder='Name' value={name}/>
+<Input ariaRequired onChange={(e)=> setMail(e.detail.value)}  placeholder='E-mail' value={mail}/>
+<Input  onChange={(e)=> setPhoneNumber(e.detail.value)}  placeholder='number' value={phoneNumber}/>
+<Input  onChange={(e)=> setFlat(e.detail.value)}  placeholder='flat' value={flat}/>
+<Input  onChange={(e)=> setBlock(e.detail.value)}  placeholder='Block' value={block}/>
+<Input  onChange={(e)=> setApartment(e.detail.value)}  placeholder='apartment' value={apartment}/>
+<Input  onChange={(e)=> setArea(e.detail.value)}  placeholder='area' value={area}/>
+<Input  onChange={(e)=> setZipCode(e.detail.value)}  placeholder='zipcodde' value={zipCode}/>
+</SpaceBetween>
+
+<Button>Add Customner</Button>
+</form>
    </>
   )
 }

@@ -12,6 +12,8 @@ import PurchaseOrderSlice from "./Inventory/PurchaseOrders/PurchaseOrderSlice";
 import VendorProfilesSlice from "Redux-Store/Inventory/VendorProfile/VendorProfileSlice";
 import UsersSlice from "Redux-Store/Users/UsersSlice"
 import RunsheetsSlice from "Redux-Store/Runsheets/RunsheetSlice"
+import createUserSlice from "./CreateUser/CreateUserSlice";
+
 const store = configureStore({
   reducer: {
     savedQuotations: QuotationsReducer,
@@ -24,7 +26,8 @@ const store = configureStore({
     purchaseorders: PurchaseOrderSlice,
     vendorprofile: VendorProfilesSlice,
    users:UsersSlice,
-   runsheets:RunsheetsSlice
+   runsheets:RunsheetsSlice,
+   createUser: createUserSlice
   },
 });
 
