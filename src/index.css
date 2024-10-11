@@ -2,6 +2,9 @@
 .opacity_minus{
   opacity:0.4;
 }
+.flex-col{
+  flex-direction: column;
+}
 .pointer{
   cursor: pointer;
 }
@@ -272,7 +275,8 @@ height: auto;
 
 /* custumize select  */
 .awsui_button-trigger_18eso_1pcx7_101:not(#\9){
-background-color: transparent !important;
+
+/* background-color: transparent !important;
 padding-left: 0 !important;
 border: none !important;
 
@@ -280,9 +284,10 @@ color: var(--grey-900, #000716) !important;
 font-size: 16px  !important;
 font-style: normal  !important;
 font-weight: 700  !important;
-line-height: 20px  !important; /* 125% */
+line-height: 20px  !important; 
 letter-spacing: -0.36px  !important;
-text-transform: capitalize  !important;
+text-transform: capitalize  !important; */
+
 }
 
 
@@ -327,4 +332,14 @@ text-transform: capitalize  !important;
   border-color: #0073bb;
   outline: none;
   box-shadow: 0px 0px 5px rgba(0, 115, 187, 0.5);
+}
+
+
+/* On boardingggz */
+.onboarding_container{
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+height: 100%;
+/* padding-top: 30px; */
 }
