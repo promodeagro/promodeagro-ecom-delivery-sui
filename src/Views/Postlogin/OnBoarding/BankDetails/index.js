@@ -88,7 +88,6 @@ const BankDetails = () => {
                             { label: "State Bank of India", value: "SBI" },
                             { label: "HDFC Bank", value: "HDFC" },
                             { label: "ICICI Bank", value: "ICICI" },
-                            // Other bank options...
                         ]}
                     />
                 </FormField>
