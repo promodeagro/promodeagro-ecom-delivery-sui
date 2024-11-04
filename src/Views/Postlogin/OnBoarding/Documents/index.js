@@ -1,4 +1,4 @@
-import { Button, FileUpload, FormField, Grid, Header } from '@cloudscape-design/components';
+import { Button, FileUpload,SpaceBetween, FormField, Grid, Header } from '@cloudscape-design/components';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,60 +14,24 @@ const Documents = () => {
 
     const navigate = useNavigate();
 
+
+    const handleSubmit = ()=> {
+
+        navigate("/app/application-status")
+    }
     return (
-        <div 
-            style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
-        >
-            {/* Header */}
-            <span>
-                <Header variant='h1'>
-                    <span style={{ fontSize: '32px', fontWeight: '600' }}>Documents</span>
-                </Header>
+        <div style={{width:"100%" , height:"100%" }}>
 
-                <div style={{ marginTop: 23 }}></div>
+ {/* Header Top */}
+ <div style={{marginTop:'20px'}}>
+<Header 
+varant='h1'><span style={{fontSize:'32px' , fontWeight:'600'}}>Documents</span>
+</Header>  
+</div>
 
-                {/* Grid layout for file uploads */}
-                <Grid
-                    gridDefinition={[{ colspan: 12 }, { colspan: 6 }, { colspan: 6 }]}
-                >
-                    {/* User Photo Upload */}
-                    <FormField label="User Photo">
-                        <FileUpload
-                            onChange={({ detail }) => setUserPhoto(detail.value)}
-                            value={userPhoto}
-                            i18nStrings={{
-                                uploadButtonText: (e) => e ? "Choose files" : "Choose file",
-                                dropzoneText: (e) => e ? "Drop files to upload" : "Drop file to upload",
-                                removeFileAriaLabel: (e) => `Remove file ${e + 1}`,
-                                limitShowFewer: "Show fewer files",
-                                limitShowMore: "Show more files",
-                                errorIconAriaLabel: "Error"
-                            }}
-                            showFileSize
-                            showFileThumbnail
-                            tokenLimit={3}
-                        />
-                    </FormField>
-
-                    {/* Aadhaar Front Upload */}
-                    <FormField label="Aadhaar Front">
-                        <FileUpload
-                            onChange={({ detail }) => setAadhaarFront(detail.value)}
-                            value={aadhaarFront}
-                            i18nStrings={{
-                                uploadButtonText: (e) => e ? "Choose files" : "Choose file",
-                                dropzoneText: (e) => e ? "Drop files to upload" : "Drop file to upload",
-                                removeFileAriaLabel: (e) => `Remove file ${e + 1}`,
-                                limitShowFewer: "Show fewer files",
-                                limitShowMore: "Show more files",
-                                errorIconAriaLabel: "Error"
-                            }}
-                            showFileSize
-                            showFileThumbnail
-                            tokenLimit={3}
-                        />
-                    </FormField>
-
+<div style={{marginTop:23}}></div>
+<SpaceBetween  direction='vertical' size="l">
+     
                     {/* Aadhaar Back Upload */}
                     <FormField label="Aadhaar Back">
                         <FileUpload
@@ -87,11 +51,11 @@ const Documents = () => {
                         />
                     </FormField>
 
-                    {/* Pan Card Upload */}
-                    <FormField label="Pan Card">
+                       {/* Aadhaar Back Upload */}
+                       <FormField label="Aadhaar Back">
                         <FileUpload
-                            onChange={({ detail }) => setPanCard(detail.value)}
-                            value={panCard}
+                            onChange={({ detail }) => setAadhaarBack(detail.value)}
+                            value={aadhaarBack}
                             i18nStrings={{
                                 uploadButtonText: (e) => e ? "Choose files" : "Choose file",
                                 dropzoneText: (e) => e ? "Drop files to upload" : "Drop file to upload",
@@ -106,11 +70,11 @@ const Documents = () => {
                         />
                     </FormField>
 
-                    {/* Driving License Upload */}
-                    <FormField label="Driving License">
+                       {/* Aadhaar Back Upload */}
+                       <FormField label="Aadhaar Back">
                         <FileUpload
-                            onChange={({ detail }) => setDrivingLicense(detail.value)}
-                            value={drivingLicense}
+                            onChange={({ detail }) => setAadhaarBack(detail.value)}
+                            value={aadhaarBack}
                             i18nStrings={{
                                 uploadButtonText: (e) => e ? "Choose files" : "Choose file",
                                 dropzoneText: (e) => e ? "Drop files to upload" : "Drop file to upload",
@@ -125,11 +89,11 @@ const Documents = () => {
                         />
                     </FormField>
 
-                    {/* Vehicle Image Upload */}
-                    <FormField label="Vehicle Image">
+                       {/* Aadhaar Back Upload */}
+                       <FormField label="Aadhaar Back">
                         <FileUpload
-                            onChange={({ detail }) => setVehicleImage(detail.value)}
-                            value={vehicleImage}
+                            onChange={({ detail }) => setAadhaarBack(detail.value)}
+                            value={aadhaarBack}
                             i18nStrings={{
                                 uploadButtonText: (e) => e ? "Choose files" : "Choose file",
                                 dropzoneText: (e) => e ? "Drop files to upload" : "Drop file to upload",
@@ -144,11 +108,11 @@ const Documents = () => {
                         />
                     </FormField>
 
-                    {/* RC Book Upload */}
-                    <FormField label="RC Book">
+                       {/* Aadhaar Back Upload */}
+                       <FormField label="Aadhaar Back">
                         <FileUpload
-                            onChange={({ detail }) => setRcBook(detail.value)}
-                            value={rcBook}
+                            onChange={({ detail }) => setAadhaarBack(detail.value)}
+                            value={aadhaarBack}
                             i18nStrings={{
                                 uploadButtonText: (e) => e ? "Choose files" : "Choose file",
                                 dropzoneText: (e) => e ? "Drop files to upload" : "Drop file to upload",
@@ -162,16 +126,55 @@ const Documents = () => {
                             tokenLimit={3}
                         />
                     </FormField>
-                </Grid>
-            </span>
 
-            {/* Complete Button */}
-            <div onClick={()=> navigate('/auth/register/review-and-submit')} style={{ marginBottom: 30 }}>
-                <Button onClick={() => navigate('/auth/register/documents')} variant='primary' fullWidth>
+                       {/* Aadhaar Back Upload */}
+                       <FormField label="Aadhaar Back">
+                        <FileUpload
+                            onChange={({ detail }) => setAadhaarBack(detail.value)}
+                            value={aadhaarBack}
+                            i18nStrings={{
+                                uploadButtonText: (e) => e ? "Choose files" : "Choose file",
+                                dropzoneText: (e) => e ? "Drop files to upload" : "Drop file to upload",
+                                removeFileAriaLabel: (e) => `Remove file ${e + 1}`,
+                                limitShowFewer: "Show fewer files",
+                                limitShowMore: "Show more files",
+                                errorIconAriaLabel: "Error"
+                            }}
+                            showFileSize
+                            showFileThumbnail
+                            tokenLimit={3}
+                        />
+                    </FormField>
+
+                       {/* Aadhaar Back Upload */}
+                       <FormField label="Aadhaar Back">
+                        <FileUpload
+                            onChange={({ detail }) => setAadhaarBack(detail.value)}
+                            value={aadhaarBack}
+                            i18nStrings={{
+                                uploadButtonText: (e) => e ? "Choose files" : "Choose file",
+                                dropzoneText: (e) => e ? "Drop files to upload" : "Drop file to upload",
+                                removeFileAriaLabel: (e) => `Remove file ${e + 1}`,
+                                limitShowFewer: "Show fewer files",
+                                limitShowMore: "Show more files",
+                                errorIconAriaLabel: "Error"
+                            }}
+                            showFileSize
+                            showFileThumbnail
+                            tokenLimit={3}
+                        />
+                    </FormField>
+
+</SpaceBetween>
+
+{/* Bottom */}
+<div style={{position:'absolute' ,right:30 ,bottom:"10%" , left:30}}>
+<Button onClick={handleSubmit} variant='primary' fullWidth>
                     Complete
-                </Button>
-            </div>
-        </div>
+                </Button></div>
+
+
+ </div>
     );
 };
 

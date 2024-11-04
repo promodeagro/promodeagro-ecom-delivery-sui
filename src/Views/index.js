@@ -2,11 +2,11 @@ import React, { lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { PREFIX_APP_PATH, PREFIX_AUTH_PATH } from "./../Config/Config";
 import Register from "./PreLogin/Onboarding/Register";
-import OnboardPersonalDetails from "./PreLogin/Onboarding/OnboardPersonalDetails";
-import BankDetails from "./PreLogin/Onboarding/BankDetails";
-import Documents from "./PreLogin/Onboarding/Documents";
-import ReviewAndSubmit from "./PreLogin/Onboarding/ReviewAndSubmit";
 import ApplicationStatus from "./PreLogin/Onboarding/ApplicationStatus";
+import PersonalDetails from "./Postlogin/OnBoarding/PersonalDetails";
+import BankDetails from "./Postlogin/OnBoarding/BankDetails";
+import Documents from "./Postlogin/OnBoarding/Documents";
+import ReviewAndSubmit from "./Postlogin/OnBoarding/ReviewAndSubmit";
 
 
 
@@ -118,6 +118,13 @@ const Views = () => {
             path={`${PREFIX_AUTH_PATH}/signup`}
             element={<Signup />}
           />
+
+          {/* onboarfings */}
+          <Route
+            exact
+            path={`${PREFIX_APP_PATH}/register/profile-details`}
+            element={<PersonalDetails />}
+          />
           
           <Route
             exact
@@ -125,26 +132,22 @@ const Views = () => {
             element={<Register />}
           />
           
-          <Route
-            exact
-            path={`${PREFIX_AUTH_PATH}/register/profile-details`}
-            element={<OnboardPersonalDetails />}
-          />
+        
           
           <Route
             exact
-            path={`${PREFIX_AUTH_PATH}/register/bank-details`}
+            path={`${PREFIX_APP_PATH}/register/bank-details`}
             element={<BankDetails />}
           />
            <Route
             exact
-            path={`${PREFIX_AUTH_PATH}/register/documents`}
+            path={`${PREFIX_APP_PATH}/register/documents`}
             element={<Documents />}
           /> 
           
            <Route
             exact
-            path={`${PREFIX_AUTH_PATH}/register/review-and-submit`}
+            path={`${PREFIX_APP_PATH}/register/review-and-submit`}
             element={<ReviewAndSubmit />}
           />
    <Route
@@ -158,11 +161,13 @@ const Views = () => {
             path={`${PREFIX_AUTH_PATH}/forgot-password`}
             element={<ForgotPassword />}
           />
+          
           <Route
-            exact
-            path={`${PREFIX_AUTH_PATH}/otp-varification`}
-            element={<OtpVerification />}
-          />
+  exact
+  path={`${PREFIX_AUTH_PATH}/otp-varification/:number`} // Add a colon before 'number'
+  element={<OtpVerification />}
+/>
+
           <Route
             exact
             path="/app/inventory"

@@ -13,7 +13,10 @@ import VendorProfilesSlice from "Redux-Store/Inventory/VendorProfile/VendorProfi
 import UsersSlice from "Redux-Store/Users/UsersSlice"
 import RunsheetsSlice from "Redux-Store/Runsheets/RunsheetSlice"
 import createUserSlice from "./CreateUser/CreateUserSlice";
-
+import SigninSlice from "./Signin/SigninSlice";
+import RiderProfileSlice from "./RiderProfile/RiderProfileSlice";
+import bankDetailsSlice from "./BankDetails/bankDetailsSlice";
+import personalDetailsSlice from "./PersonalDetails/PersonalDetails"
 const store = configureStore({
   reducer: {
     savedQuotations: QuotationsReducer,
@@ -27,7 +30,12 @@ const store = configureStore({
     vendorprofile: VendorProfilesSlice,
    users:UsersSlice,
    runsheets:RunsheetsSlice,
-   createUser: createUserSlice
+   createUser: createUserSlice,
+   signin: SigninSlice,
+   riderProfile:RiderProfileSlice,
+  //  updatePersonalDetailsSlice:UpdatePersonalDetailsSlice,
+   updateBankDetails:bankDetailsSlice,
+   personalDetailsSlice:personalDetailsSlice
   },
 });
 

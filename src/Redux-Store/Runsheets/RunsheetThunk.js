@@ -6,7 +6,7 @@ export const fetchRunsheets = createAsyncThunk(
   "runsheets",
   async (params) => {
     try {
-      let url = config.FETCH_RUNSHEETS;
+      let url = 'https://hru1nl9r81.execute-api.ap-south-1.amazonaws.com/rider/cda80d22-42e7-426c-8b8f-28cc5bcef85b/runsheet';
       const response = await postLoginService.get(url);
          console.log(response,"Runsheets");
         return response.data

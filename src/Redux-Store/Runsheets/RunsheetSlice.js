@@ -9,13 +9,7 @@ const RunsheetsSlice = createSlice({
     runsheetsData: {
       status: null,
     },
-    // it shoudl chaneg after getting apis
-    // order_details: {
-    //   status: null,
-    // },
-    // order_viewattachments: {
-    //   status: null,
-    // },
+   
   },
   reducers: {},
   extraReducers: (builder) => {

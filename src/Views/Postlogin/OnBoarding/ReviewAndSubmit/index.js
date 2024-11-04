@@ -1,16 +1,28 @@
 import { Button, FormField, Header, Input, SpaceBetween } from '@cloudscape-design/components'
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { submitProfile } from 'Redux-Store/RiderProfile/RiderProfileThunk'
 
 const ReviewAndSubmit = () => {
   const navigate = useNavigate()
+const dispatch = useDispatch()
+  const handleSubmit = () => {
+
+ dispatch(submitProfile({ id:"7bb96626-7ab5-4a67-869c-8eb85eb74961" }));
+
+    
+    navigate('/auth/register/application-status')
+  }
   return (
-    <div 
-            style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-        >
- <Header variant='h1'>
-                    <span style={{ fontSize: '32px', fontWeight: '600' }}>Review & Submit</span>
-                </Header>
+    <div style={{width:"100%" , height:"100%" }}>
+
+  {/* Header Top */}
+  <div style={{marginTop:'20px'}}>
+<Header 
+varant='h1'><span style={{fontSize:'32px' , fontWeight:'600'}}>Review & Submit</span>
+</Header>  
+</div>
 
 
 <div style={{marginTop:12}}>
@@ -55,7 +67,7 @@ const ReviewAndSubmit = () => {
 <Input disabled placeholder='100500459883'/>
 <Input disabled placeholder='HDFC00003881'/>
 
-<Button onClick={()=> navigate('/auth/register/application-status')} variant='primary' fullWidth>Submit</Button>
+<Button  onClick={handleSubmit} variant='primary' fullWidth>Submit</Button>
 </SpaceBetween>
 </FormField>
 

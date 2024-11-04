@@ -16,8 +16,9 @@ const ApplicationStatus = () => {
        </SpaceBetween>
        </div>
 
-      
+       <div style={{position:'absolute' ,right:30 ,bottom:"10%" , left:30}}>
         <Button onClick={()=> navigate('/auth/signin')} variant='primary' fullWidth>Go to Sign In</Button>
+       </div>
       
         
         </div>

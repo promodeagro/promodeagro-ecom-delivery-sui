@@ -173,3 +173,10 @@ export const getBreadcrumbItems = (pathname) => {
 
   return breadcrumbMap[pathname] || [{ text: "Home", href: "/" }];
 };
+
+
+
+export const loginDetails = () => {
+  const items = JSON.parse(localStorage.getItem("login"));
+  return items;
+}
