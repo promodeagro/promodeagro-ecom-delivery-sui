@@ -2,10 +2,8 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import Views from "./Views/index";
 import Sidebar from "components/Sidebar";
-import { AppLayout, BreadcrumbGroup } from "@cloudscape-design/components";
+import { AppLayout} from "@cloudscape-design/components";
 import Topbar from "components/Topbar";
-import { getBreadcrumbItems } from "Utils/helperFunctions";
-import ProtectedRoutes from "Utils/ProtectRoutes";
 
 function App() {
   return (
@@ -18,16 +16,13 @@ function App() {
 function MainLayout() {
   const location = useLocation();
   const isAuthRoute = location.pathname.startsWith("/auth");
-  const isOrderVerified = location.pathname.endsWith("/verify-order");
   
-  // Use helper function to get breadcrumb items
-  const breadcrumbItems = getBreadcrumbItems(location.pathname);
 
   return (
     <>
       {isAuthRoute && (
         <>
-      
+    
           <div
             style={{
               position: "absolute",
@@ -74,7 +69,6 @@ function MainLayout() {
       )}
       {!isAuthRoute && <Topbar id="header" />} 
       <AppLayout
-        // breadcrumbs={<BreadcrumbGroup items={breadcrumbItems} ariaLabel="Breadcrumbs" />}
         headerSelector="#header"
         headerVariant="high-contrast"
         navigation={!isAuthRoute  && <Sidebar />}
