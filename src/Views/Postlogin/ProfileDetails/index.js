@@ -3,17 +3,11 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUsers } from 'Redux-Store/Users/UsersThunk';
-import { CreateUser } from 'Redux-Store/CreateUser/CreateUserThunk';
-
-
-
 const ProfileDetails = () => {
 
   
   const navigate = useNavigate();
 
-  // have to change these value after getting api's 
   const [username, setUsername] = useState("salmanbinmoosa")
   const [email, setEmail] = useState("salmanbinmosa@gmail.com")
   const [password, setPassword] = useState("")
@@ -28,17 +22,17 @@ const ProfileDetails = () => {
   }
 
 
-// fetching dami users for redux 
-const users = useSelector((state) => state.users.users);
+// // fetching dami users for redux 
+// const users = useSelector((state) => state.users.users);
 
 
-const dispatch = useDispatch();
-console.log("pro", users);
-const { data = [], status } = users;
-console.log("data", data);
-useEffect(() => {
-  dispatch(fetchUsers());
-}, []);
+// const dispatch = useDispatch();
+// console.log("pro", users);
+// const { data = [], status } = users;
+// console.log("data", data);
+// useEffect(() => {
+//   dispatch(fetchUsers());
+// }, []);
 
 
 // states
@@ -54,51 +48,15 @@ const [zipCode,setZipCode] = useState("")
 
 
 
-const { loading, error } = useSelector((state) => state.createUser);
+// const { loading, error } = useSelector((state) => state.createUser);
 // send customer data api calling
 
-const handleSubmitUser = (e) => {
-  e.preventDefault()
-  dispatch(CreateUser({name, mail, phoneNumber ,flat , block , apartment , area , zipCode}))
-  console.log('Loading.....', loading)
-  console.log( 'Error happeniung' , error)
-}
-
-const handleCreateUserAndAddress = (e) => {
-  e.preventDefault()
-  const myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-
-  const raw = JSON.stringify({
-    "name":name,
-    "email": mail,
-    "phoneNumber":phoneNumber,
-    "flat":flat,
-    "block":block,
-    "apartment":apartment,
-    "area": area,
-    "zipCode":zipCode
-  });
-
-  // Log the data being sent to the API
-  console.log("Request body being sent:", raw);
-
-  const requestOptions = {
-    method: "POST",
-    headers: myHeaders,
-    body: raw,
-    redirect: "follow"
-  };
-
-  fetch("https://09ubwkjphb.execute-api.us-east-1.amazonaws.com/createUserAndAddress", requestOptions)
-    .then((response) => response.text())
-    .then((result) => {
-      console.log("Response from API:", result);
-    })
-    .catch((error) => console.error("Error:", error));
-}
-
-
+// const handleSubmitUser = (e) => {
+//   e.preventDefault()
+//   dispatch(CreateUser({name, mail, phoneNumber ,flat , block , apartment , area , zipCode}))
+//   console.log('Loading.....', loading)
+//   console.log( 'Error happeniung' , error)
+// }
 
 
   return (
@@ -161,7 +119,9 @@ const handleCreateUserAndAddress = (e) => {
           </form>
 
 
-<form onSubmit={handleSubmitUser}>
+<form 
+// onSubmit={handleSubmitUser}
+>
 <SpaceBetween direction='vertical' size='l'>
 <Input  onChange={(e)=> setName(e.detail.value)} placeholder='Name' value={name}/>
 <Input ariaRequired onChange={(e)=> setMail(e.detail.value)}  placeholder='E-mail' value={mail}/>

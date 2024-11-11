@@ -3,31 +3,31 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { PREFIX_APP_PATH, PREFIX_AUTH_PATH } from "./../Config/Config";
 import Register from "./PreLogin/Onboarding/Register";
 import ApplicationStatus from "./PreLogin/Onboarding/ApplicationStatus";
-import PersonalDetails from "./Postlogin/OnBoarding/PersonalDetails";
-import BankDetails from "./Postlogin/OnBoarding/BankDetails";
-import Documents from "./Postlogin/OnBoarding/Documents";
-import ReviewAndSubmit from "./Postlogin/OnBoarding/ReviewAndSubmit";
-
-
-
-// const Dashboards = lazy(() => import("./Postlogin/Dashboard"));
-
-
+import PersonalDetails from "./PreLogin/Onboarding/PersonalDetails";
+import BankDetails from "./PreLogin/Onboarding/BankDetails";
+import Documents from "./PreLogin/Onboarding/Documents";
+import ReviewAndSubmit from "./PreLogin/Onboarding/ReviewAndSubmit";
 
 const Home = lazy(() => import("./Postlogin/Home"));
 const AmountSummary = lazy(() => import("./Postlogin/AmountSummary"));
-const ProfileDetails = lazy(() => import("./Postlogin/ProfileDetails"));
-const CustomerDetails = lazy(() => import("./Postlogin/CustomerDetails"));
+const CustomerDetails = lazy(() => import("./Postlogin/Home/Runsheet/CustomerDetails"));
 const Runsheet = lazy(() => import("./Postlogin/Home/Runsheet"));
 const CreateNewPassword = lazy(() => import("./PreLogin/CreateNewPassword"));
 const Notifications = lazy(() => import("./Postlogin/Notifications/index"));
-const VerifiedOrder = lazy(() => import("./Postlogin/CustomerDetails/VerifiedOrder"));
+const VerifiedOrder = lazy(() =>
+  import("./Postlogin/Home/Runsheet/CustomerDetails/VerifiedOrder")
+);
 const OtpVerification = lazy(() => import("./PreLogin/OtpVerification"));
-const Undelivered = lazy(() => import("./Postlogin/Home/Runsheet/Undelivered/Undelivered"));
-const CapturedVerified = lazy(() => import("./Postlogin/CustomerDetails/CapturedVerified"));
-const Payment = lazy(() => import("./Postlogin/CustomerDetails/CapturedVerified/Payment"));
+const Undelivered = lazy(() =>
+  import("./Postlogin/Home/Runsheet/Undelivered/Undelivered")
+);
+const CapturedVerified = lazy(() =>
+  import("./Postlogin/Home/Runsheet/CustomerDetails/CapturedVerified")
+);
+const Payment = lazy(() =>
+  import("./Postlogin/Home/Runsheet/CustomerDetails/CapturedVerified/Payment")
+);
 const Delivered = lazy(() => import("./Postlogin/Home/Runsheet/Delivered"));
-
 
 const PathNotFOund = lazy(() => import("./PathNotFound"));
 const Signin = lazy(() => import("./PreLogin/Signin"));
@@ -38,19 +38,12 @@ const Views = () => {
     <>
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
-
-          <Route
-            exact
-            path={`${PREFIX_APP_PATH}/home`}
-            element={<Home />}
-          />
-
+          <Route exact path={`${PREFIX_APP_PATH}/home`} element={<Home />} />
           <Route
             exact
             path={`${PREFIX_APP_PATH}/home/runsheet`}
             element={<Runsheet />}
           />
-
           <Route
             exact
             path={`${PREFIX_APP_PATH}/home/runsheet/undelivered`}
@@ -61,7 +54,6 @@ const Views = () => {
             path={`${PREFIX_APP_PATH}/home/runsheet/delivered`}
             element={<Delivered />}
           />
-
           <Route
             exact
             path={`${PREFIX_APP_PATH}/amount-summary`}
@@ -69,112 +61,91 @@ const Views = () => {
           />
           <Route
             exact
-            path={`${PREFIX_APP_PATH}/profile-details`}
-            element={<ProfileDetails />}
-          />
-          <Route
-            exact
             path={`${PREFIX_APP_PATH}/customer-details`}
             element={<CustomerDetails />}
           />
-
           <Route
             exact
             path={`${PREFIX_APP_PATH}/customer-details/verify-order`}
             element={<VerifiedOrder />}
           />
-
           <Route
             exact
             path={`${PREFIX_APP_PATH}/customer-details/captured-verified`}
             element={<CapturedVerified />}
           />
-
           <Route
             exact
             path={`${PREFIX_APP_PATH}/customer-details/captured-verified/payment`}
             element={<Payment />}
           />
-
           <Route
             exact
             path={`${PREFIX_APP_PATH}/notifications`}
             element={<Notifications />}
           />
-
-
           <Route
             exact
             path={`${PREFIX_AUTH_PATH}/signin`}
             element={<Signin />}
-          />   <Route
+          />{" "}
+          <Route
             exact
             path={`${PREFIX_AUTH_PATH}/create-password`}
             element={<CreateNewPassword />}
           />
-
           <Route
             exact
             path={`${PREFIX_AUTH_PATH}/signup`}
             element={<Signup />}
           />
-
-          {/* onboarfings */}
-          <Route
-            exact
-            path={`${PREFIX_APP_PATH}/register/profile-details`}
-            element={<PersonalDetails />}
-          />
-          
           <Route
             exact
             path={`${PREFIX_AUTH_PATH}/register`}
             element={<Register />}
           />
-          
-        
-          
+                    <Route
+            exact
+            path={`${PREFIX_APP_PATH}/register/personal-details`}
+            element={<PersonalDetails />}
+          />
+
           <Route
             exact
             path={`${PREFIX_APP_PATH}/register/bank-details`}
             element={<BankDetails />}
           />
-           <Route
+          <Route
             exact
             path={`${PREFIX_APP_PATH}/register/documents`}
             element={<Documents />}
-          /> 
-          
-           <Route
+          />
+          <Route
             exact
             path={`${PREFIX_APP_PATH}/register/review-and-submit`}
             element={<ReviewAndSubmit />}
           />
-   <Route
+          <Route
             exact
             path={`${PREFIX_AUTH_PATH}/register/application-status`}
             element={<ApplicationStatus />}
           />
-
           <Route
             exact
             path={`${PREFIX_AUTH_PATH}/forgot-password`}
             element={<ForgotPassword />}
           />
-          
           <Route
-  exact
-  path={`${PREFIX_AUTH_PATH}/otp-varification/:number`} // Add a colon before 'number'
-  element={<OtpVerification />}
-/>
-
+            exact
+            path={`${PREFIX_AUTH_PATH}/otp-varification/:number`} // Add a colon before 'number'
+            element={<OtpVerification />}
+          />
           <Route
             exact
             path="/app/inventory"
             element={<Navigate to="/app/inventory/raw-materials" />}
           />
           <Route exact path="/" element={<Navigate to="/auth/signin" />} />
-
           <Route path="*" element={<PathNotFOund />} />
         </Routes>
       </Suspense>
