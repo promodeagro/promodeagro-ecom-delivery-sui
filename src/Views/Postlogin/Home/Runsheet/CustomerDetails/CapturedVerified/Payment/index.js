@@ -10,18 +10,17 @@ import {
 } from "@cloudscape-design/components";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import blurQR from "../../../../../../../Assets/Images/blurQR.png";
 import QR from "../../../../../../../Assets/Images/qr.png";
 import upiapps from "../../../../../../../Assets/Images/upiapps.png";
 import orderComplete from "../../../../../../../Assets/Images/orderComplete.png";
+
 const Payment = () => {
   const navigate = useNavigate();
   const [isQRGenereted, setIsQRGenereted] = useState(false);
   const [comleteOrderModalVisible, setComleteOrderModalVisible] =
     React.useState(false);
   const [amountCollectedModal, setAmountCollectedModal] = React.useState(false);
-
   const [items, setItems] = React.useState([
     {
       type: "info",
@@ -31,8 +30,8 @@ const Payment = () => {
     },
   ]);
 
-  const [timeLeft, setTimeLeft] = useState(120); // Initial time set to 120 seconds
-  const [isRunning, setIsRunning] = useState(false); // Timer running flag
+  const [timeLeft, setTimeLeft] = useState(120);
+  const [isRunning, setIsRunning] = useState(false);
 
   useEffect(() => {
     let timer;
@@ -60,7 +59,6 @@ const Payment = () => {
           <span className="header_underline">Payment</span>
         </SpaceBetween>
       </Header>
-
       <div style={{ marginTop: 18 }}>
         <Container>
           <SpaceBetween direction="vertical" size="xxs">
@@ -76,7 +74,6 @@ const Payment = () => {
           </SpaceBetween>
         </Container>
       </div>
-
       <div style={{ marginTop: 18 }} className="flex aic jcsb">
         <div className="payment_lines"></div>
         <Box fontSize="16px" variant="h4">
@@ -84,11 +81,9 @@ const Payment = () => {
         </Box>
         <div className="payment_lines"></div>
       </div>
-
       <Box margin={"xs"} textAlign="center">
         Generate Your QR Code Below
       </Box>
-
       {isQRGenereted && (
         <div className="flex jcc">
           <Box color="text-status-error" textAlign="center" variant="strong">
@@ -96,10 +91,8 @@ const Payment = () => {
           </Box>
         </div>
       )}
-
       <div className={!isQRGenereted ? "qr_container" : "qr_container_white"}>
         <img src={!isQRGenereted ? blurQR : QR} alt="" />
-
         <span className="qr_btn">
           {!isQRGenereted && (
             <Button onClick={handleQr} variant="normal">
@@ -108,7 +101,6 @@ const Payment = () => {
           )}
         </span>
       </div>
-
       {isQRGenereted && (
         <Box textAlign="center">Scan QR Code in any UPI app</Box>
       )}
@@ -125,7 +117,6 @@ const Payment = () => {
         </Box>
         <div className="payment_lines"></div>
       </div>
-
       <Button
         onClick={() => setComleteOrderModalVisible(true)}
         variant="primary"

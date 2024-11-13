@@ -91,7 +91,7 @@ const Signin = () => {
   }
 
   return (
-    <SpaceBetween size="xl">
+    <SpaceBetween size="l">
       <SpaceBetween size="s">
         <div
           style={{
@@ -111,7 +111,7 @@ const Signin = () => {
             alignItems: "center",
           }}
         >
-          <img src={scooterImg} style={{ height: "18em", width: "18rem" }} />
+          <img src={scooterImg} style={{ height: "15rem", width: "15rem" }} />
         </div>
       </SpaceBetween>
       <SpaceBetween size="m">
@@ -126,7 +126,7 @@ const Signin = () => {
           Hello, <br />
           <span style={{ color: "#0972D3" }}>Promode Delivery Partner!</span>
         </div>
-        <SpaceBetween size="m">
+        <SpaceBetween size="s">
           <form
             onSubmit={(e) => {
               e.preventDefault();
