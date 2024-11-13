@@ -110,7 +110,7 @@ const PersonalDetails = () => {
             openCalendarAriaLabel={(selectedDate) =>
               "Choose certificate expiry date" + (selectedDate ? `, selected date is ${selectedDate}` : "")
             }
-            placeholder="D.O.B"
+            placeholder="D.O.B in YYYY-MM-DD"
             invalid={formErrors.DOB}
           />
           <Input

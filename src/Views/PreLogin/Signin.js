@@ -91,14 +91,14 @@ const Signin = () => {
   }
 
   return (
-    <SpaceBetween size="l">
-      <SpaceBetween size="s">
+    <SpaceBetween size="xl">
+      <SpaceBetween size="l">
         <div
           style={{
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            padding: "10% 0 16% 0",
+            padding: "2rem 0 2rem 0",
           }}
         >
           <img src={Logo} alt="Logo" />
@@ -137,7 +137,7 @@ const Signin = () => {
               style={{
                 display: "flex",
                 flexFlow: "column",
-                gap: "1rem",
+                gap: "0.8rem",
                 justifyContent: "center",
                 alignItems: "center",
                 margin: "0 auto",
