@@ -4,8 +4,7 @@ const Config = {
   BASE_URL,
    SIGN_IN:`${BASE_URL}/auth/signin`,
    VALIDATE_OTP:`${BASE_URL}/auth/validate-otp`,
-   PERSONAL_DETAILS:`${BASE_URL}/rider/personal-details`,
-
+   REGISTER:`${BASE_URL}/register`,
 };
 
 export default Config;

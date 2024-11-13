@@ -1,10 +1,8 @@
 import { Button, DatePicker, FormField, Header, Input, Select, SpaceBetween } from '@cloudscape-design/components';
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { updatePersonalDetails } from 'Redux-Store/Onboarding/onboardingThunk';
+import { navigate } from 'Utils/helperFunctions';
 
 const PersonalDetails = () => {
-  const dispatch = useDispatch();
   const [fullName, setFullName] = useState("");
   const [id, setId] = useState("");
   const [DOB, setDOP] = useState("");
@@ -32,23 +30,6 @@ const PersonalDetails = () => {
     relation: false,
     referenceMobile: false,
   });
-
-  const personalDetails = {
-    id, 
-    fullName,
-    dob: DOB, 
-    email,
-    address: {
-      address1: addressLine1,
-      address2: addressLine2,
-      landmark,
-      state,
-      city,
-      pincode,
-    },
-    reference: { relation, number: referenceMobile },
-  };
-  
 
   const handleSubmit = () => {
     let isValid = true;
@@ -104,7 +85,7 @@ const PersonalDetails = () => {
     }
     setFormErrors(errors);
     if (isValid) {
-      dispatch(updatePersonalDetails(personalDetails));
+      navigate("/app/register/bank-details");
     }
   };
 
@@ -168,7 +149,7 @@ const PersonalDetails = () => {
             <Select
               placeholder="Select State"
               onChange={({ detail }) => setState(detail.selectedOption.value)}
-              selectedOption={state ? { value: state, label: `Option ${state}` } : null}
+              selectedOption={state ? { value: state } : null}
               options={[
                 { label: "Telangana", value: "Telangana" },
                 { label: "Andhra Pradesh", value: "Andhra Pradesh" },

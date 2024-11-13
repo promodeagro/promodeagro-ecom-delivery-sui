@@ -9,7 +9,7 @@ export const updatePersonalDetails = (personalDetails) => async (dispatch) => {
 
   try {
     const response = await fetch(Config.PERSONAL_DETAILS, {
-      method: "PUT",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
