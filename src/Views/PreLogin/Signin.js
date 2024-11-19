@@ -64,6 +64,9 @@ const Signin = () => {
       console.log("Calling API with number:", number);
       const result = await dispatch(signIn({ number, userType: "rider" }));
       console.log("API response:", result.payload.data);
+      const session = result.payload.data?.session;  // Modify as per your response structure
+      localStorage.setItem("session", session); // Store the session code in localStorage
+  
       navigate(`/auth/otp-varification/${number}`);
     } else {
       console.log("Validation failed:", error);
@@ -91,7 +94,7 @@ const Signin = () => {
   }
 
   return (
-    <SpaceBetween size="xl">
+    <SpaceBetween size="xxl">
       <SpaceBetween size="l">
         <div
           style={{
@@ -111,7 +114,7 @@ const Signin = () => {
             alignItems: "center",
           }}
         >
-          <img src={scooterImg} style={{ height: "15rem", width: "15rem" }} />
+          <img src={scooterImg} style={{ height: "16rem", width: "16rem" }} />
         </div>
       </SpaceBetween>
       <SpaceBetween size="m">

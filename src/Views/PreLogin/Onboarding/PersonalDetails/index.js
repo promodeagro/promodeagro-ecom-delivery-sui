@@ -1,12 +1,16 @@
-import { Button, DatePicker, FormField, Header, Input, Select, SpaceBetween } from '@cloudscape-design/components';
-import React, { useState } from 'react';
-import { navigate } from 'Utils/helperFunctions';
+import { Button, FormField, Header, Input, Select, SpaceBetween } from '@cloudscape-design/components';
+import React, { useState, useEffect } from 'react';
+import { setPersonalDetails } from 'Redux-Store/Onboarding/onboardingSlice';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 
 const PersonalDetails = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [fullName, setFullName] = useState("");
-  const [id, setId] = useState("");
-  const [DOB, setDOP] = useState("");
-  const [mobileNumber, setMobileNumber] = useState("");
+  const [DOB, setDOB] = useState("");
+  const [number, setNumber] = useState("");
   const [email, setEmail] = useState("");
   const [addressLine1, setAddressLine1] = useState("");
   const [addressLine2, setAddressLine2] = useState("");
@@ -16,10 +20,11 @@ const PersonalDetails = () => {
   const [pincode, setPincode] = useState("");
   const [relation, setRelation] = useState("");
   const [referenceMobile, setReferenceMobile] = useState("");
+
   const [formErrors, setFormErrors] = useState({
     fullName: false,
     DOB: false,
-    mobileNumber: false,
+    number: false,
     email: false,
     addressLine1: false,
     addressLine2: false,
@@ -34,60 +39,92 @@ const PersonalDetails = () => {
   const handleSubmit = () => {
     let isValid = true;
     const errors = {};
-
-    if (!fullName) {
-      isValid = false;
-      errors.fullName = true;
-    }
-    if (!DOB) {
-      isValid = false;
-      errors.DOB = true;
-    }
-    if (!mobileNumber) {
-      isValid = false;
-      errors.mobileNumber = true;
-    }
-    if (!email) {
-      isValid = false;
-      errors.email = true;
-    }
-    if (!addressLine1) {
-      isValid = false;
-      errors.addressLine1 = true;
-    }
-    if (!addressLine2) {
-      isValid = false;
-      errors.addressLine2 = true;
-    }
-    if (!landmark) {
-      isValid = false;
-      errors.landmark = true;
-    }
-    if (!state) {
-      isValid = false;
-      errors.state = true;
-    }
-    if (!city) {
-      isValid = false;
-      errors.city = true;
-    }
-    if (!pincode) {
-      isValid = false;
-      errors.pincode = true;
-    }
-    if (!relation) {
-      isValid = false;
-      errors.relation = true;
-    }
-    if (!referenceMobile) {
-      isValid = false;
-      errors.referenceMobile = true;
-    }
+  
+    // Form validation
+    if (!fullName) errors.fullName = true;
+    if (!DOB || !/^\d{2}\/\d{2}\/\d{4}$/.test(DOB)) errors.DOB = true; // Date validation
+    if (!number) errors.number = true;
+    if (!email) errors.email = true;
+    if (!addressLine1) errors.addressLine1 = true;
+    if (!addressLine2) errors.addressLine2 = true;
+    if (!landmark) errors.landmark = true;
+    if (!state) errors.state = true;
+    if (!city) errors.city = true;
+    if (!pincode) errors.pincode = true;
+    if (!relation) errors.relation = true;
+    if (!referenceMobile) errors.referenceMobile = true;
+  
     setFormErrors(errors);
-    if (isValid) {
+  
+    if (Object.keys(errors).length === 0) {
+      // Convert DOB to ISO format "YYYY-MM-DDT00:00:00Z"
+      const formattedDOB = DOB.split('/').reverse().join('-') + "T00:00:00Z"; // Convert to YYYY-MM-DD format
+  
+      // Log form data to ensure it's correct
+      console.log("Submitting form with data: ", {
+        fullName,
+        number, // Include mobileNumber here
+        dob: formattedDOB,
+        email,
+        address: {
+          address1: addressLine1,
+          address2: addressLine2,
+          landmark,
+          state,
+          city,
+          pincode,
+        },
+        reference: {
+          relation,
+          number: referenceMobile,
+        },
+      });
+  
+      // Dispatch the setPersonalDetails action
+      dispatch(
+        setPersonalDetails({
+          fullName,
+          number, // Include mobileNumber here
+          dob: formattedDOB,  // Use the formatted DOB
+          email,
+          address: {
+            address1: addressLine1,
+            address2: addressLine2,
+            landmark,
+            state,
+            city,
+            pincode,
+          },
+          reference: {
+            relation,
+            number: referenceMobile,
+          },
+        })
+      );
+  
+      // Navigate to next screen
       navigate("/app/register/bank-details");
     }
   };
+  
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      // Customize the message that appears in the confirmation dialog
+      const message = "Refreshing will reset your form data. Are you sure you want to proceed?";
+      
+      event.returnValue = message;  // Standard way to trigger the confirmation dialog
+      return message;  // Some browsers require this line for the message to be shown
+    };
+
+    // Attach the event listener when the component mounts
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
 
   return (
     <SpaceBetween direction="vertical" size="xxl"> 
@@ -104,18 +141,16 @@ const PersonalDetails = () => {
             placeholder="Full Name"
             invalid={formErrors.fullName}
           />
-          <DatePicker
-            onChange={({ detail }) => setDOP(detail.value)}
+          <Input
+            type="text"
+            onChange={(e) => setDOB(e.detail.value)}
             value={DOB}
-            openCalendarAriaLabel={(selectedDate) =>
-              "Choose certificate expiry date" + (selectedDate ? `, selected date is ${selectedDate}` : "")
-            }
-            placeholder="D.O.B in YYYY-MM-DD"
+            placeholder="D.O.B in DD/MM/YYYY"
             invalid={formErrors.DOB}
           />
           <Input
-            onChange={(e) => setMobileNumber(e.detail.value)}
-            value={mobileNumber}
+            onChange={(e) => setNumber(e.detail.value)}
+            value={number}
             placeholder="Mobile Number"
             invalid={formErrors.mobileNumber}
           />

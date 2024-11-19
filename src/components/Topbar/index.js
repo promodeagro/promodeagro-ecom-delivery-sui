@@ -5,6 +5,12 @@ import Logo from "../../Assets/Images/Logo.png"
 import { useNavigate } from 'react-router-dom';
 const Topbar = () => {
   const navigate = useNavigate()
+
+  const userInfo = JSON.parse(localStorage.getItem("userinfo"));
+  
+  const fullName = userInfo ? userInfo.personalDetails.fullName : "Guest";
+  const email = userInfo ? userInfo.personalDetails.email : "No email available";
+
   return (
    <header>
       <TopNavigation
@@ -29,8 +35,8 @@ const Topbar = () => {
        
         {
           type: "menu-dropdown",
-          text: "Salman Bin Moosa",
-          description: "salmanbinmoosa@gmail.com",
+                text: fullName, // Dynamically use the full name
+            description: email, // Dynamically use the email
           iconName: "user-profile",
           items: [
             { id: "profile", text: "Profile" },

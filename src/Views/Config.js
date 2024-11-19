@@ -4,7 +4,9 @@ const Config = {
   BASE_URL,
    SIGN_IN:`${BASE_URL}/auth/signin`,
    VALIDATE_OTP:`${BASE_URL}/auth/validate-otp`,
-   REGISTER:`${BASE_URL}/register`,
+   ONBOARDING_SUBMIT:`${BASE_URL}/register`,
+   GETURL:`${BASE_URL}/rider/uploadUrl`,
+   GETRUNSHEETS:`${BASE_URL}/rider/{id}/runsheet`
 };
 
 export default Config;

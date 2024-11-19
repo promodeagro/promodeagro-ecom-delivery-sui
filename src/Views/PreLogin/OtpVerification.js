@@ -53,17 +53,21 @@ const OtpVerification = () => {
     setIsSubmitted(true);
     if (validateForm()) {
       if (!number) {
-        setErrorData({ otp: { message: "Mobile number is required." } });
+        setErrorData({ code: { message: "Mobile number is required." } });
         return;
       }
-      dispatch(validateOtp({ number, otp: otp.join(""), userType: "rider" }))
+      const session = localStorage.getItem("session");
+
+      dispatch(validateOtp({ number, code: otp.join(""), userType: "rider", session // Pass the session here
+      }))
         .unwrap()
         .then((result) => {
           localStorage.setItem(
-            "accessToken",
-            JSON.stringify(result.data.tokens.accessToken)
+            "user",
+            JSON.stringify(result.data.tokens)
           );
-          localStorage.setItem("id", JSON.stringify(result.data.id));
+          localStorage.setItem("id", JSON.stringify(result.data.user.id));
+          localStorage.setItem("userinfo", JSON.stringify(result.data.user));
           localStorage.setItem(
             "login",
             JSON.stringify(result.data.tokens.accessToken)
