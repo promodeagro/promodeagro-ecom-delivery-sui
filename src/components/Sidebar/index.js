@@ -18,12 +18,16 @@ const pages = [
 
 const Sidebar = () => {
   const navigate = useNavigate();
-  const location = useLocation(); // Hook to access current location
+  const location = useLocation(); 
   const [activeHref, setActiveHref] = React.useState("");
 
+  const userInfo = JSON.parse(localStorage.getItem("userinfo"));
+  const fullName = userInfo ? userInfo.personalDetails.fullName : "Guest";
+
+
   useEffect(() => {
-    setActiveHref(location.pathname); // Set activeHref to current path
-  }, [location.pathname]); // Update activeHref when location changes
+    setActiveHref(location.pathname); 
+  }, [location.pathname]); 
 
   const handleFollow = (event) => {
     const { href, external } = event.detail;
@@ -52,7 +56,7 @@ const Sidebar = () => {
         }}
         >
     <Icon  variant='disabled' name="user-profile" size="medium" />
-    </div> <Box variant="h4">Salman Batuwah</Box></div> }}
+    </div> <Box variant="h4">{fullName}</Box></div> }}
       onFollow={handleFollow}
       items={pages}
     />

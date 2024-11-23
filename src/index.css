@@ -278,3 +278,36 @@ flex-direction: column;
 justify-content: space-between;
 height: 100%;
 }
+
+.blue_underline{
+  position: relative;
+}
+.blue_underline::after{
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;  
+  background-color:#e0e5e7;
+  bottom: -1px;
+  border-radius: 2px;
+  left: 0;
+}
+.custom-button {
+  height: 2rem;
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  color: red;
+  font-weight: bold;
+  font-size: 14px;
+  border: 2px solid red; 
+  background-color: white; 
+  border-radius: 20px; 
+  cursor: pointer; 
+}
+
+.custom-button:hover {
+  background-color: #ffe6e6;
+}
