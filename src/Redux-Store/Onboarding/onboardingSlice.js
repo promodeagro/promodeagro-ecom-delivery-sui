@@ -27,11 +27,11 @@ const initialState = {
   documents: [
     { name: "userPhoto", image: "" },
     { name: "aadharFront", image: "" },
-    { name: "aadharBack", image: "" },
+    { name: "aadharback", image: "" },
     { name: "pan", image: "" },
     { name: "drivingFront", image: "" },
     { name: "drivingBack", image: "" },
-    { name: "vehicleImage", image: "" },
+    { name: "VehicleImage", image: "" },
     { name: "rcFront", image: "" },
     { name: "rcBack", image: "" }
   ],

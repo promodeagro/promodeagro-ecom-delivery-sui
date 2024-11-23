@@ -6,7 +6,11 @@ const Config = {
    VALIDATE_OTP:`${BASE_URL}/auth/validate-otp`,
    ONBOARDING_SUBMIT:`${BASE_URL}/register`,
    GETURL:`${BASE_URL}/rider/uploadUrl`,
-   GETRUNSHEETS:`${BASE_URL}/rider/{id}/runsheet`
+   GETRUNSHEETS:`${BASE_URL}/rider/{id}/runsheet`,
+   ACCEPTRUNSHEET:`${BASE_URL}/rider/{id}/runsheet/{runsheetId}/accept`,
+   RUNSHEETDETAIL:`${BASE_URL}/rider/{id}/runsheet/{runsheetId}`
+
+
 };
 
 export default Config;

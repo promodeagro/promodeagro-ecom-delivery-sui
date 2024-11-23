@@ -10,7 +10,9 @@ import ReviewAndSubmit from "./PreLogin/Onboarding/ReviewAndSubmit";
 
 const Home = lazy(() => import("./Postlogin/Home"));
 const AmountSummary = lazy(() => import("./Postlogin/AmountSummary"));
-const CustomerDetails = lazy(() => import("./Postlogin/Home/Runsheet/CustomerDetails"));
+const CustomerDetails = lazy(() =>
+  import("./Postlogin/Home/Runsheet/CustomerDetails")
+);
 const Runsheet = lazy(() => import("./Postlogin/Home/Runsheet"));
 const CreateNewPassword = lazy(() => import("./PreLogin/CreateNewPassword"));
 const Notifications = lazy(() => import("./Postlogin/Notifications/index"));
@@ -39,11 +41,7 @@ const Views = () => {
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
           <Route exact path={`${PREFIX_APP_PATH}/home`} element={<Home />} />
-          <Route
-            exact
-            path={`${PREFIX_APP_PATH}/home/runsheet`}
-            element={<Runsheet />}
-          />
+          <Route path="/app/home/runsheet/:runsheetId" element={<Runsheet />} />
           <Route
             exact
             path={`${PREFIX_APP_PATH}/home/runsheet/undelivered`}
@@ -61,12 +59,12 @@ const Views = () => {
           />
           <Route
             exact
-            path={`${PREFIX_APP_PATH}/customer-details`}
+            path={`${PREFIX_APP_PATH}/home/runsheet/customer-details/:orderId`}
             element={<CustomerDetails />}
           />
           <Route
             exact
-            path={`${PREFIX_APP_PATH}/customer-details/verify-order`}
+            path={`${PREFIX_APP_PATH}/customer-details/verify-order/:orderId`}
             element={<VerifiedOrder />}
           />
           <Route
@@ -104,12 +102,11 @@ const Views = () => {
             path={`${PREFIX_AUTH_PATH}/register`}
             element={<Register />}
           />
-                    <Route
+          <Route
             exact
             path={`${PREFIX_APP_PATH}/register/personal-details`}
             element={<PersonalDetails />}
           />
-
           <Route
             exact
             path={`${PREFIX_APP_PATH}/register/bank-details`}

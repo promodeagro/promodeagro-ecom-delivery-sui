@@ -35,9 +35,7 @@ const Documents = () => {
     }
   };
 
-  // Function to handle the file upload and get URLs for the files
   const handleSubmit = async () => {
-    // Check if all files are selected
     const newErrors = {
       userPhoto: !userPhoto.length,
       aadharFront: !aadharFront.length,
@@ -52,55 +50,43 @@ const Documents = () => {
   
     setErrors(newErrors);
   
-    // If no errors, proceed to upload files and get URLs
     if (Object.values(newErrors).every((e) => !e)) {
-      // Prepare the list of documents with file names
       const documentList = [
-        { name: "userPhoto", image: userPhoto[0] },
-        { name: "aadharFront", image: aadharFront[0] },
-        { name: "aadharBack", image: aadharBack[0] },
-        { name: "pan", image: pan[0] },
-        { name: "drivingFront", image: drivingFront[0] },
-        { name: "drivingBack", image: drivingBack[0] },
-        { name: "vehicleImage", image: vehicleImage[0] },
-        { name: "rcFront", image: rcFront[0] },
-        { name: "rcBack", image: rcBack[0] },
-      ];
+        { name: "userPhoto", file: userPhoto[0] },
+        { name: "aadharFront", file: aadharFront[0] },
+        { name: "aadharback", file: aadharBack[0] }, // Correct enum value
+        { name: "pan", file: pan[0] },
+        { name: "drivingFront", file: drivingFront[0] },
+        { name: "drivingBack", file: drivingBack[0] },
+        { name: "VehicleImage", file: vehicleImage[0] }, // Correct enum value
+        { name: "rcFront", file: rcFront[0] },
+        { name: "rcBack", file: rcBack[0] },
+          ];
   
       try {
-        // Loop through the document list to upload each file and get the URL
         const uploadPromises = documentList.map(async (doc) => {
-          if (doc.image) {
-            // Log the file name before dispatching
-            console.log(`Uploading ${doc.name} with file name: ${doc.image.name}`);
-  
-            // Pass the file name explicitly to the thunk
-            const response = await dispatch(fetchUploadUrl(doc.image)).unwrap();
-  
-            // Ensure we correctly extract the URL from the response
-            return { name: doc.name, image: response };
+          if (doc.file) {
+            const response = await dispatch(fetchUploadUrl(doc.file)).unwrap();
+            return { name: doc.name, image: response }; // Include both name and image URL
           }
-          return null; // If no image, return null
+          return null;
         });
   
-        // Wait for all upload promises to complete
-        const results = await Promise.all(uploadPromises);
+        const uploadedDocuments = await Promise.all(uploadPromises);
   
-        // Filter out any null values (if any file had no image)
-        const validUrls = results.filter((url) => url !== null);
+        // Filter out null values
+        const validDocuments = uploadedDocuments.filter((doc) => doc !== null);
   
-        // Dispatch the valid URLs to Redux
-        dispatch(setDocuments(validUrls));
+        // Dispatch with the correct structure
+        dispatch(setDocuments(validDocuments));
   
-        // Navigate to the next page
         navigate("/app/register/review-and-submit");
       } catch (error) {
-        // Log any errors during file upload
         console.error("Error uploading files:", error);
       }
     }
   };
-    
+          
   useEffect(() => {
     const handleBeforeUnload = (event) => {
       const message =
