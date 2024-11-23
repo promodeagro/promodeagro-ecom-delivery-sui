@@ -63,17 +63,22 @@ const CustomerDetails = () => {
           }
           footer={
             <div style={{ display: "flex", margin: "0 auto", width: "80%" }}>
-            <a href={`tel:${order.contactNumber}`} style={{ width: "100%" }}>
-              <Button
-                fullWidth
-                variant="primary"
-                iconName="call"
-              >
-                Call
-              </Button>
-            </a>
+            {/* Ensure order.contactNumber is defined */}
+            {order.customerNumber ? (
+              <a href={`tel:+91${String(order.customerNumber)}`} style={{ width: "100%" }}>
+                <Button
+                  fullWidth
+                  variant="primary"
+                  iconName="call"
+                >
+                  Call
+                </Button>
+              </a>
+            ) : (
+              <p>No contact number available</p> // Show a message if there's no contact number
+            )}
           </div>
-                  }
+                          }
         >
           {order.address?.address}, {order.address?.zipCode}
         </Container>
