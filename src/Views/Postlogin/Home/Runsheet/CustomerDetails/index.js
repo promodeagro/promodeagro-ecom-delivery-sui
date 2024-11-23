@@ -63,18 +63,17 @@ const CustomerDetails = () => {
           }
           footer={
             <div style={{ display: "flex", margin: "0 auto", width: "80%" }}>
+            <a href={`tel:${order.contactNumber}`} style={{ width: "100%" }}>
               <Button
-                onClick={() =>
-                  (window.location.href = `tel:${order.contactNumber}`)
-                }
                 fullWidth
                 variant="primary"
                 iconName="call"
               >
                 Call
               </Button>
-            </div>
-          }
+            </a>
+          </div>
+                  }
         >
           {order.address?.address}, {order.address?.zipCode}
         </Container>
