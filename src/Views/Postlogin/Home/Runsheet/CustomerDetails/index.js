@@ -64,8 +64,10 @@ const CustomerDetails = () => {
           footer={
             <div style={{ display: "flex", margin: "0 auto", width: "80%" }}>
               <Button
-      onClick={() => (window.location.href = `tel:${order.contactNumber}`)}
-      fullWidth
+                onClick={() =>
+                  (window.location.href = `tel:${order.contactNumber}`)
+                }
+                fullWidth
                 variant="primary"
                 iconName="call"
               >
@@ -184,9 +186,13 @@ const CustomerDetails = () => {
             <Button variant="primary" onClick={() => navigate(-1)} fullWidth>
               OK
             </Button>
-            <Button onClick={() => setVisible(false)} fullWidth>
+            <button
+              onClick={() => setVisible(false)}
+              fullWidth
+              className="custom-button"
+            >
               Go back
-            </Button>
+            </button>
           </SpaceBetween>
         </div>
       </Modal>
