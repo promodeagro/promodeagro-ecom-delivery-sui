@@ -11,25 +11,27 @@ import ReviewAndSubmit from "./PreLogin/Onboarding/ReviewAndSubmit";
 const Home = lazy(() => import("./Postlogin/Home"));
 const AmountSummary = lazy(() => import("./Postlogin/AmountSummary"));
 const CustomerDetails = lazy(() =>
-  import("./Postlogin/Home/Runsheet/CustomerDetails")
+  import("./Postlogin/Home/Pending/CustomerDetails")
 );
-const Runsheet = lazy(() => import("./Postlogin/Home/Runsheet"));
+const Pending = lazy(() => import("./Postlogin/Home/Pending"));
 const CreateNewPassword = lazy(() => import("./PreLogin/CreateNewPassword"));
 const Notifications = lazy(() => import("./Postlogin/Notifications/index"));
-const VerifiedOrder = lazy(() =>
-  import("./Postlogin/Home/Runsheet/CustomerDetails/VerifiedOrder")
+const Captureorder = lazy(() =>
+  import("./Postlogin/Home/Pending/CustomerDetails/Captureorder")
 );
 const OtpVerification = lazy(() => import("./PreLogin/OtpVerification"));
-const Undelivered = lazy(() =>
-  import("./Postlogin/Home/Runsheet/Undelivered/Undelivered")
-);
-const CapturedVerified = lazy(() =>
-  import("./Postlogin/Home/Runsheet/CustomerDetails/CapturedVerified")
+
+// const Undelivered = lazy(() => import("./Postlogin/Home/Undelivered"));
+const Undelivered = lazy(() => import ("./Postlogin/Home/Undelivered/Undelivered"));
+const CapturedVerify = lazy(() =>
+  import("./Postlogin/Home/Pending/CustomerDetails/Captureorder/CaptureVerify")
 );
 const Payment = lazy(() =>
-  import("./Postlogin/Home/Runsheet/CustomerDetails/CapturedVerified/Payment")
+  import(
+    "./Postlogin/Home/Pending/CustomerDetails/Captureorder/CaptureVerify/Payment"
+  )
 );
-const Delivered = lazy(() => import("./Postlogin/Home/Runsheet/Delivered"));
+const Delivered = lazy(() => import("./Postlogin/Home/Delivered"));
 
 const PathNotFOund = lazy(() => import("./PathNotFound"));
 const Signin = lazy(() => import("./PreLogin/Signin"));
@@ -41,7 +43,7 @@ const Views = () => {
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
           <Route exact path={`${PREFIX_APP_PATH}/home`} element={<Home />} />
-          <Route path="/app/home/runsheet/:runsheetId" element={<Runsheet />} />
+          <Route path="/app/home/runsheet/:runsheetId" element={<Pending />} />
           <Route
             exact
             path={`${PREFIX_APP_PATH}/home/runsheet/undelivered`}
@@ -59,22 +61,22 @@ const Views = () => {
           />
           <Route
             exact
-            path={`${PREFIX_APP_PATH}/home/runsheet/:runsheetId/customer-details/:orderId`}
+            path={`${PREFIX_APP_PATH}/home/runsheet/:runsheetId/order/:orderId/customer-details`}
             element={<CustomerDetails />}
           />
           <Route
             exact
-            path={`${PREFIX_APP_PATH}/home/runsheet/:runsheetId/customer-details/:orderId/verify-order`}
-            element={<VerifiedOrder />}
+            path={`${PREFIX_APP_PATH}/home/runsheet/:runsheetId/order/:orderId/customer-details/verify-order`}
+            element={<Captureorder />}
           />
           <Route
             exact
-            path={`${PREFIX_APP_PATH}/customer-details/captured-verified`}
-            element={<CapturedVerified />}
+            path={`${PREFIX_APP_PATH}/home/runsheet/:runsheetId/customer-details/order/:orderId/captured-verify`}
+            element={<CapturedVerify />}
           />
           <Route
             exact
-            path={`${PREFIX_APP_PATH}/customer-details/captured-verified/payment`}
+            path={`${PREFIX_APP_PATH}/home/runsheet/:runsheetId/customer-details/order/:orderId/captured-verified/payment`}
             element={<Payment />}
           />
           <Route
