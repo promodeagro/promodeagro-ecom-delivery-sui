@@ -143,6 +143,7 @@ const Home = () => {
                   <SpaceBetween direction="vertical" size="s">
                     <Box>Cash to be Collected: ₹{amountCollectable}/-</Box>
                     {sheet.status === "active" ? (
+                      <div style={{display:'flex', margin: '0 auto', width: '80%'}}>
                       <Button
                         onClick={() => navigate(`/app/home/runsheet/${id}`)}
                         fullWidth
@@ -150,7 +151,10 @@ const Home = () => {
                       >
                         Continue
                       </Button>
+                      </div>
                     ) : (
+                      <div style={{display:'flex', margin: '0 auto', width: '80%'}}>
+
                       <Button
                         onClick={() => handleAcceptRunSheet(id)}
                         fullWidth
@@ -158,6 +162,8 @@ const Home = () => {
                       >
                         Accept Runsheet
                       </Button>
+                      </div>
+
                     )}
                   </SpaceBetween>
                 </Box>

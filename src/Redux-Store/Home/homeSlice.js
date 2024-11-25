@@ -1,13 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchRunsheet, acceptRunSheetAPI, fetchRunsheetDetail } from "./homeThunk";
+import { fetchRunsheet, acceptRunSheetAPI, fetchRunsheetDetail, cancelOrderAPI } from "./homeThunk";
 
 const runsheetSlice = createSlice({
   name: "runsheet",
   initialState: {
     runsheet: null,
-    runsheetDetail: null,  // Added state for storing runsheet details
+    runsheetDetail: null,  
     loading: false,
-    acceptStatus: null, // For tracking acceptance status
+    acceptStatus: null, 
+    cancelStatus: null, // New state for cancel order
     error: null,
   },
   reducers: {
@@ -16,11 +17,12 @@ const runsheetSlice = createSlice({
       state.runsheetDetail = null;
       state.loading = false;
       state.acceptStatus = null;
+      state.cancelStatus = null;
+
       state.error = null;
     },
   },
   extraReducers: (builder) => {
-    // Fetch Runsheet
     builder
       .addCase(fetchRunsheet.pending, (state) => {
         state.loading = true;
@@ -34,8 +36,6 @@ const runsheetSlice = createSlice({
         state.error = action.payload;
         state.loading = false;
       });
-
-    // Accept Runsheet
     builder
       .addCase(acceptRunSheetAPI.pending, (state) => {
         state.acceptStatus = "pending";
@@ -49,8 +49,6 @@ const runsheetSlice = createSlice({
         state.acceptStatus = "failed";
         state.error = action.payload;
       });
-
-    // Fetch Runsheet Detail
     builder
       .addCase(fetchRunsheetDetail.pending, (state) => {
         state.loading = true;
@@ -64,8 +62,21 @@ const runsheetSlice = createSlice({
         state.error = action.payload;
         state.loading = false;
       });
+      builder
+      .addCase(cancelOrderAPI.pending, (state) => {
+        state.cancelStatus = "pending";
+        state.error = null;
+      })
+      .addCase(cancelOrderAPI.fulfilled, (state, action) => {
+        state.cancelStatus = "success";
+      })
+      .addCase(cancelOrderAPI.rejected, (state, action) => {
+        state.cancelStatus = "failed";
+        state.error = action.payload;
+      });
   },
 });
 
 export const { clearRunsheet } = runsheetSlice.actions;
+
 export default runsheetSlice.reducer;

@@ -8,8 +8,8 @@ const Config = {
    GETURL:`${BASE_URL}/rider/uploadUrl`,
    GETRUNSHEETS:`${BASE_URL}/rider/{id}/runsheet`,
    ACCEPTRUNSHEET:`${BASE_URL}/rider/{id}/runsheet/{runsheetId}/accept`,
-   RUNSHEETDETAIL:`${BASE_URL}/rider/{id}/runsheet/{runsheetId}`
-
+   RUNSHEETDETAIL:`${BASE_URL}/rider/{id}/runsheet/{runsheetId}`,
+  CANCELORDER: `${BASE_URL}/rider/{id}/runsheet/{runsheetId}/order/{orderId}/cancel`
 
 };
 
