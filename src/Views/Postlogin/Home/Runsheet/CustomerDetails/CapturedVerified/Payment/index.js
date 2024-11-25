@@ -117,13 +117,14 @@ const Payment = () => {
         </Box>
         <div className="payment_lines"></div>
       </div>
+      <div style={{display: 'flex', margin: '0 auto', width: '80%'}}>
       <Button
         onClick={() => setComleteOrderModalVisible(true)}
         variant="primary"
         fullWidth
       >
         Collect Cash
-      </Button>
+      </Button></div>
       <Modal
         onDismiss={() => setComleteOrderModalVisible(false)}
         visible={comleteOrderModalVisible}
@@ -174,7 +175,7 @@ const Payment = () => {
           <Button
             onClick={() => {
               setAmountCollectedModal(false);
-              navigate("/app/home/runsheet");
+              navigate("/app/home");
             }}
             variant="primary"
             fullWidth

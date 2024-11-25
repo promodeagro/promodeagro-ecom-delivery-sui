@@ -11,27 +11,35 @@ import {
   Table,
   Textarea,
 } from "@cloudscape-design/components";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchRunsheetDetail } from "Redux-Store/Home/homeThunk";
 
 const CustomerDetails = () => {
-  const { orderId } = useParams(); // Retrieve orderId from the route
+  const { runsheetId, orderId } = useParams();
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const [reason, setReason] = useState("");
   const [otherIssue, setOtherIssue] = useState("");
 
-  // Access runsheetDetail from Redux
   const runsheetDetail = useSelector((state) => state.runsheet.runsheetDetail);
-
-  // Find the specific order using orderId
   const order = runsheetDetail?.orders?.find((o) => o.id === orderId);
+
+  useEffect(() => {
+    if (!runsheetDetail || runsheetDetail.id !== runsheetId) {
+      const riderId = localStorage.getItem("id")?.replace(/['"]+/g, ""); // Retrieve rider ID
+      if (riderId) {
+        dispatch(fetchRunsheetDetail({ riderId, runsheetId }));
+      }
+    }
+  }, [dispatch, runsheetDetail, runsheetId]);
 
   if (!order) {
     return <Box variant="h3">Order not found</Box>;
   }
+
 
   return (
     <>
@@ -45,8 +53,6 @@ const CustomerDetails = () => {
           <span className="header_underline">Customer Details</span>
         </SpaceBetween>
       </Header>
-
-      {/* Address */}
       <div style={{ marginTop: 22 }}>
         <Container
           header={
@@ -63,27 +69,24 @@ const CustomerDetails = () => {
           }
           footer={
             <div style={{ display: "flex", margin: "0 auto", width: "80%" }}>
-            {/* Ensure order.contactNumber is defined */}
-            {order.customerNumber ? (
-              <a href={`tel:+91${String(order.customerNumber)}`} style={{ width: "100%" }}>
-                <Button
-                  fullWidth
-                  variant="primary"
-                  iconName="call"
+              {order.customerNumber ? (
+                <a
+                  href={`tel:+91${String(order.customerNumber)}`}
+                  style={{ width: "100%" }}
                 >
-                  Call
-                </Button>
-              </a>
-            ) : (
-              <p>No contact number available</p> // Show a message if there's no contact number
-            )}
-          </div>
-                          }
+                  <Button fullWidth variant="primary" iconName="call">
+                    Call
+                  </Button>
+                </a>
+              ) : (
+                <p>No contact number available</p> // Show a message if there's no contact number
+              )}
+            </div>
+          }
         >
           {order.address?.address}, {order.address?.zipCode}
         </Container>
       </div>
-
       <div style={{ marginTop: 10, marginBottom: 12 }}>
         <Header variant="h3">
           <SpaceBetween direction="horizontal" size="xs" alignItems="center">
@@ -91,8 +94,6 @@ const CustomerDetails = () => {
           </SpaceBetween>
         </Header>
       </div>
-
-      {/* Order Details */}
       <Container
         header={
           <>
@@ -131,13 +132,12 @@ const CustomerDetails = () => {
           variant="embedded"
           stickyHeader={true}
         />
-
         <div style={{ marginTop: 12 }}>
           <SpaceBetween direction="vertical" size="xs">
             <div style={{ width: "80%", margin: "0 auto", display: "flex" }}>
               <Button
                 onClick={() =>
-                  navigate(`/app/customer-details/verify-order/${order.id}`)
+                  navigate(`/app/home/runsheet/${runsheetId}/customer-details/${order.id}/verify-order`)
                 }
                 fullWidth
                 variant="primary"
@@ -174,7 +174,6 @@ const CustomerDetails = () => {
             },
           ]}
         />
-
         <div style={{ marginTop: 51 }}>
           <FormField label="Notes Other Issues">
             <Textarea
@@ -184,7 +183,6 @@ const CustomerDetails = () => {
             />
           </FormField>
         </div>
-
         <div style={{ marginTop: 25 }}>
           <SpaceBetween direction="vertical" size="xs">
             <Button variant="primary" onClick={() => navigate(-1)} fullWidth>
