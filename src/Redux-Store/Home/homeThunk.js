@@ -122,3 +122,53 @@ export const fetchRunsheetDetail = createAsyncThunk(
     }
   }
 );
+export const cancelOrderAPI = createAsyncThunk(
+  "order/cancel",
+  async ({ id, runsheetId, orderId, reason }, { rejectWithValue }) => {
+    console.log("Cancel Order API Payload:", { id, runsheetId, orderId, reason });
+
+    const accessToken = localStorage.getItem("user")
+      ? JSON.parse(localStorage.getItem("user")).accessToken
+      : null;
+
+    if (!accessToken) {
+      console.error("Access token not found");
+      return rejectWithValue("Token not found");
+    }
+
+    if (!id || !runsheetId || !orderId) {
+      console.error("Missing required parameters:", { id, runsheetId, orderId });
+      return rejectWithValue("Missing required parameters");
+    }
+
+    try {
+      const url = Config.CANCELORDER
+        .replace("{id}", id) // Use 'id' in the URL
+        .replace("{runsheetId}", runsheetId)
+        .replace("{orderId}", orderId);
+
+      console.log("Cancel Order URL:", url);
+
+      const response = await fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({id, runsheetId, orderId, reason }), 
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("API Error Response:", errorData);
+        throw new Error(errorData.message || "Failed to cancel the order");
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("API Error:", error.message);
+      return rejectWithValue(error.message);
+    }
+  }
+);
