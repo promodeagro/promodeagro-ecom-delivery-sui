@@ -139,8 +139,10 @@ const Runsheet = () => {
             <span
               key={index}
               style={{ cursor: "pointer" }}
-              onClick={() => navigate(`/app/home/runsheet/customer-details/${order.id}`)}
-              >
+              onClick={() =>
+                navigate(`/app/home/runsheet/${runsheetId}/customer-details/${order.id}`)
+              }
+                            >
               <Container
                 header={
                   <SpaceBetween alignItems="center" direction="horizontal" size="xs">
