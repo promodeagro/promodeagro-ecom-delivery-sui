@@ -223,7 +223,6 @@ const CustomerDetails = () => {
 
           <button
             onClick={() => setVisible(false)}
-            fullWidth
             className="custom-button"
           >
             Go Back

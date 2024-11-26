@@ -1,7 +1,7 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { updateLoading, setError, setUploadUrl } from './onboardingSlice';
+import { updateLoading, setError } from './onboardingSlice';
 
 import config from 'Views/Config';
 

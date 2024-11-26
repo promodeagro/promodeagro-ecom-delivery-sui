@@ -5,14 +5,13 @@ import {
   Header,
   SpaceBetween,
 } from "@cloudscape-design/components";
-import React, { useState, useEffect } from "react";
+import React, {  useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import PackIcon from "../../../Assets/Images/PackIcon.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchRunsheet, acceptRunSheetAPI } from "Redux-Store/Home/homeThunk";
 
 const Home = () => {
-  const [acceptedRunSheets, setAcceptedRunSheets] = useState({});
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -29,18 +28,8 @@ const Home = () => {
       console.error("Rider ID not found");
       return;
     }
-
     try {
       await dispatch(acceptRunSheetAPI({ riderId, runsheetId }));
-      const updatedRunSheets = {
-        ...acceptedRunSheets,
-        [runsheetId]: true, // Mark this runsheet as accepted
-      };
-      setAcceptedRunSheets(updatedRunSheets);
-      localStorage.setItem(
-        "acceptedRunSheets",
-        JSON.stringify(updatedRunSheets)
-      ); // Save to localStorage
     } catch (err) {
       console.error("Error accepting runsheet:", err);
     }
@@ -143,27 +132,37 @@ const Home = () => {
                   <SpaceBetween direction="vertical" size="s">
                     <Box>Cash to be Collected: ₹{amountCollectable}/-</Box>
                     {sheet.status === "active" ? (
-                      <div style={{display:'flex', margin: '0 auto', width: '80%'}}>
-                      <Button
-                        onClick={() => navigate(`/app/home/runsheet/${id}`)}
-                        fullWidth
-                        variant="primary"
+                      <div
+                        style={{
+                          display: "flex",
+                          margin: "0 auto",
+                          width: "80%",
+                        }}
                       >
-                        Continue
-                      </Button>
+                        <Button
+                          onClick={() => navigate(`/app/home/runsheet/${id}`)}
+                          fullWidth
+                          variant="primary"
+                        >
+                          Continue
+                        </Button>
                       </div>
                     ) : (
-                      <div style={{display:'flex', margin: '0 auto', width: '80%'}}>
-
-                      <Button
-                        onClick={() => handleAcceptRunSheet(id)}
-                        fullWidth
-                        variant="primary"
+                      <div
+                        style={{
+                          display: "flex",
+                          margin: "0 auto",
+                          width: "80%",
+                        }}
                       >
-                        Accept Runsheet
-                      </Button>
+                        <Button
+                          onClick={() => handleAcceptRunSheet(id)}
+                          fullWidth
+                          variant="primary"
+                        >
+                          Accept Runsheet
+                        </Button>
                       </div>
-
                     )}
                   </SpaceBetween>
                 </Box>

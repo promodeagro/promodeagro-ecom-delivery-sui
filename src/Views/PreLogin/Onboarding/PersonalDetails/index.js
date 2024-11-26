@@ -37,7 +37,6 @@ const PersonalDetails = () => {
   });
 
   const handleSubmit = () => {
-    let isValid = true;
     const errors = {};
   
     // Form validation
