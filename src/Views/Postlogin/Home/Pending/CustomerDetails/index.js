@@ -85,9 +85,10 @@ const CustomerDetails = () => {
 
   const handleCall = () => {
     const testNumber = '7989786093'; // The test number
+    // Directly redirect to the dialer screen with the specified number
     window.location.href = `tel:+91${testNumber}`;
   };
-  
+
   return (
     <>
       {/* Main Content */}
