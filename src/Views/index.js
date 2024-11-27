@@ -14,6 +14,7 @@ const CustomerDetails = lazy(() =>
   import("./Postlogin/Home/Pending/CustomerDetails")
 );
 const Pending = lazy(() => import("./Postlogin/Home/Pending"));
+const ProfileDetail = lazy(() => import("./Postlogin/ProfileDetail"))
 const CreateNewPassword = lazy(() => import("./PreLogin/CreateNewPassword"));
 const Notifications = lazy(() => import("./Postlogin/Notifications/index"));
 const Captureorder = lazy(() =>
@@ -51,6 +52,11 @@ const Views = () => {
             exact
             path={`${PREFIX_APP_PATH}/home/runsheet/delivered`}
             element={<Delivered />}
+          />
+          <Route
+            exact
+            path={`${PREFIX_APP_PATH}/home/profileDetail`}
+            element={<ProfileDetail />}
           />
           <Route
             exact

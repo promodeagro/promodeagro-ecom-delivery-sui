@@ -6,7 +6,7 @@ import { Badge, Box, Button,Icon } from "@cloudscape-design/components";
 const pages = [
   { type: "link", text: "Home", href: "/app/Home" },
   { type: "link", text: "Amount Summary", href: "/app/amount-summary" },
-  { type: "link", text: "Profile Details", href: "/app/profile-details" },
+  { type: "link", text: "Profile Details", href: "/app/home/profileDetail" },
   { type: "divider" },
   {
     type: "link",
