@@ -22,9 +22,9 @@ const Payment = () => {
   const { runsheetId, orderId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const runsheetDetail = useSelector((state) => state.runsheet.runsheetDetail);
-  const order = runsheetDetail?.orders?.find((o) => o.id === orderId);
-  const [isQRGenereted, setIsQRGenereted] = useState(false);
+  const runsheetDetail = useSelector((state) => state.runsheet.runsheetDetail?.data);
+  const order = runsheetDetail?.orders?.find((o) => o.id === orderId); 
+   const [isQRGenereted, setIsQRGenereted] = useState(false);
   const [comleteOrderModalVisible, setComleteOrderModalVisible] =
     React.useState(false);
   const [amountCollectedModal, setAmountCollectedModal] = React.useState(false);

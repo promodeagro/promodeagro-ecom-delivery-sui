@@ -72,53 +72,86 @@ const Home = () => {
         } = sheet;
         return (
           <Container
-            key={index}
-            header={
-              <Header
-                description={
-                  <SpaceBetween>
-                    <Box>
-                      <SpaceBetween direction="horizontal" size="xs">
-                        <img src={PackIcon} alt="" width={20} height={20} />
-                        <span style={{ color: "#037F0C" }}>{orders} Orders</span>
-                      </SpaceBetween>
-                    </Box>
-                  </SpaceBetween>
-                }
-              >
-                Run Sheet - {id}
-              </Header>
-            }
-            footer={
-              <Box>
-                <SpaceBetween direction="vertical">
-                  <Box>Cash to be Collected: ₹{amountCollectable}/-</Box>
-                  {status === "active" ? (
-                    <Button onClick={() => navigate(`/app/home/runsheet/${id}`)} fullWidth variant="primary">
+          key={index}
+          header={
+            <Header
+              description={
+                <SpaceBetween>
+                  <Box>
+                    <SpaceBetween
+                      direction="horizontal"
+                      size="xs"
+                      alignItems="center"
+                    >
+                      <img src={PackIcon} alt="" width={20} height={20} />
+                      <span style={{ color: "#037F0C", fontSize: "14px" }}>
+                        {orders} Orders
+                      </span>
+                    </SpaceBetween>
+                  </Box>
+                </SpaceBetween>
+              }
+            >
+              <span style={{ color: "#0972D3", fontSize: "16px" }}>
+                Run Sheet
+              </span>
+              <span style={{ fontSize: "16px" }}>- {id}</span>
+            </Header>
+          }
+          footer={
+            <Box>
+              <SpaceBetween direction="vertical" size="s">
+                <Box>Cash to be Collected: ₹{amountCollectable}/-</Box>
+                {sheet.status === "active" ? (
+                  <div
+                    style={{
+                      display: "flex",
+                      margin: "0 auto",
+                      width: "80%",
+                    }}
+                  >
+                    <Button
+                      onClick={() => navigate(`/app/home/runsheet/${id}`)}
+                      fullWidth
+                      variant="primary"
+                    >
                       Continue
                     </Button>
-                  ) : (
-                    <Button onClick={() => handleAcceptRunSheet(id)} fullWidth variant="primary">
+                  </div>
+                ) : (
+                  <div
+                    style={{
+                      display: "flex",
+                      margin: "0 auto",
+                      width: "80%",
+                    }}
+                  >
+                    <Button
+                      onClick={() => handleAcceptRunSheet(id)}
+                      fullWidth
+                      variant="primary"
+                    >
                       Accept Runsheet
                     </Button>
-                  )}
-                </SpaceBetween>
-              </Box>
-            }
-          >
-            <SpaceBetween>
-              <div className="home_custom_box_wrapper">
-                <div className="custom_box">
-                  <span>Pending Orders</span>
-                  <span>{pendingOrders}</span>
-                </div>
-                <div style={{ background: "#037F0C" }} className="custom_box">
-                  <span>Delivered Orders</span>
-                  <span>{deliveredOrders}</span>
-                </div>
+                  </div>
+                )}
+              </SpaceBetween>
+            </Box>
+          }
+        >
+          <SpaceBetween>
+            <div className="home_custom_box_wrapper">
+              <div className="custom_box">
+                <span className="custom_box_label">Pending Orders</span>
+                <span className="custom_box_value">{pendingOrders}</span>
               </div>
-            </SpaceBetween>
-          </Container>
+              <div style={{ background: "#037F0C" }} className="custom_box">
+                <span className="custom_box_label">Delivered Orders</span>
+                <span className="custom_box_value">{deliveredOrders}</span>
+              </div>
+            </div>
+          </SpaceBetween>
+        </Container>
         );
       })}
     </SpaceBetween>

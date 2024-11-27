@@ -107,7 +107,7 @@ const CustomerDetails = () => {
                 alignItems="center"
               >
                 <span style={{ color: "#0972D3" }}>{order.customerName}</span>
-                <Badge>{order.paymentMethod}</Badge>
+                <Badge>{order.paymentDetails?.method}</Badge>
               </SpaceBetween>
             </Header>
           }

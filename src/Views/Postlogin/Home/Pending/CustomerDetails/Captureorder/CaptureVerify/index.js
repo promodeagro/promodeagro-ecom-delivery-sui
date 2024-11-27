@@ -17,7 +17,7 @@ const CapturedVerified = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const runsheetDetail = useSelector((state) => state.runsheet.runsheetDetail);
+  const runsheetDetail = useSelector((state) => state.runsheet.runsheetDetail?.data);
   const order = runsheetDetail?.orders?.find((o) => o.id === orderId);
 
   useEffect(() => {
@@ -97,7 +97,7 @@ const CapturedVerified = () => {
           display: "flex",
           margin: "0 auto",
           width: "70%",
-          marginTop: "26%",
+          marginTop: "36%",
         }}
       >
      <Button

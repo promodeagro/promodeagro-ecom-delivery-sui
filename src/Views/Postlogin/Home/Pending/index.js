@@ -135,14 +135,12 @@ useEffect(() => {
         </div>
       </div>
 
-      {/* Search Filter */}
       <TextFilter
         filteringText={searchText}
         filteringPlaceholder="Search by customer name"
         onChange={(e) => setSearchText(e.detail.filteringText)}
       />
 
-      {/* Orders List Header */}
       <div style={{ marginTop: 18, marginBottom: 18 }}>
         <Box variant="h4">
           <span className="gray_underline">
@@ -151,7 +149,6 @@ useEffect(() => {
         </Box>
       </div>
 
-      {/* Orders List */}
       <SpaceBetween direction="vertical" size="l">
         {filteredOrders.length > 0 ? (
           filteredOrders.map((order, index) => (
@@ -172,6 +169,7 @@ useEffect(() => {
                     <Box variant="h3">
                       <div style={{ display: "flex", gap: "0.5rem" }}>
                         <span style={{ color: "#0972D3" }}>{order.customerName}</span>
+                        <Badge>{order.paymentDetails?.method}</Badge>
                       </div>
                     </Box>
                   </SpaceBetween>
