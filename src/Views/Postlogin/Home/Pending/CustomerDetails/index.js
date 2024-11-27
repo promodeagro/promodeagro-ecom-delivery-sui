@@ -25,10 +25,13 @@ const CustomerDetails = () => {
   const [otherIssue, setOtherIssue] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const runsheetDetail = useSelector((state) => state.runsheet.runsheetDetail);
+  const runsheetDetail = useSelector((state) => state.runsheet.runsheetDetail?.data);
   const order = runsheetDetail?.orders?.find((o) => o.id === orderId);
-
+  console.log('Order ID:', orderId);  // Log to verify the URL parameter
+  console.log('Orders:', runsheetDetail?.orders);  // Log to inspect the orders
+  
   useEffect(() => {
+    console.log('Runsheet Detail:', runsheetDetail); // Log to inspect the structure
     if (!runsheetDetail || runsheetDetail.id !== runsheetId) {
       const riderId = localStorage.getItem("id")?.replace(/['"]+/g, "");
       if (riderId) {
@@ -36,6 +39,8 @@ const CustomerDetails = () => {
       }
     }
   }, [dispatch, runsheetDetail, runsheetId]);
+  
+  
 
   const handleCancelOrder = async () => {
     if (!reason && !otherIssue) {
@@ -45,10 +50,14 @@ const CustomerDetails = () => {
   
     const id = localStorage.getItem("id")?.replace(/['"]+/g, ""); // Retrieve rider ID as 'id'
   
-    if (!id || !runsheetId || !orderId) {
-      alert("Missing required parameters. Please check again.");
-      return;
+    if (!runsheetDetail || runsheetDetail.status === "loading") {
+      return <Box variant="h3">Loading...</Box>;
     }
+    
+    if (!order) {
+      return <Box variant="h3">Order not found</Box>;
+    }
+    
   
     const payload = {
       id, // Use 'id' instead of 'riderId'
@@ -74,7 +83,11 @@ const CustomerDetails = () => {
     return <Box variant="h3">Order not found</Box>;
   }
 
-
+  const handleCall = () => {
+    const testNumber = '7989786093'; // The test number
+    window.location.href = `tel:+91${testNumber}`;
+  };
+  
   return (
     <>
       {/* Main Content */}
@@ -105,19 +118,19 @@ const CustomerDetails = () => {
           
           footer={
             <div style={{ display: "flex", margin: "0 auto", width: "80%" }}>
-              {order.customerNumber ? (
-                <a
-                  href={`tel:+91${String(order.customerNumber)}`}
-                  style={{ width: "100%" }}
-                >
-                  <Button fullWidth variant="primary" iconName="call">
-                    Call
-                  </Button>
-                </a>
-              ) : (
-                <p>No contact number available</p>
-              )}
-            </div>
+    {order.customerNumber ? (
+      <Button
+        fullWidth
+        variant="primary"
+        iconName="call"
+        onClick={handleCall}
+      >
+        Call
+      </Button>
+    ) : (
+      <p>No contact number available</p>
+    )}
+  </div>
           }
         >
           {order.address?.address}, {order.address?.zipCode}
@@ -223,7 +236,6 @@ const CustomerDetails = () => {
 
           <button
             onClick={() => setVisible(false)}
-            fullWidth
             className="custom-button"
           >
             Go Back

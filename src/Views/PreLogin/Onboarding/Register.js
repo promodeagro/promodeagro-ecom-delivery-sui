@@ -15,7 +15,7 @@ const Register = () => {
     {
       step: "Step 1",
       title: "Personal Details",
-      path: "/app/register/personal-details",
+      path: "/auth/register/personal-details",
     },
     {
       step: "Step 2",

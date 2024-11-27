@@ -14,15 +14,16 @@ const CustomerDetails = lazy(() =>
   import("./Postlogin/Home/Pending/CustomerDetails")
 );
 const Pending = lazy(() => import("./Postlogin/Home/Pending"));
+const ProfileDetail = lazy(() => import("./Postlogin/ProfileDetail"))
 const CreateNewPassword = lazy(() => import("./PreLogin/CreateNewPassword"));
 const Notifications = lazy(() => import("./Postlogin/Notifications/index"));
 const Captureorder = lazy(() =>
   import("./Postlogin/Home/Pending/CustomerDetails/Captureorder")
 );
 const OtpVerification = lazy(() => import("./PreLogin/OtpVerification"));
-
-// const Undelivered = lazy(() => import("./Postlogin/Home/Undelivered"));
-const Undelivered = lazy(() => import ("./Postlogin/Home/Undelivered/Undelivered"));
+const Undelivered = lazy(() =>
+  import("./Postlogin/Home/Undelivered/Undelivered")
+);
 const CapturedVerify = lazy(() =>
   import("./Postlogin/Home/Pending/CustomerDetails/Captureorder/CaptureVerify")
 );
@@ -32,10 +33,8 @@ const Payment = lazy(() =>
   )
 );
 const Delivered = lazy(() => import("./Postlogin/Home/Delivered"));
-
 const PathNotFOund = lazy(() => import("./PathNotFound"));
 const Signin = lazy(() => import("./PreLogin/Signin"));
-const Signup = lazy(() => import("./PreLogin/Signup"));
 const ForgotPassword = lazy(() => import("./PreLogin/ForgotPassword"));
 const Views = () => {
   return (
@@ -53,6 +52,11 @@ const Views = () => {
             exact
             path={`${PREFIX_APP_PATH}/home/runsheet/delivered`}
             element={<Delivered />}
+          />
+          <Route
+            exact
+            path={`${PREFIX_APP_PATH}/home/profileDetail`}
+            element={<ProfileDetail />}
           />
           <Route
             exact
@@ -96,32 +100,27 @@ const Views = () => {
           />
           <Route
             exact
-            path={`${PREFIX_AUTH_PATH}/signup`}
-            element={<Signup />}
-          />
-          <Route
-            exact
             path={`${PREFIX_AUTH_PATH}/register`}
             element={<Register />}
           />
           <Route
             exact
-            path={`${PREFIX_APP_PATH}/register/personal-details`}
+            path={`${PREFIX_AUTH_PATH}/register/personal-details`}
             element={<PersonalDetails />}
           />
           <Route
             exact
-            path={`${PREFIX_APP_PATH}/register/bank-details`}
+            path={`${PREFIX_AUTH_PATH}/register/bank-details`}
             element={<BankDetails />}
           />
           <Route
             exact
-            path={`${PREFIX_APP_PATH}/register/documents`}
+            path={`${PREFIX_AUTH_PATH}/register/documents`}
             element={<Documents />}
           />
           <Route
             exact
-            path={`${PREFIX_APP_PATH}/register/review-and-submit`}
+            path={`${PREFIX_AUTH_PATH}/register/review-and-submit`}
             element={<ReviewAndSubmit />}
           />
           <Route

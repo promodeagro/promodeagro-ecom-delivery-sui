@@ -6,7 +6,7 @@ import {
   FileUpload,
   Header,
 } from "@cloudscape-design/components";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { fetchUploadUrl } from "Redux-Store/Onboarding/onboardingThunk";
 import { setDocuments } from "Redux-Store/Onboarding/onboardingSlice";
 import { useNavigate } from "react-router-dom";
