@@ -83,11 +83,6 @@ const CustomerDetails = () => {
     return <Box variant="h3">Order not found</Box>;
   }
 
-  const handleCall = () => {
-    const testNumber = '7989786093'; // The test number
-    // Directly redirect to the dialer screen with the specified number
-    window.location.href = `tel:+91${testNumber}`;
-  };
 
   return (
     <>
@@ -119,19 +114,19 @@ const CustomerDetails = () => {
           
           footer={
             <div style={{ display: "flex", margin: "0 auto", width: "80%" }}>
-    {order.customerNumber ? (
-      <Button
-        fullWidth
-        variant="primary"
-        iconName="call"
-        onClick={handleCall}
-      >
-        Call
-      </Button>
-    ) : (
-      <p>No contact number available</p>
-    )}
-  </div>
+              {order.customerNumber ? (
+                <a
+                  href={`tel:+91${String(order.customerNumber)}`}
+                  style={{ width: "100%" }}
+                >
+                  <Button fullWidth variant="primary" iconName="call">
+                    Call
+                  </Button>
+                </a>
+              ) : (
+                <p>No contact number available</p>
+              )}
+            </div>
           }
         >
           {order.address?.address}, {order.address?.zipCode}
