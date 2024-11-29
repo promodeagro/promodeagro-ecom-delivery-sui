@@ -15,14 +15,13 @@ const CustomerDetails = lazy(() =>
 );
 const Pending = lazy(() => import("./Postlogin/Home/Pending"));
 const ProfileDetail = lazy(() => import("./Postlogin/ProfileDetail"))
-const CreateNewPassword = lazy(() => import("./PreLogin/CreateNewPassword"));
 const Notifications = lazy(() => import("./Postlogin/Notifications/index"));
 const Captureorder = lazy(() =>
   import("./Postlogin/Home/Pending/CustomerDetails/Captureorder")
 );
 const OtpVerification = lazy(() => import("./PreLogin/OtpVerification"));
 const Undelivered = lazy(() =>
-  import("./Postlogin/Home/Undelivered/Undelivered")
+  import("./Postlogin/Home/Undelivered")
 );
 const CapturedVerify = lazy(() =>
   import("./Postlogin/Home/Pending/CustomerDetails/Captureorder/CaptureVerify")
@@ -35,7 +34,6 @@ const Payment = lazy(() =>
 const Delivered = lazy(() => import("./Postlogin/Home/Delivered"));
 const PathNotFOund = lazy(() => import("./PathNotFound"));
 const Signin = lazy(() => import("./PreLogin/Signin"));
-const ForgotPassword = lazy(() => import("./PreLogin/ForgotPassword"));
 const Views = () => {
   return (
     <>
@@ -92,13 +90,8 @@ const Views = () => {
             exact
             path={`${PREFIX_AUTH_PATH}/signin`}
             element={<Signin />}
-          />{" "}
-          <Route
-            exact
-            path={`${PREFIX_AUTH_PATH}/create-password`}
-            element={<CreateNewPassword />}
           />
-          <Route
+                    <Route
             exact
             path={`${PREFIX_AUTH_PATH}/register`}
             element={<Register />}
@@ -127,11 +120,6 @@ const Views = () => {
             exact
             path={`${PREFIX_AUTH_PATH}/register/application-status`}
             element={<ApplicationStatus />}
-          />
-          <Route
-            exact
-            path={`${PREFIX_AUTH_PATH}/forgot-password`}
-            element={<ForgotPassword />}
           />
           <Route
             exact

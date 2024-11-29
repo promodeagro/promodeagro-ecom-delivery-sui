@@ -2,25 +2,36 @@ import React from "react";
 import TopNavigation from "@cloudscape-design/components/top-navigation";
 import Logo from "../../Assets/Images/Logo.png";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { signOut } from "../../Redux-Store/Signout/SignoutThunk";
 
 const Topbar = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // Retrieve user information from localStorage
   const userInfo = JSON.parse(localStorage.getItem("userinfo"));
   const fullName = userInfo ? userInfo.personalDetails.fullName : "Guest";
-  const email = userInfo
-    ? userInfo.personalDetails.email
-    : "No email available";
+  const email = userInfo ? userInfo.personalDetails.email : "No email available";
 
   // Handle menu item clicks
-  const handleUtilityItemClick = (itemId) => {
+  const handleUtilityItemClick = async (itemId) => {
     if (itemId === "profile") {
       navigate("/app/home/profileDetail"); // Navigate to profile details page
     } else if (itemId === "signout") {
-      // Handle sign out logic (e.g., clearing localStorage, redirecting to login)
-      localStorage.removeItem("userinfo");
-      navigate("/login");
+      try {
+        const response = await dispatch(signOut()).unwrap(); // Await API response
+        if (response.success || response.message === "Successfully signed out") {
+          localStorage.clear(); // Clear all local storage
+          navigate("/auth/signin"); // Redirect to sign-in page
+        } else {
+          console.error("Signout failed:", response.message);
+        }
+      } catch (error) {
+        console.error("Error during signout:", error);
+        localStorage.clear(); // Clear local storage as a fallback
+        navigate("/auth/signin"); // Redirect to sign-in page
+      }
     }
   };
 

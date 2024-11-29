@@ -1,13 +1,14 @@
+import React, { useEffect, useState } from "react";
 import {
   Badge,
   Box,
   Button,
   Container,
   Header,
+  Modal,
   SpaceBetween,
   StatusIndicator,
 } from "@cloudscape-design/components";
-import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { fetchRunsheetDetail } from "Redux-Store/Home/homeThunk";
@@ -16,8 +17,11 @@ const CapturedVerified = () => {
   const { runsheetId, orderId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isModalVisible, setModalVisible] = useState(false);
 
-  const runsheetDetail = useSelector((state) => state.runsheet.runsheetDetail?.data);
+  const runsheetDetail = useSelector(
+    (state) => state.runsheet.runsheetDetail?.data
+  );
   const order = runsheetDetail?.orders?.find((o) => o.id === orderId);
 
   useEffect(() => {
@@ -33,8 +37,8 @@ const CapturedVerified = () => {
     return <Box variant="h3">Order not found</Box>;
   }
 
-  
   return (
+    <div style={{height:'100vh'}}>
     <SpaceBetween size="m">
       <Header variant="h2">
         <SpaceBetween size="xs" direction="horizontal" alignItems="center">
@@ -52,7 +56,7 @@ const CapturedVerified = () => {
             <Box variant="h3">
               <span style={{ color: "#0972D3" }}>{order.customerName}</span>
             </Box>
-            {/* <Badge>COD</Badge> */}
+            <Badge>{order.paymentDetails?.method}</Badge>
           </SpaceBetween>
         }
         footer={
@@ -96,24 +100,62 @@ const CapturedVerified = () => {
         style={{
           display: "flex",
           margin: "0 auto",
-          width: "70%",
-          marginTop: "36%",
+          width: "80%",
+         position: "absolute", right: 30, bottom: "10%", left: 30 
+
         }}
       >
-     <Button
-  onClick={() =>
-    navigate(
-      `/app/home/runsheet/${runsheetId}/customer-details/order/${order.id}/captured-verified/payment`
-    )
-  }
-  variant="primary"
-  fullWidth
->
-  Collect Amount
-</Button>
-
+        {order.paymentDetails?.method === "cash" ? (
+          <Button
+            onClick={() =>
+              navigate(
+                `/app/home/runsheet/${runsheetId}/customer-details/order/${order.id}/captured-verified/payment`
+              )
+            }
+            variant="primary"
+            fullWidth
+          >
+            Collect Amount
+          </Button>
+        ) : order.paymentDetails?.method === "prepaid" ? (
+          <Button
+            onClick={() => setModalVisible(true)}
+            variant="primary"
+            fullWidth
+          >
+            Delivered Order
+          </Button>
+        ) : null}
       </div>
+      <Modal
+        onDismiss={() => setModalVisible(false)}
+        visible={isModalVisible}
+        footer={
+          <Box float="right">
+            <SpaceBetween direction="horizontal" size="xs">
+              <Button variant="link" onClick={() => setModalVisible(false)}>
+                Cancel
+              </Button>
+              <Button
+                variant="primary"
+                onClick={() => {
+                  setModalVisible(false);
+                  navigate(
+                    `/app/home/runsheet/${runsheetId}/customer-details/order/${order.id}/delivered`
+                  );
+                }}
+              >
+                Ok
+              </Button>
+            </SpaceBetween>
+          </Box>
+        }
+        header="Delivered Confirmation"
+      >
+        Are you sure you want to mark this order as delivered?
+      </Modal>
     </SpaceBetween>
+    </div>
   );
 };
 

@@ -29,7 +29,11 @@ const Home = () => {
     }
 
     try {
-      await dispatch(acceptRunSheetAPI({ riderId, runsheetId }));
+      const response = await dispatch(acceptRunSheetAPI({ riderId, runsheetId }));
+      if (response?.meta?.requestStatus === "fulfilled") {
+        // Reload the page to refresh data
+        window.location.reload();
+      }
     } catch (err) {
       console.error("Error accepting runsheet:", err);
     }
@@ -71,7 +75,7 @@ const Home = () => {
           status,
         } = sheet;
         return (
-          <Container
+          <Container  
           key={index}
           header={
             <Header
