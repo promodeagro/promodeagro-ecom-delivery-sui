@@ -62,7 +62,14 @@ const Home = () => {
 
   return (
     <SpaceBetween size="m">
-      <Header variant="h3">
+      <Header variant="h3"        actions={
+          <Button
+            variant="icon"
+            iconName="refresh"
+            onClick={() => window.location.reload()}
+          />
+        }
+>
         <span className="header_underline">Home</span>
       </Header>
       {runsheet.data.map((sheet, index) => {

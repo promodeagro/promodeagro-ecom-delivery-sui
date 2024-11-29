@@ -101,7 +101,7 @@ const CapturedVerified = () => {
           display: "flex",
           margin: "0 auto",
           width: "80%",
-         position: "absolute", right: 30, bottom: "10%", left: 30 
+         position: "absolute", right: 30, bottom: "16%", left: 30 
 
         }}
       >

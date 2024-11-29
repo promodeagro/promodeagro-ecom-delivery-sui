@@ -8,19 +8,18 @@ import { signOut } from "../../Redux-Store/Signout/SignoutThunk";
 const Topbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  // Retrieve user information from localStorage
   const userInfo = JSON.parse(localStorage.getItem("userinfo"));
   const fullName = userInfo ? userInfo.personalDetails.fullName : "Guest";
   const email = userInfo ? userInfo.personalDetails.email : "No email available";
 
-  // Handle menu item clicks
   const handleUtilityItemClick = async (itemId) => {
     if (itemId === "profile") {
       navigate("/app/home/profileDetail"); // Navigate to profile details page
     } else if (itemId === "signout") {
       try {
+        console.log("Signing out..."); // Log signing out
         const response = await dispatch(signOut()).unwrap(); // Await API response
+        console.log("Response message:", response.message); // Log the response message
         if (response.success || response.message === "Successfully signed out") {
           localStorage.clear(); // Clear all local storage
           navigate("/auth/signin"); // Redirect to sign-in page
