@@ -18,27 +18,23 @@ const Runsheet = () => {
   const dispatch = useDispatch();
   const { runsheetId } = useParams();
   const { runsheet, runsheetDetail } = useSelector((state) => state.runsheet);
-
-  // State to manage selected runsheet in the dropdown
   const [selectedOption, setSelectedOption] = useState({
     label: "Select a Runsheet",
     value: "",
   });
-  const [searchText, setSearchText] = useState(""); // State for search input
-  const [filteredOrders, setFilteredOrders] = useState([]); // Filtered orders based on search
-  const [hasFetchedRunsheetDetail, setHasFetchedRunsheetDetail] = useState(false); // To track if details are fetched
+  const [searchText, setSearchText] = useState("");
+  const [filteredOrders, setFilteredOrders] = useState([]);
+  const [hasFetchedRunsheetDetail, setHasFetchedRunsheetDetail] =
+    useState(false);
+  const runsheetData = runsheet?.data || [];
 
-  const runsheetData = runsheet?.data || []; // Safeguard against undefined runsheet.data
-
-  // Fetch all runsheets when the component mounts
   useEffect(() => {
     dispatch(fetchRunsheet());
   }, [dispatch]);
 
-  // Fetch details of a specific runsheet if runsheetId changes
   useEffect(() => {
     if (runsheetId && !hasFetchedRunsheetDetail) {
-      const riderId = localStorage.getItem("id")?.replace(/['"]+/g, ""); // Extract riderId
+      const riderId = localStorage.getItem("id")?.replace(/['"]+/g, "");
       if (riderId) {
         dispatch(fetchRunsheetDetail({ riderId, runsheetId }));
         setHasFetchedRunsheetDetail(true);
@@ -46,9 +42,8 @@ const Runsheet = () => {
     }
   }, [dispatch, runsheetId, hasFetchedRunsheetDetail]);
 
-  // Filter orders when search text or runsheetDetail changes
   useEffect(() => {
-    const orders = runsheetDetail?.data?.orders || []; // Access orders safely
+    const orders = runsheetDetail?.data?.orders || [];
     if (searchText) {
       const filtered = orders.filter((order) =>
         order.customerName.toLowerCase().includes(searchText.toLowerCase())
@@ -59,34 +54,32 @@ const Runsheet = () => {
     }
   }, [searchText, runsheetDetail]);
 
-  // Handle dropdown selection changes
   const handleSelectChange = (e) => {
     const selectedRunsheet = e.detail.selectedOption;
     setSelectedOption(selectedRunsheet);
 
     if (selectedRunsheet?.value) {
       navigate(`/app/home/runsheet/${selectedRunsheet.value}`);
-      setHasFetchedRunsheetDetail(false); // Reset to allow fetching new details
+      setHasFetchedRunsheetDetail(false);
     }
   };
 
-  // Effect to automatically select the runsheet based on the URL
-useEffect(() => {
-  if (runsheetId) {
-    const matchingRunsheet = runsheetData.find((sheet) => sheet.id === runsheetId);
-    if (matchingRunsheet) {
-      setSelectedOption({
-        label: `Runsheet (${matchingRunsheet.id})`,
-        value: matchingRunsheet.id,
-      });
+  useEffect(() => {
+    if (runsheetId) {
+      const matchingRunsheet = runsheetData.find(
+        (sheet) => sheet.id === runsheetId
+      );
+      if (matchingRunsheet) {
+        setSelectedOption({
+          label: `Runsheet (${matchingRunsheet.id})`,
+          value: matchingRunsheet.id,
+        });
+      }
     }
-  }
-}, [runsheetId, runsheetData]);
-
+  }, [runsheetId, runsheetData]);
 
   return (
     <>
-      {/* Header with Refresh Button and Dropdown */}
       <Header
         variant="h2"
         actions={
@@ -105,10 +98,7 @@ useEffect(() => {
             value: sheet.id,
           }))}
         />
-        
       </Header>
-
-      {/* Runsheet Summary Boxes */}
       <div
         style={{ marginTop: 10, marginBottom: 18 }}
         className="home_custom_box_wrapper pointer"
@@ -118,7 +108,7 @@ useEffect(() => {
           <span className="runsheet_box_label blue_underline">Pending</span>
         </div>
         <div
-          onClick={() => navigate("/app/home/runsheet/delivered")}
+          onClick={() => navigate(`/app/home/runsheet/${runsheetId}/delivered`)}
           style={{ background: "#037F0C" }}
           className="runsheet_box pointer"
         >
@@ -126,7 +116,9 @@ useEffect(() => {
           <span className="runsheet_box_label">Delivered</span>
         </div>
         <div
-          onClick={() => navigate("/app/home/runsheet/undelivered")}
+          onClick={() =>
+            navigate(`/app/home/runsheet/${runsheetId}/undelivered`)
+          }
           style={{ background: "#D91515" }}
           className="runsheet_box pointer"
         >
@@ -134,13 +126,11 @@ useEffect(() => {
           <span className="runsheet_box_label">Undelivered</span>
         </div>
       </div>
-
       <TextFilter
         filteringText={searchText}
         filteringPlaceholder="Search by customer name"
         onChange={(e) => setSearchText(e.detail.filteringText)}
       />
-
       <div style={{ marginTop: 18, marginBottom: 18 }}>
         <Box variant="h4">
           <span className="gray_underline">
@@ -148,7 +138,6 @@ useEffect(() => {
           </span>
         </Box>
       </div>
-
       <SpaceBetween direction="vertical" size="l">
         {filteredOrders.length > 0 ? (
           filteredOrders.map((order, index) => (
@@ -156,7 +145,9 @@ useEffect(() => {
               key={index}
               style={{ cursor: "pointer" }}
               onClick={() =>
-                navigate(`/app/home/runsheet/${runsheetId}/order/${order.id}/customer-details`)
+                navigate(
+                  `/app/home/runsheet/${runsheetId}/order/${order.id}/customer-details`
+                )
               }
             >
               <Container
@@ -168,7 +159,9 @@ useEffect(() => {
                   >
                     <Box variant="h3">
                       <div style={{ display: "flex", gap: "0.5rem" }}>
-                        <span style={{ color: "#0972D3" }}>{order.customerName}</span>
+                        <span style={{ color: "#0972D3" }}>
+                          {order.customerName}
+                        </span>
                         <Badge>{order.paymentDetails?.method}</Badge>
                       </div>
                     </Box>
@@ -177,7 +170,8 @@ useEffect(() => {
                 footer={
                   <div className="flex jcsb aic">
                     <Box variant="h5">
-                      Payment : <span className="blue"> ₹ {order.totalPrice} </span>
+                      Payment :{" "}
+                      <span className="blue"> ₹ {order.totalPrice} </span>
                     </Box>
                     <Box variant="h5">{order.items?.length || 0} Items</Box>
                   </div>

@@ -2,8 +2,10 @@ import { configureStore } from "@reduxjs/toolkit";
 import SigninSlice from "./Signin/SigninSlice";
 import onboardingReducer from "./Onboarding/onboardingSlice"; 
 import runsheetReducer from "./Home/homeSlice";
-import signoutReducer from "./Signout/SignoutSlice"
+import signoutReducer from "./Signout/SignoutSlice";
+import notificationReducer from './Notification/NotificationSlice';
 
+import uploadReducer from "./Uploadimage/UploadSlice"
 
 const store = configureStore({
   reducer: {
@@ -11,6 +13,9 @@ const store = configureStore({
     onboarding: onboardingReducer, 
     runsheet: runsheetReducer,
     signout: signoutReducer,
+    notifications: notificationReducer,
+    upload: uploadReducer, // Add the upload reducer here
+
 
   },
 });

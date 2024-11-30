@@ -28,7 +28,7 @@ const BankDetails = () => {
           ifsc: ifsc,
         })
       );
-      navigate("/app/register/documents"); // Move to the next step after form submission
+      navigate("/auth/register/documents"); // Move to the next step after form submission
     }
   };
 
@@ -53,6 +53,8 @@ const BankDetails = () => {
   }, []);
 
   return (
+    <div style={{padding: '1rem 0 0 0'}}>
+
     <SpaceBetween size="xxl">
       <Header variant="h1">
         <span style={{ fontSize: "32px", fontWeight: "600" }}>Bank Details</span>
@@ -104,12 +106,14 @@ const BankDetails = () => {
         </FormField>
       </SpaceBetween>
 
-      <div style={{ position: "absolute", right: 30, bottom: "10%", left: 30 }}>
+      <div style={{ width: '80%', display: 'flex', margin: '0 auto',marginTop: '100%' }}>
         <Button variant="primary" fullWidth onClick={handleSubmit}>
           Complete
         </Button>
       </div>
     </SpaceBetween>
+    </div>
+
   );
 };
 

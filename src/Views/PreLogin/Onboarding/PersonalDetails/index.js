@@ -1,13 +1,19 @@
-import { Button, FormField, Header, Input, Select, SpaceBetween } from '@cloudscape-design/components';
-import React, { useState, useEffect } from 'react';
-import { setPersonalDetails } from 'Redux-Store/Onboarding/onboardingSlice';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+import {
+  Button,
+  FormField,
+  Header,
+  Input,
+  Select,
+  SpaceBetween,
+} from "@cloudscape-design/components";
+import React, { useState, useEffect } from "react";
+import { setPersonalDetails } from "Redux-Store/Onboarding/onboardingSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 
 const PersonalDetails = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const [fullName, setFullName] = useState("");
   const [DOB, setDOB] = useState("");
   const [number, setNumber] = useState("");
@@ -38,8 +44,6 @@ const PersonalDetails = () => {
 
   const handleSubmit = () => {
     const errors = {};
-  
-    // Form validation
     if (!fullName) errors.fullName = true;
     if (!DOB || !/^\d{2}\/\d{2}\/\d{4}$/.test(DOB)) errors.DOB = true; // Date validation
     if (!number) errors.number = true;
@@ -52,17 +56,13 @@ const PersonalDetails = () => {
     if (!pincode) errors.pincode = true;
     if (!relation) errors.relation = true;
     if (!referenceMobile) errors.referenceMobile = true;
-  
     setFormErrors(errors);
-  
+
     if (Object.keys(errors).length === 0) {
-      // Convert DOB to ISO format "YYYY-MM-DDT00:00:00Z"
-      const formattedDOB = DOB.split('/').reverse().join('-') + "T00:00:00Z"; // Convert to YYYY-MM-DD format
-  
-      // Log form data to ensure it's correct
+      const formattedDOB = DOB.split("/").reverse().join("-") + "T00:00:00Z"; // Convert to YYYY-MM-DD format
       console.log("Submitting form with data: ", {
         fullName,
-        number, // Include mobileNumber here
+        number,
         dob: formattedDOB,
         email,
         address: {
@@ -78,13 +78,11 @@ const PersonalDetails = () => {
           number: referenceMobile,
         },
       });
-  
-      // Dispatch the setPersonalDetails action
       dispatch(
         setPersonalDetails({
           fullName,
-          number, // Include mobileNumber here
-          dob: formattedDOB,  // Use the formatted DOB
+          number, 
+          dob: formattedDOB, 
           email,
           address: {
             address1: addressLine1,
@@ -100,61 +98,71 @@ const PersonalDetails = () => {
           },
         })
       );
-  
-      // Navigate to next screen
-      navigate("/app/register/bank-details");
+      navigate("/auth/register/bank-details");
     }
   };
-  
+
   useEffect(() => {
     const handleBeforeUnload = (event) => {
-      // Customize the message that appears in the confirmation dialog
-      const message = "Refreshing will reset your form data. Are you sure you want to proceed?";
-      
-      event.returnValue = message;  // Standard way to trigger the confirmation dialog
-      return message;  // Some browsers require this line for the message to be shown
+      const message =
+        "Refreshing will reset your form data. Are you sure you want to proceed?";
+      event.returnValue = message; // Standard way to trigger the confirmation dialog
+      return message; // Some browsers require this line for the message to be shown
     };
-
-    // Attach the event listener when the component mounts
     window.addEventListener("beforeunload", handleBeforeUnload);
-
-    // Clean up the event listener when the component unmounts
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, []);
 
-
   return (
-    <SpaceBetween direction="vertical" size="xxl"> 
-
+    <div style={{padding: '1rem 0 0 0'}}>
+    <SpaceBetween direction="vertical" size="xl">
       <Header variant="h1">
-        <span style={{ fontSize: '32px', fontWeight: '600' }}>Personal Details</span>
+        <span style={{ fontSize: "32px", fontWeight: "600" }}>
+          Personal Details
+        </span>
       </Header>
-
       <SpaceBetween direction="vertical" size="l">
         <SpaceBetween direction="vertical" size="m">
           <Input
-            onChange={(e) => setFullName(e.detail.value)}
+            onChange={(e) => {
+              setFullName(e.detail.value);
+              setFormErrors((prev) => ({ ...prev, fullName: false }));
+            }}
             value={fullName}
             placeholder="Full Name"
             invalid={formErrors.fullName}
           />
           <Input
             type="text"
-            onChange={(e) => setDOB(e.detail.value)}
+            onChange={(e) => {
+              setDOB(e.detail.value);
+              setFormErrors((prev) => ({ ...prev, DOB: false }));
+            }}
             value={DOB}
             placeholder="D.O.B in DD/MM/YYYY"
             invalid={formErrors.DOB}
           />
           <Input
-            onChange={(e) => setNumber(e.detail.value)}
+            inputMode="numeric"
+            type="number"
+            onChange={(e) => {
+              setNumber(e.detail.value);
+              setFormErrors((prev) => ({ ...prev, number: false }));
+            }}
             value={number}
             placeholder="Mobile Number"
-            invalid={formErrors.mobileNumber}
+            invalid={formErrors.number}
           />
           <Input
-            onChange={(e) => setEmail(e.detail.value)}
+                inputMode="email"
+                type="email"
+          
+            onChange={(e) => {
+              setEmail(e.detail.value);
+              setFormErrors((prev) => ({ ...prev, email: false }));
+            }}
             value={email}
             placeholder="Email ID"
             invalid={formErrors.email}
@@ -163,26 +171,38 @@ const PersonalDetails = () => {
         <FormField label="Address">
           <SpaceBetween size="m" direction="vertical">
             <Input
-              onChange={(e) => setAddressLine1(e.detail.value)}
+              onChange={(e) => {
+                setAddressLine1(e.detail.value);
+                setFormErrors((prev) => ({ ...prev, addressLine1: false }));
+              }}
               value={addressLine1}
               placeholder="Address Line 01"
               invalid={formErrors.addressLine1}
             />
             <Input
-              onChange={(e) => setAddressLine2(e.detail.value)}
+              onChange={(e) => {
+                setAddressLine2(e.detail.value);
+                setFormErrors((prev) => ({ ...prev, addressLine2: false }));
+              }}
               value={addressLine2}
               placeholder="Address Line 02"
               invalid={formErrors.addressLine2}
             />
             <Input
-              onChange={(e) => setLandmark(e.detail.value)}
+              onChange={(e) => {
+                setLandmark(e.detail.value);
+                setFormErrors((prev) => ({ ...prev, landmark: false }));
+              }}
               value={landmark}
               placeholder="Landmark"
               invalid={formErrors.landmark}
             />
             <Select
               placeholder="Select State"
-              onChange={({ detail }) => setState(detail.selectedOption.value)}
+              onChange={({ detail }) => {
+                setState(detail.selectedOption.value);
+                setFormErrors((prev) => ({ ...prev, state: false }));
+              }}
               selectedOption={state ? { value: state } : null}
               options={[
                 { label: "Telangana", value: "Telangana" },
@@ -198,7 +218,10 @@ const PersonalDetails = () => {
             />
             <Select
               placeholder="Select City"
-              onChange={({ detail }) => setCity(detail.selectedOption.value)}
+              onChange={({ detail }) => {
+                setCity(detail.selectedOption.value);
+                setFormErrors((prev) => ({ ...prev, city: false }));
+              }}
               selectedOption={city ? { value: city, label: `${city}` } : null}
               options={[
                 { label: "Hyderabad", value: "Hyderabad" },
@@ -214,7 +237,13 @@ const PersonalDetails = () => {
               invalid={formErrors.city}
             />
             <Input
-              onChange={(e) => setPincode(e.detail.value)}
+                  inputMode="numeric"
+                  type="number"
+            
+              onChange={(e) => {
+                setPincode(e.detail.value);
+                setFormErrors((prev) => ({ ...prev, pincode: false }));
+              }}
               value={pincode}
               placeholder="Pincode"
               invalid={formErrors.pincode}
@@ -225,8 +254,13 @@ const PersonalDetails = () => {
           <SpaceBetween size="m" direction="vertical">
             <Select
               placeholder="Relation"
-              onChange={({ detail }) => setRelation(detail.selectedOption.value)}
-              selectedOption={relation ? { value: relation, label: ` ${relation}` } : null}
+              onChange={({ detail }) => {
+                setRelation(detail.selectedOption.value);
+                setFormErrors((prev) => ({ ...prev, relation: false }));
+              }}
+              selectedOption={
+                relation ? { value: relation, label: ` ${relation}` } : null
+              }
               options={[
                 { label: "Friend", value: "Friend" },
                 { label: "Family", value: "Family" },
@@ -238,20 +272,25 @@ const PersonalDetails = () => {
               invalid={formErrors.relation}
             />
             <Input
-              onChange={(e) => setReferenceMobile(e.detail.value)}
+              inputMode="numeric"
+              type="number"
+              onChange={(e) => {
+                setReferenceMobile(e.detail.value);
+                setFormErrors((prev) => ({ ...prev, referenceMobile: false }));
+              }}
               value={referenceMobile}
               placeholder="Mobile Number"
               invalid={formErrors.referenceMobile}
             />
           </SpaceBetween>
         </FormField>
-
+        <div style={{width: '80%', display:'flex', margin: '0 auto'}}>
         <Button variant="primary" fullWidth onClick={handleSubmit}>
           Complete
-        </Button>
+        </Button></div>
       </SpaceBetween>
-      
     </SpaceBetween>
+    </div>
   );
 };
 

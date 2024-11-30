@@ -15,18 +15,11 @@ import { submitOnboardingData } from "Redux-Store/Onboarding/onboardingThunk";
 const ReviewAndSubmit = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  // Access data from Redux store
   const { personalDetails, bankDetails, documents } = useSelector(
     (state) => state.onboarding
   );
-
-  // Submit handler to trigger the API call
   const handleSubmit = () => {
-    // Dispatch the API call action
     dispatch(submitOnboardingData());
-
-    // After successful submission, navigate to the application status page
     navigate("/auth/register/application-status");
   };
 
@@ -34,31 +27,24 @@ const ReviewAndSubmit = () => {
     const handleBeforeUnload = (event) => {
       const message =
         "Refreshing or navigating away will reset your form data. Are you sure you want to proceed?";
-
-      // Standard way to trigger the confirmation dialog
       event.returnValue = message;
       return message; // Some browsers require this line to show the confirmation dialog
     };
-
-    // Attach the event listener when the component mounts
     window.addEventListener("beforeunload", handleBeforeUnload);
-
-    // Clean up the event listener when the component unmounts
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, []);
 
   return (
-    <SpaceBetween size="xxl">
+    <div style={{padding: '1rem 0 0 0'}}>
+    <SpaceBetween size="xl">
       <Header variant="h1">
         <span style={{ fontSize: "32px", fontWeight: "600" }}>
           Review & Submit
         </span>
       </Header>
-
       <SpaceBetween direction="vertical" size="m">
-        {/* Personal Details Section */}
         <FormField
           label={
             <span
@@ -68,7 +54,7 @@ const ReviewAndSubmit = () => {
                 justifyContent: "space-between",
               }}
             >
-              Personal Details <Button variant="link">Edit</Button>
+              Personal Details 
             </span>
           }
         >
@@ -87,8 +73,6 @@ const ReviewAndSubmit = () => {
             <Input disabled value={personalDetails.reference.number || ""} />
           </SpaceBetween>
         </FormField>
-
-        {/* Bank Details Section */}
         <FormField
           label={
             <span
@@ -98,7 +82,7 @@ const ReviewAndSubmit = () => {
                 justifyContent: "space-between",
               }}
             >
-              Bank Details <Button variant="link">Edit</Button>
+              Bank Details 
             </span>
           }
         >
@@ -108,37 +92,35 @@ const ReviewAndSubmit = () => {
             <Input disabled value={bankDetails.ifsc || ""} />
           </SpaceBetween>
         </FormField>
-
-        {/* Documents Section */}
         <FormField label="Documents">
           <SpaceBetween size="s" direction="horizontal">
             <SpaceBetween direction="vertical" size="s">
-              {/* Display documents dynamically */}
               {documents && documents.length > 0 ? (
                 documents.map((doc, index) => {
                   const docKey = Object.keys(doc)[0]; // Get the key (e.g., 'userPhoto')
                   const file = doc[docKey][0]; // Get the first file object (assuming only one file)
-
                   return (
-                    <Box key={index} display="flex" alignItems="center">
+                    <Box key={index}>
+                      <div style={{display: 'flex', gap: '0.5rem'}}>
+                        <span style={{marginTop:'0.2rem'}}>
                       <Icon
                         name="status-positive"
                         size="small"
                         variant="success"
-                        style={{ marginRight: "8px" }}
-                      />
+                      /></span>
                       {file ? (
                         <span>
                           <strong>{doc.name}</strong>
                           <Box>File Size: {file.size || "Unknown"}</Box>
                           <Box>
-                            Last Modified:{" "}
+                            Last Modified:
                             {file.lastModified ? new Date(file.lastModified).toLocaleDateString() : "Unknown"}
                           </Box>
                         </span>
                       ) : (
                         <span>No {docKey} uploaded</span>
                       )}
+                      </div>
                     </Box>
                   );
                 })
@@ -148,12 +130,14 @@ const ReviewAndSubmit = () => {
             </SpaceBetween>
           </SpaceBetween>
         </FormField>
-
+        <div style={{width: '80%', display:'flex', margin: '0 auto'}}>
         <Button onClick={handleSubmit} variant="primary" fullWidth>
           Submit
         </Button>
+        </div>
       </SpaceBetween>
     </SpaceBetween>
+        </div>
   );
 };
 

@@ -80,7 +80,7 @@ const Documents = () => {
         // Dispatch with the correct structure
         dispatch(setDocuments(validDocuments));
   
-        navigate("/app/register/review-and-submit");
+        navigate("/auth/register/review-and-submit");
       } catch (error) {
         console.error("Error uploading files:", error);
       }
@@ -101,7 +101,9 @@ const Documents = () => {
   }, []);
 
   return (
-    <SpaceBetween size="xxl">
+    <div style={{padding: '1rem 0 0 0'}}>
+
+    <SpaceBetween size="xl">
       <Header variant="h1">
         <span style={{ fontSize: "32px", fontWeight: "600" }}>Documents</span>
       </Header>
@@ -120,10 +122,10 @@ const Documents = () => {
             showFileSize
             showFileThumbnail
             tokenLimit={3}
-            errorText={errors.userPhoto || ""}
+            errorText={errors.userPhoto ? "Please select a file" : ""}
+
           />
         </FormField>
-
         <FormField label="Aadhar Front">
           <FileUpload
               onChange={handleFileChange(setAadharFront, 'aadharFront')}
@@ -291,11 +293,14 @@ const Documents = () => {
           />
         </FormField>
       </SpaceBetween>
+      <div style={{width: '80%', display:'flex', margin: '0 auto'}}>
 
       <Button onClick={handleSubmit} variant="primary" fullWidth>
         Complete
-      </Button>
+      </Button></div>
     </SpaceBetween>
+    </div>
+
   );
 };
 

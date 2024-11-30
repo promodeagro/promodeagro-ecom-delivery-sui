@@ -1,12 +1,15 @@
-import { Button } from "@cloudscape-design/components";
+import { Button } from "@cloudscape-design/components"; 
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Icon from "@cloudscape-design/components/icon";
+import { useDispatch } from "react-redux"; // Import useDispatch
+import { uploadFile } from "Redux-Store/Uploadimage/UploadThunk";
 
 const VerifiedOrder = () => {
   const { runsheetId, orderId } = useParams(); // Extract dynamic route params
-
   const navigate = useNavigate();
+  const dispatch = useDispatch(); // Initialize dispatch
+
   const [visible, setVisible] = useState(false);
   const [isCaptured, setIsCaptured] = useState(false);
   const [photo, setPhoto] = useState(null);
@@ -61,11 +64,32 @@ const VerifiedOrder = () => {
         setVisible(false);
       }, 2000);
     } else {
-      
       setPhoto(null);
       setIsPhotoTaken(false);
       setIsCaptured(false);
       startCamera(); 
+    }
+  };
+
+  const handleVerifyClick = async () => {
+    if (photo && isCaptured) {
+      // Convert the photo (base64) to a Blob object to upload
+      const blob = await fetch(photo).then(res => res.blob());
+      const file = new File([blob], "captured-photo.jpg", { type: "image/jpeg" });
+      
+      // Dispatch the uploadFile action
+      dispatch(uploadFile(file)).then((result) => {
+        if (result.meta.requestStatus === "fulfilled") {
+          // Navigate if upload is successful
+          navigate(
+            `/app/home/runsheet/${runsheetId}/customer-details/order/${orderId}/captured-verify`
+          );
+        } else {
+          alert("Upload failed. Please try again.");
+        }
+      });
+    } else {
+      alert("No photo captured yet.");
     }
   };
 
@@ -83,7 +107,6 @@ const VerifiedOrder = () => {
         height: "100%",
         flexDirection: "column",
         backgroundColor: "#000716",
-
       }}
     >
       {!isPhotoTaken && (
@@ -145,15 +168,11 @@ const VerifiedOrder = () => {
           </span>
         </Button>
         <div style={{ display: "flex", margin: "0 auto", width: "70%" }}>
-        <Button
+          <Button
             disabled={!isCaptured}
             fullWidth
             variant="primary"
-            onClick={() =>
-              navigate(
-                `/app/home/runsheet/${runsheetId}/customer-details/order/${orderId}/captured-verify`
-              )
-            }
+            onClick={handleVerifyClick} // Call handleVerifyClick on click
           >
             Verified
           </Button>
@@ -191,7 +210,6 @@ const VerifiedOrder = () => {
       )}
     </div>
   );
-  
 };
 
 export default VerifiedOrder;

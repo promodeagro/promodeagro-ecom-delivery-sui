@@ -43,12 +43,12 @@ const Views = () => {
           <Route path="/app/home/runsheet/:runsheetId" element={<Pending />} />
           <Route
             exact
-            path={`${PREFIX_APP_PATH}/home/runsheet/undelivered`}
+            path={`${PREFIX_APP_PATH}/home/runsheet/:runsheetId/undelivered`}
             element={<Undelivered />}
           />
           <Route
             exact
-            path={`${PREFIX_APP_PATH}/home/runsheet/delivered`}
+            path={`${PREFIX_APP_PATH}/home/runsheet/:runsheetId/delivered`}
             element={<Delivered />}
           />
           <Route

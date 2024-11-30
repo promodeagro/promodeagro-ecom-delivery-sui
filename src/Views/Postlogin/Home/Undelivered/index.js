@@ -7,27 +7,41 @@ import {
   Header,
   SpaceBetween,
 } from "@cloudscape-design/components";
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchRunsheetDetail } from "Redux-Store/Home/homeThunk";
 
 const Undelivered = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { runsheetId } = useParams();
+  const { runsheetDetail, loading, error } = useSelector(
+    (state) => state.runsheet
+  );
 
-  // Function to refresh the page
+  useEffect(() => {
+    const riderId = localStorage.getItem("id")?.replace(/['"]+/g, ""); // Get rider ID
+    if (riderId && runsheetId) {
+      dispatch(fetchRunsheetDetail({ riderId, runsheetId }));
+    }
+  }, [dispatch, runsheetId]);
+
   const handleRefresh = () => {
     window.location.reload();
   };
+
+  const undeliveredOrders =
+    runsheetDetail?.data?.orders?.filter(
+      (order) => order.status === "cancelled"
+    ) || [];
 
   return (
     <ContentLayout disableOverlap headerVariant="high-contrast">
       <Header
         variant="h3"
         actions={
-          <Button
-            variant="icon"
-            iconName="refresh"
-            onClick={handleRefresh} // Attach refresh handler
-          />
+          <Button variant="icon" iconName="refresh" onClick={handleRefresh} />
         }
       >
         <SpaceBetween size="xxs" direction="horizontal" alignItems="center">
@@ -40,47 +54,73 @@ const Undelivered = () => {
         </SpaceBetween>
       </Header>
       <div style={{ marginTop: 18 }}>
-        <SpaceBetween direction="vertical" size="l">
-          <Container
-            header={
-              <Header actions={<Badge color="red">Undelivered</Badge>}>
-                <SpaceBetween
-                  direction="horizontal"
-                  alignItems="center"
-                  size="xs"
-                >
-                  Maruti S <Badge>COD</Badge>
-                </SpaceBetween>
-              </Header>
-            }
-            footer={
-              <SpaceBetween direction="vertical" size="m">
-                <div className="jcsb flex aic">
-                  <Box variant="strong">
-                    Payment : ₹ <span className="blue">2980</span>
-                  </Box>
-                  <Box variant="strong">16 Items</Box>
-                </div>
-                <Box>Reason</Box>
-                <Box>
-                  <span className="undelevered_border">
-                    Requested for reschedule
-                  </span>
-                </Box>
-                <Button
-                  onClick={() => navigate("/app/customer-details")}
-                  variant="primary"
-                  fullWidth
-                >
-                  Reattempt
-                </Button>
-              </SpaceBetween>
-            }
+        {loading ? (
+          <Box variant="strong">Loading...</Box>
+        ) : error ? (
+          <Box variant="strong" color="red">
+            {error}
+          </Box>
+        ) : undeliveredOrders.length > 0 ? (
+          <SpaceBetween direction="vertical" size="l">
+            {undeliveredOrders.map((order) => (
+              <Container
+                key={order.id}
+                header={
+                  <Header actions={<Badge color="red">Undelivered</Badge>}>
+                    <SpaceBetween
+                      direction="horizontal"
+                      alignItems="center"
+                      size="xs"
+                    >
+                      <span className="blue"> {order.customerName}</span>{" "}
+                      <Badge>{order.paymentDetails?.method}</Badge>
+                    </SpaceBetween>
+                  </Header>
+                }
+                footer={
+                  <SpaceBetween direction="vertical" size="m">
+                    <div className="jcsb flex aic">
+                      <Box variant="strong">
+                        Payment: ₹{" "}
+                        <span className="blue">{order.totalPrice}</span>
+                      </Box>
+                      <Box variant="strong">{order.items?.length} Items</Box>
+                    </div>
+                    <Box>Reason</Box>
+                    <Box>
+                      <span className="undelevered_border">
+                        {order.cancellationData?.cancelReason}
+                      </span>
+                    </Box>
+                    <Button
+                      onClick={() =>
+                        navigate(`/app/customer-details/${order.id}`)
+                      }
+                      variant="primary"
+                      fullWidth
+                    >
+                      Reattempt
+                    </Button>
+                  </SpaceBetween>
+                }
+              >
+                {order.address?.address}, {order.address?.zipCode}
+              </Container>
+            ))}
+          </SpaceBetween>
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              height: "100vh",
+              marginTop: "50%",
+              fontWeight: "bold",
+            }}
           >
-            13-54-854/4A/B1,B-Block Jains Bandlaguda, Prestige High Fields,
-            Madhapur, Telangana 500038
-          </Container>
-        </SpaceBetween>
+            No undelivered orders.
+          </div>
+        )}
       </div>
     </ContentLayout>
   );
