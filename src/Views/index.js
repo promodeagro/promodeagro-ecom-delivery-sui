@@ -73,12 +73,12 @@ const Views = () => {
           />
           <Route
             exact
-            path={`${PREFIX_APP_PATH}/home/runsheet/:runsheetId/customer-details/order/:orderId/captured-verify`}
+            path="/app/home/runsheet/:runsheetId/customer-details/order/:orderId/captured-verify/:photoUrl"
             element={<CapturedVerify />}
           />
           <Route
             exact
-            path={`${PREFIX_APP_PATH}/home/runsheet/:runsheetId/customer-details/order/:orderId/captured-verified/payment`}
+            path={`${PREFIX_APP_PATH}/home/runsheet/:runsheetId/customer-details/order/:orderId/captured-verified/:photoUrl/payment`}
             element={<Payment />}
           />
           <Route

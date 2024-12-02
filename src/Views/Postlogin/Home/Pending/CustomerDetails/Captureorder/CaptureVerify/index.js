@@ -14,7 +14,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { fetchRunsheetDetail } from "Redux-Store/Home/homeThunk";
 
 const CapturedVerified = () => {
-  const { runsheetId, orderId } = useParams();
+  const { runsheetId, orderId, photoUrl } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isModalVisible, setModalVisible] = useState(false);
@@ -24,7 +24,6 @@ const CapturedVerified = () => {
   );
   const order = runsheetDetail?.orders?.find((o) => o.id === orderId);
 
-  // Fetch the runsheet detail if it's missing or mismatched
   useEffect(() => {
     if (!runsheetDetail || runsheetDetail.id !== runsheetId) {
       const riderId = localStorage.getItem("id")?.replace(/['"]+/g, "");
@@ -34,19 +33,6 @@ const CapturedVerified = () => {
     }
   }, [dispatch, runsheetDetail, runsheetId]);
 
-  // Handle window unload event to confirm if data will be lost
-  useEffect(() => {
-    const handleBeforeUnload = (event) => {
-      const message =
-        "Refreshing will reset your form data. Are you sure you want to proceed?";
-      event.returnValue = message;
-      return message; // For some browsers
-    };
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, []);
 
   if (!order) {
     return <Box variant="h3">Order not found</Box>;
@@ -123,17 +109,18 @@ const CapturedVerified = () => {
           }}
         >
           {order.paymentDetails?.method === "cash" ? (
-            <Button
-              onClick={() =>
-                navigate(
-                  `/app/home/runsheet/${runsheetId}/customer-details/order/${order.id}/captured-verified/payment`
-                )
-              }
-              variant="primary"
-              fullWidth
-            >
-              Collect Amount
-            </Button>
+           <Button
+           onClick={() =>
+             navigate(
+               `/app/home/runsheet/${runsheetId}/customer-details/order/${orderId}/captured-verified/${encodeURIComponent(photoUrl)}/payment`
+             )
+           }
+           variant="primary"
+           fullWidth
+         >
+           Collect Amount
+         </Button>
+         
           ) : order.paymentDetails?.method === "prepaid" ? (
             <Button
               onClick={() => setModalVisible(true)}

@@ -114,7 +114,7 @@ const Signin = () => {
             alignItems: "center",
           }}
         >
-          <img src={scooterImg} style={{ height: "16rem", width: "16rem" }} />
+          <img src={scooterImg} style={{ height: "16rem", width: "16rem" }} alt="Scooter illustration"/>
         </div>
       </SpaceBetween>
       <SpaceBetween size="m">

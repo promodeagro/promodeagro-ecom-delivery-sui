@@ -4,6 +4,8 @@ import onboardingReducer from "./Onboarding/onboardingSlice";
 import runsheetReducer from "./Home/homeSlice";
 import signoutReducer from "./Signout/SignoutSlice";
 import notificationReducer from './Notification/NotificationSlice';
+import completeOrderReducer from './CompleteOrder/CompleteOrderSlice';
+
 
 import uploadReducer from "./Uploadimage/UploadSlice"
 
@@ -15,6 +17,8 @@ const store = configureStore({
     signout: signoutReducer,
     notifications: notificationReducer,
     upload: uploadReducer, // Add the upload reducer here
+    completeOrder: completeOrderReducer,
+
 
 
   },

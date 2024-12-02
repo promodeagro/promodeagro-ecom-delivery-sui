@@ -14,17 +14,14 @@ const BankDetails = () => {
   const [ifsc, setIfsc] = useState("");
   const [submitted, setSubmitted] = useState(false); // Track form submission
 
-  // Handle form submission
   const handleSubmit = () => {
     setSubmitted(true);
 
-    // Only save the bank details if all required fields are filled
     if (bankName && acc && reAcc && ifsc) {
       dispatch(
         setBankDetails({
           bankName: bankName.value,
           acc: acc,
-          // reAccountNumber: reAcc,
           ifsc: ifsc,
         })
       );
@@ -32,20 +29,17 @@ const BankDetails = () => {
     }
   };
 
-  // Handle input change to reset invalid state
   const handleInputChange = (setter) => (e) => {
     setter(e.detail.value);
     setSubmitted(false); // Reset invalid state when user starts typing
   };
 
-  // Step 1: Show confirmation dialog on page refresh
   useEffect(() => {
     const handleBeforeUnload = (event) => {
       const message = "Refreshing will reset your form data. Are you sure you want to proceed?";
       event.returnValue = message;  // Standard way to trigger the confirmation dialog
       return message;  // For some browsers
     };
-
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
@@ -54,12 +48,10 @@ const BankDetails = () => {
 
   return (
     <div style={{padding: '1rem 0 0 0'}}>
-
     <SpaceBetween size="xxl">
       <Header variant="h1">
         <span style={{ fontSize: "32px", fontWeight: "600" }}>Bank Details</span>
       </Header>
-
       <SpaceBetween direction="vertical" size="s">
         <Select
           invalid={submitted && !bankName} // Mark as invalid if submitted and not selected
@@ -77,16 +69,15 @@ const BankDetails = () => {
             { label: "ICICI Bank", value: "ICICI" },
           ]}
         />
-
         <FormField>
           <Input
+          autoFocus
             placeholder="Account Number"
             value={acc}
             onChange={handleInputChange(setAcc)} // Update account number only
             invalid={submitted && !acc} // Mark as invalid if submitted and empty
           />
         </FormField>
-
         <FormField>
           <Input
             placeholder="Re-enter Account Number"
@@ -95,7 +86,6 @@ const BankDetails = () => {
             invalid={submitted && !reAcc} // Mark as invalid if submitted and empty
           />
         </FormField>
-
         <FormField>
           <Input
             placeholder="IFSC Code"
@@ -105,7 +95,6 @@ const BankDetails = () => {
           />
         </FormField>
       </SpaceBetween>
-
       <div style={{ width: '80%', display: 'flex', margin: '0 auto',marginTop: '100%' }}>
         <Button variant="primary" fullWidth onClick={handleSubmit}>
           Complete

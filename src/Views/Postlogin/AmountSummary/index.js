@@ -1,5 +1,4 @@
-import { Box, Button,Badge, Container, Header, Link, Icon, KeyValuePairs, SpaceBetween } from '@cloudscape-design/components'
-import CustomCards from 'components/CustomCards';
+import { Box, Button, Container, Header, SpaceBetween } from '@cloudscape-design/components'
 import React from 'react'
 import {  useNavigate } from 'react-router-dom';
 

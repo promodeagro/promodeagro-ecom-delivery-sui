@@ -9,7 +9,6 @@ const VerifiedOrder = () => {
   const { runsheetId, orderId } = useParams(); // Extract dynamic route params
   const navigate = useNavigate();
   const dispatch = useDispatch(); // Initialize dispatch
-
   const [visible, setVisible] = useState(false);
   const [isCaptured, setIsCaptured] = useState(false);
   const [photo, setPhoto] = useState(null);
@@ -32,14 +31,19 @@ const VerifiedOrder = () => {
 
   useEffect(() => {
     startCamera();
+  
+    // Create a local variable to store the current videoRef value
+    const currentVideoRef = videoRef.current;
+  
     return () => {
-      if (videoRef.current) {
-        const stream = videoRef.current.srcObject;
+      if (currentVideoRef) {
+        const stream = currentVideoRef.srcObject;
         const tracks = stream?.getTracks();
         tracks?.forEach((track) => track.stop());
       }
     };
   }, []);
+  
 
   const handleTakePhoto = () => {
     if (!isPhotoTaken) {
@@ -73,16 +77,17 @@ const VerifiedOrder = () => {
 
   const handleVerifyClick = async () => {
     if (photo && isCaptured) {
-      // Convert the photo (base64) to a Blob object to upload
       const blob = await fetch(photo).then(res => res.blob());
       const file = new File([blob], "captured-photo.jpg", { type: "image/jpeg" });
-      
-      // Dispatch the uploadFile action
+  
       dispatch(uploadFile(file)).then((result) => {
         if (result.meta.requestStatus === "fulfilled") {
-          // Navigate if upload is successful
+          // The payload is the URL directly, no need for result.payload.url
+          const uploadedUrl = result.payload;
+  
+          // Pass the URL as a route parameter if it's valid
           navigate(
-            `/app/home/runsheet/${runsheetId}/customer-details/order/${orderId}/captured-verify`
+            `/app/home/runsheet/${runsheetId}/customer-details/order/${orderId}/captured-verify/${encodeURIComponent(uploadedUrl)}`
           );
         } else {
           alert("Upload failed. Please try again.");
@@ -92,6 +97,8 @@ const VerifiedOrder = () => {
       alert("No photo captured yet.");
     }
   };
+  
+    
 
   return (
     <div

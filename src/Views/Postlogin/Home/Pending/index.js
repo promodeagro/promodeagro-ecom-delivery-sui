@@ -12,6 +12,8 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchRunsheetDetail, fetchRunsheet } from "Redux-Store/Home/homeThunk";
+import { useMemo } from "react"; // Import useMemo
+
 
 const Runsheet = () => {
   const navigate = useNavigate();
@@ -26,7 +28,7 @@ const Runsheet = () => {
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [hasFetchedRunsheetDetail, setHasFetchedRunsheetDetail] =
     useState(false);
-  const runsheetData = runsheet?.data || [];
+    const runsheetData = useMemo(() => runsheet?.data || [], [runsheet]);
 
   useEffect(() => {
     dispatch(fetchRunsheet());

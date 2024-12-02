@@ -85,7 +85,6 @@ const Home = () => {
           amountCollectable,
           pendingOrders,
           deliveredOrders,
-          status,
         } = sheet;
         return (
           <Container

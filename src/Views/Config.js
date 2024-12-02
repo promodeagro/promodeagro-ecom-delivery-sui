@@ -12,6 +12,8 @@ const Config = {
   RUNSHEETDETAIL: `${BASE_URL}/rider/{id}/runsheet/{runsheetId}`,
   CANCELORDER: `${BASE_URL}/rider/{id}/runsheet/{runsheetId}/order/{orderId}/cancel`,
   RECEIVENOTIFICATION: `${BASE_URL}/notification/{id}`,
+  COMPLETEORDER: `${BASE_URL}/rider/{id}/runsheet/{runsheetId}/order/{orderId}/complete`,
+
 };
 
 export default Config;

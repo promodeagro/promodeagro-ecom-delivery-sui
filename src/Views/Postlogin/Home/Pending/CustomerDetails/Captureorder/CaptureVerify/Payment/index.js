@@ -17,9 +17,10 @@ import QR from "../../../../../../../../Assets/Images/qr.png";
 import upiapps from "../../../../../../../../Assets/Images/upiapps.png";
 import orderComplete from "../../../../../../../../Assets/Images/orderComplete.png";
 import { fetchRunsheetDetail } from "Redux-Store/Home/homeThunk";
+import { completeOrder } from "Redux-Store/CompleteOrder/CompleteOrderThunk";
 
 const Payment = () => {
-  const { runsheetId, orderId } = useParams();
+  const { runsheetId, orderId, photoUrl } = useParams(); // Grab the photoUrl from the path
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const runsheetDetail = useSelector((state) => state.runsheet.runsheetDetail?.data);
@@ -63,6 +64,21 @@ const Payment = () => {
       }
     }
   }, [dispatch, runsheetDetail, runsheetId]);
+
+  const handleCompleteOrder = () => {
+    // Trigger the completeOrder thunk with the runsheetId, orderId, and photoUrl
+    const riderId = localStorage.getItem("id")?.replace(/['"]+/g, "");
+    if (riderId) {
+      dispatch(
+        completeOrder({
+          riderId,
+          runsheetId,
+          orderId,
+          photoUrl, // Pass the photoUrl to the completeOrder API
+        })
+      );
+    }
+  };
 
   if (!order) {
     return <Box variant="h3">Order not found</Box>;
@@ -160,7 +176,7 @@ const Payment = () => {
           </div>
 
           <Box variant="h3" textAlign="center" color="text-status-success">
-            Collecting ₹2980/- Cash
+            Collecting ₹{order.totalPrice}/- Cash
           </Box>
           <SpaceBetween size="xs" direction="vertical">
             <Button
@@ -195,6 +211,8 @@ const Payment = () => {
           </Box>
           <Button
             onClick={() => {
+              handleCompleteOrder(); // Call handleCompleteOrder when the button is clicked
+
               setAmountCollectedModal(false);
               navigate("/app/home");
             }}
