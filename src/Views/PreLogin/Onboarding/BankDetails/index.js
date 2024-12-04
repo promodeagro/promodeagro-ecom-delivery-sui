@@ -71,7 +71,6 @@ const BankDetails = () => {
         />
         <FormField>
           <Input
-          autoFocus
             placeholder="Account Number"
             value={acc}
             onChange={handleInputChange(setAcc)} // Update account number only

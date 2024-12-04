@@ -6,23 +6,29 @@ import {
   Container,
   Header,
   Modal,
+  Icon,
   SpaceBetween,
   StatusIndicator,
 } from "@cloudscape-design/components";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { fetchRunsheetDetail } from "Redux-Store/Home/homeThunk";
+import { completeOrder } from "Redux-Store/CompleteOrder/CompleteOrderThunk";
+import prepaidorder from "../../../../../../../Assets/Images/prepaidorder.png";
 
 const CapturedVerified = () => {
   const { runsheetId, orderId, photoUrl } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [isModalVisible, setModalVisible] = useState(false);
+  const [comleteOrderModalVisible, setComleteOrderModalVisible] =
+    React.useState(false);
+  const [amountCollectedModal, setAmountCollectedModal] = React.useState(false);
 
   const runsheetDetail = useSelector(
     (state) => state.runsheet.runsheetDetail?.data
   );
   const order = runsheetDetail?.orders?.find((o) => o.id === orderId);
+
 
   useEffect(() => {
     if (!runsheetDetail || runsheetDetail.id !== runsheetId) {
@@ -32,6 +38,21 @@ const CapturedVerified = () => {
       }
     }
   }, [dispatch, runsheetDetail, runsheetId]);
+
+  const handleCompleteOrder = () => {
+    // Trigger the completeOrder thunk with the runsheetId, orderId, and photoUrl
+    const riderId = localStorage.getItem("id")?.replace(/['"]+/g, "");
+    if (riderId) {
+      dispatch(
+        completeOrder({
+          riderId,
+          runsheetId,
+          orderId,
+          photoUrl, // Pass the photoUrl to the completeOrder API
+        })
+      );
+    }
+  };
 
 
   if (!order) {
@@ -121,9 +142,9 @@ const CapturedVerified = () => {
            Collect Amount
          </Button>
          
-          ) : order.paymentDetails?.method === "prepaid" ? (
+          ) : order.paymentDetails?.method === "online" ? (
             <Button
-              onClick={() => setModalVisible(true)}
+              onClick={() => setComleteOrderModalVisible(true)}
               variant="primary"
               fullWidth
             >
@@ -132,32 +153,75 @@ const CapturedVerified = () => {
           ) : null}
         </div>
         <Modal
-          onDismiss={() => setModalVisible(false)}
-          visible={isModalVisible}
-          footer={
-            <Box float="right">
-              <SpaceBetween direction="horizontal" size="xs">
-                <Button variant="link" onClick={() => setModalVisible(false)}>
-                  Cancel
-                </Button>
-                <Button
-                  variant="primary"
-                  onClick={() => {
-                    setModalVisible(false);
-                    navigate(
-                      `/app/home/runsheet/${runsheetId}/customer-details/order/${order.id}/delivered`
-                    );
-                  }}
-                >
-                  Ok
-                </Button>
-              </SpaceBetween>
-            </Box>
-          }
-          header="Delivered Confirmation"
-        >
-          Are you sure you want to mark this order as delivered?
-        </Modal>
+        onDismiss={() => setComleteOrderModalVisible(false)}
+        visible={comleteOrderModalVisible}
+      >
+        <SpaceBetween direction="vertical" size="l">
+          <div className="flex jcc">
+            <img
+              src={prepaidorder}
+              style={{ width: "178px", height: "auto" }}
+              alt=""
+            />
+          </div>
+          <Box variant="h3" textAlign="center" color="text-status-success">
+            Prepaid Order
+          </Box>
+
+          <SpaceBetween size="xs" direction="vertical">
+            <div style={{width: '80%', margin: '0 auto'}}>
+            <Button
+              onClick={() => {
+                setAmountCollectedModal(true);
+                setComleteOrderModalVisible(false);
+              }}
+              variant="primary"
+              fullWidth
+            >
+              Complete Order
+            </Button>
+            </div>
+            <button
+            className="custom-button"
+              fullWidth
+              onClick={() => setComleteOrderModalVisible(false)}
+            >
+              Go Back
+            </button>
+          </SpaceBetween>
+        </SpaceBetween>
+      </Modal>
+      <Modal
+        onDismiss={() => setAmountCollectedModal(false)}
+        visible={amountCollectedModal}
+      >
+        <SpaceBetween direction="vertical" size="m">
+          <div className="flex jcc">
+            <Icon name="status-positive" variant="success" size="large" c />
+          </div>
+          <Box textAlign="center" color="text-status-success" variant="p">
+            "The amount has been collected."
+          </Box>
+          <Button
+  onClick={() => {
+    handleCompleteOrder(); // Complete the order action
+    setAmountCollectedModal(false);
+    
+    // Navigate to the Runsheet page with a flash message
+    navigate(`/app/home/runsheet/${runsheetId}`, {
+      state: {
+        flashBarMessage: "Order delivered successfully!",
+        type: "success", // Optional: success, error, info, etc.
+      },
+    });
+  }}
+  variant="primary"
+  fullWidth
+>
+  Done
+</Button>
+        </SpaceBetween>
+      </Modal>
       </SpaceBetween>
     </div>
   );

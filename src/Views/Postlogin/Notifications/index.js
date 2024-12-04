@@ -20,6 +20,15 @@ const Notifications = () => {
     return `${day}-${month}-${year} (${hours}:${minutes} ${ampm})`;
   };
 
+  const getNotificationMessage = (type, message) => {
+    switch (type) {
+      case 'new_runsheet':
+        return `You have Received a New Runsheet (${message})`; // Include message in brackets
+      default:
+        return `You have a new notification (${message})`; // Default message with message field
+    }
+  };
+
   useEffect(() => {
     dispatch(fetchNotifications());
   }, [dispatch]);
@@ -33,11 +42,13 @@ const Notifications = () => {
           <Alert
             key={notification.id}
             type="info"
-            header={`${notification.message} (${notification.id})`} // Message with ID
+            header={getNotificationMessage(notification.type, notification.message)} // Show message based on type and the message field
             dismissible={true}
             onDismiss={() => console.log(`Dismissed notification ${notification.id}`)}
           >
-            {formatDate(notification.createdAt)} {/* Display formatted date */}
+            <div style={{ color: '#d3d3d3', fontWeight: '400' }}>
+              {formatDate(notification.createdAt)} 
+            </div>
           </Alert>
         ))}
       </SpaceBetween>

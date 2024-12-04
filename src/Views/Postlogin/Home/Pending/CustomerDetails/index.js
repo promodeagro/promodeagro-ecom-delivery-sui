@@ -48,45 +48,43 @@ const CustomerDetails = () => {
       return;
     }
   
-    const id = localStorage.getItem("id")?.replace(/['"]+/g, ""); // Retrieve rider ID as 'id'
-  
+    const id = localStorage.getItem("id")?.replace(/['"]+/g, "");
     if (!runsheetDetail || runsheetDetail.status === "loading") {
       return <Box variant="h3">Loading...</Box>;
     }
-    
     if (!order) {
       return <Box variant="h3">Order not found</Box>;
     }
-    
   
     const payload = {
-      id, // Use 'id' instead of 'riderId'
+      id,
       runsheetId,
       orderId,
       reason: reason || otherIssue,
     };
   
-  
     try {
       setLoading(true);
       await dispatch(cancelOrderAPI(payload)).unwrap();
       setLoading(false);
-      navigate(-1); // Navigate back on success
+  
+      // Navigate with state only when cancel API is successful
+      navigate(`/app/home/runsheet/${runsheetId}`, {
+        state: { flashBarMessage: "Order Cancelled Successfully!", type: "success" },
+      });
     } catch (error) {
       console.error("Failed to cancel order:", error);
       setLoading(false);
       alert(error.message || "Failed to cancel order. Please try again.");
     }
   };
-  
-  if (!order) {
+    if (!order) {
     return <Box variant="h3">Order not found</Box>;
   }
 
 
   return (
     <>
-      {/* Main Content */}
       <Header variant="h2">
         <SpaceBetween size="xs" alignItems="center" direction="horizontal">
           <Button
@@ -195,9 +193,7 @@ const CustomerDetails = () => {
           </SpaceBetween>
         </SpaceBetween>
       </Container>
-
-      {/* Cancel Order Modal */}
-      <Modal
+        <Modal
         onDismiss={() => setVisible(false)}
         visible={visible}
         header="Cancel Order"
@@ -213,7 +209,7 @@ const CustomerDetails = () => {
               { value: "Incomplete Address", label: "Incomplete Address" },
               { value: "Security Instability", label: "Security Instability" },
               { value: "Heavy Load", label: "Heavy Load" },
-              { value: "Order rejected by customer", label: "Order rejected by customer" },
+              { value: "rejected by customer", label: "Rejected by customer" },
             ]}
           />
           <FormField label="Notes Other Issues">
@@ -229,7 +225,6 @@ const CustomerDetails = () => {
             Ok
           </Button>
           </div>
-
           <button
             onClick={() => setVisible(false)}
             className="custom-button"

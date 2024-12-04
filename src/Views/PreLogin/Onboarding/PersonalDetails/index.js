@@ -46,26 +46,26 @@ const PersonalDetails = () => {
     const errors = {};
     if (!fullName) errors.fullName = "Fullname is Required";
     if (!DOB || !/^\d{2}\/\d{2}\/\d{4}$/.test(DOB)) errors.DOB = true; // Date validation
-// Mobile number validation
-if (!number) {
-  errors.number = "Mobile Number Required"; // No error message, just mark the field invalid
-} else if (number.length !== 10) {
-  errors.number = "Mobile number must be exactly 10 digits."; // Error message for invalid length
-}
-if (!email) {
-  errors.email = "Email Required"; // No error message, just mark the field invalid
-} else if (!email.includes("@")) {
-  errors.email = "Email must contain '@'."; // Error message for invalid email format
-}
+    // Mobile number validation
+    if (!number) {
+      errors.number = "Mobile Number Required"; // No error message, just mark the field invalid
+    } else if (number.length !== 10) {
+      errors.number = "Mobile number must be exactly 10 digits."; // Error message for invalid length
+    }
+    if (!email) {
+      errors.email = "Email Required"; // No error message, just mark the field invalid
+    } else if (!email.includes("@")) {
+      errors.email = "Email must contain '@'."; // Error message for invalid email format
+    }
 
-// Reference Mobile validation
-if (!referenceMobile) {
-  errors.referenceMobile = "Mobile Number Required"; // No error message, just mark the field invalid
-} else if (referenceMobile.length !== 10) {
-  errors.referenceMobile =
-    "Reference mobile number must be exactly 10 digits."; // Error message for invalid length
-}  
-  if (!addressLine1) errors.addressLine1 = true;
+    // Reference Mobile validation
+    if (!referenceMobile) {
+      errors.referenceMobile = "Mobile Number Required"; // No error message, just mark the field invalid
+    } else if (referenceMobile.length !== 10) {
+      errors.referenceMobile =
+        "Reference mobile number must be exactly 10 digits."; // Error message for invalid length
+    }
+    if (!addressLine1) errors.addressLine1 = true;
     if (!addressLine2) errors.addressLine2 = true;
     if (!landmark) errors.landmark = true;
     if (!state) errors.state = true;
@@ -193,21 +193,18 @@ if (!referenceMobile) {
               />
             </FormField>
             <FormField errorText={formErrors.email}>
-
-            <Input
-              inputMode="email"
-              type="email"
-              onChange={(e) => {
-                setEmail(e.detail.value);
-                setFormErrors((prev) => ({ ...prev, email: false }));
-              }}
-              value={email}
-              placeholder="Email ID"
-              invalid={formErrors.email}
-            />
-                        </FormField>
-
-            
+              <Input
+                inputMode="email"
+                type="email"
+                onChange={(e) => {
+                  setEmail(e.detail.value);
+                  setFormErrors((prev) => ({ ...prev, email: false }));
+                }}
+                value={email}
+                placeholder="Email ID"
+                invalid={formErrors.email}
+              />
+            </FormField>
           </SpaceBetween>
           <FormField label="Address">
             <SpaceBetween size="m" direction="vertical">

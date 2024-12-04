@@ -15,6 +15,9 @@ export const submitOnboardingData = () => async (dispatch, getState) => {
     documents,
   };
 
+  // Log the payload to verify its structure and data
+  console.log("Submitting onboarding data with payload:", payload);
+
   try {
     const response = await fetch(config.ONBOARDING_SUBMIT, {
       method: "POST",
@@ -23,12 +26,19 @@ export const submitOnboardingData = () => async (dispatch, getState) => {
       },
       body: JSON.stringify(payload),
     });
+
     const data = await response.json();
+
+    // Log the server response for debugging
+    console.log("Server response:", { status: response.status, data });
+
     if (!response.ok) {
       dispatch(setError(data.message || "Failed to submit onboarding details"));
+      console.error("Submission failed:", data.message);
     }
   } catch (error) {
     dispatch(setError(error.message || "An error occurred during submission"));
+    console.error("Error during submission:", error.message);
   } finally {
     dispatch(updateLoading(false));
   }

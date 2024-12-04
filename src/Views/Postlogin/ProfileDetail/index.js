@@ -14,14 +14,11 @@ const ProfileDetail = () => {
 
   useEffect(() => {
     const storedUserInfo = localStorage.getItem("userinfo");
-    // console.log("Raw userInfo from localStorage:", storedUserInfo); // Debug log
     if (storedUserInfo) {
       try {
         const parsedUserInfo = JSON.parse(storedUserInfo);
-        // console.log("Parsed userInfo:", parsedUserInfo); // Debug log
         setUserInfo(parsedUserInfo);
       } catch (error) {
-        // console.error("Failed to parse userInfo:", error);
       }
     }
   }, []);

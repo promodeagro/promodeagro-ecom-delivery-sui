@@ -179,6 +179,7 @@ const Payment = () => {
             Collecting ₹{order.totalPrice}/- Cash
           </Box>
           <SpaceBetween size="xs" direction="vertical">
+            <div style={{width: '80%', margin : '0 auto'}}>
             <Button
               onClick={() => {
                 setAmountCollectedModal(true);
@@ -189,12 +190,14 @@ const Payment = () => {
             >
               Complete Order
             </Button>
-            <Button
+            </div>
+            <button
+            className="custom-button"
               fullWidth
               onClick={() => setComleteOrderModalVisible(false)}
             >
               Go Back
-            </Button>
+            </button>
           </SpaceBetween>
         </SpaceBetween>
       </Modal>
@@ -210,17 +213,23 @@ const Payment = () => {
             "The amount has been collected."
           </Box>
           <Button
-            onClick={() => {
-              handleCompleteOrder(); // Call handleCompleteOrder when the button is clicked
+  onClick={() => {
+    handleCompleteOrder(); // Call the complete order action
+    setAmountCollectedModal(false);
 
-              setAmountCollectedModal(false);
-              navigate("/app/home");
-            }}
-            variant="primary"
-            fullWidth
-          >
-            Done
-          </Button>
+    // Pass a flash message to the Runsheet page
+    navigate(`/app/home/runsheet/${runsheetId}`, {
+      state: {
+        flashBarMessage: "Order delivered successfully!",
+        type: "success", // Type of Flashbar: success, error, etc.
+      },
+    });
+  }}
+  variant="primary"
+  fullWidth
+>
+  Done
+</Button>
         </SpaceBetween>
       </Modal>
     </>

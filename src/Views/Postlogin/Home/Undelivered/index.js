@@ -33,7 +33,7 @@ const Undelivered = () => {
 
   const undeliveredOrders =
     runsheetDetail?.data?.orders?.filter(
-      (order) => order.status === "cancelled"
+      (order) => order.status === "undelivered"
     ) || [];
 
   return (
@@ -72,7 +72,7 @@ const Undelivered = () => {
                       alignItems="center"
                       size="xs"
                     >
-                      <span className="blue"> {order.customerName}</span>{" "}
+                      <span className="blue"> {order.customerName}</span>
                       <Badge>{order.paymentDetails?.method}</Badge>
                     </SpaceBetween>
                   </Header>
@@ -81,7 +81,7 @@ const Undelivered = () => {
                   <SpaceBetween direction="vertical" size="m">
                     <div className="jcsb flex aic">
                       <Box variant="strong">
-                        Payment: ₹{" "}
+                        Payment: ₹
                         <span className="blue">{order.totalPrice}</span>
                       </Box>
                       <Box variant="strong">{order.items?.length} Items</Box>
@@ -89,18 +89,21 @@ const Undelivered = () => {
                     <Box>Reason</Box>
                     <Box>
                       <span className="undelevered_border">
-                        {order.cancellationData?.cancelReason}
+
+                      {order.statusDetails?.reason || "No reason provided"}
                       </span>
                     </Box>
+                    <div style={{width: '80%', margin: '0 auto'}}>
                     <Button
                       onClick={() =>
-                        navigate(`/app/customer-details/${order.id}`)
+                        navigate(`/app/home/runsheet/${runsheetId}/order/${order.id}/customer-details`)
                       }
                       variant="primary"
                       fullWidth
                     >
                       Reattempt
                     </Button>
+  </div>
                   </SpaceBetween>
                 }
               >

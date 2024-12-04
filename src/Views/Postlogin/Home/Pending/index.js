@@ -13,10 +13,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchRunsheetDetail, fetchRunsheet } from "Redux-Store/Home/homeThunk";
 import { useMemo } from "react"; // Import useMemo
-
+import { useLocation } from "react-router-dom";
+import Flashbar from "@cloudscape-design/components/flashbar";
 
 const Runsheet = () => {
   const navigate = useNavigate();
+  const [flashBar, setFlashBar] = useState(null);
+  const location = useLocation();
   const dispatch = useDispatch();
   const { runsheetId } = useParams();
   const { runsheet, runsheetDetail } = useSelector((state) => state.runsheet);
@@ -28,7 +31,26 @@ const Runsheet = () => {
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [hasFetchedRunsheetDetail, setHasFetchedRunsheetDetail] =
     useState(false);
-    const runsheetData = useMemo(() => runsheet?.data || [], [runsheet]);
+
+  useEffect(() => {
+    if (location.state?.flashBarMessage) {
+      setFlashBar({
+        message: location.state.flashBarMessage,
+        type: location.state.type || "info",
+      });
+
+      window.history.replaceState({}, document.title);
+      const timer = setTimeout(() => {
+        setFlashBar(null);
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [location.state]);
+
+  const runsheetData = useMemo(() => {
+    return runsheet?.data.filter((sheet) => sheet.status === "active") || [];
+  }, [runsheet]);
 
   useEffect(() => {
     dispatch(fetchRunsheet());
@@ -47,12 +69,16 @@ const Runsheet = () => {
   useEffect(() => {
     const orders = runsheetDetail?.data?.orders || [];
     if (searchText) {
-      const filtered = orders.filter((order) =>
-        order.customerName.toLowerCase().includes(searchText.toLowerCase())
+      const filtered = orders.filter(
+        (order) =>
+          order.customerName.toLowerCase().includes(searchText.toLowerCase()) &&
+          order.status === "on the way"
       );
       setFilteredOrders(filtered);
     } else {
-      setFilteredOrders(orders);
+      setFilteredOrders(
+        orders.filter((order) => order.status === "on the way")
+      );
     }
   }, [searchText, runsheetDetail]);
 
@@ -82,52 +108,83 @@ const Runsheet = () => {
 
   return (
     <>
-      <Header
-        variant="h2"
-        actions={
-          <Button
-            variant="icon"
-            iconName="refresh"
-            onClick={() => window.location.reload()}
+      <SpaceBetween size="s">
+        {flashBar && (
+          <Flashbar
+            items={[
+              {
+                header: flashBar.message,
+                type: flashBar.type,
+                dismissible: true,
+                onDismiss: () => setFlashBar(null), // Dismiss manually if needed
+              },
+            ]}
           />
-        }
-      >
-        <Select
-          selectedOption={selectedOption}
-          onChange={handleSelectChange}
-          options={runsheetData.map((sheet) => ({
-            label: `Runsheet (${sheet.id})`,
-            value: sheet.id,
-          }))}
-        />
-      </Header>
-      <div
-        style={{ marginTop: 10, marginBottom: 18 }}
-        className="home_custom_box_wrapper pointer"
-      >
-        <div style={{ background: "#4F5A68" }} className="runsheet_box">
-          <span className="runsheet_box_value">02</span>
-          <span className="runsheet_box_label blue_underline">Pending</span>
-        </div>
-        <div
-          onClick={() => navigate(`/app/home/runsheet/${runsheetId}/delivered`)}
-          style={{ background: "#037F0C" }}
-          className="runsheet_box pointer"
-        >
-          <span className="runsheet_box_value">06</span>
-          <span className="runsheet_box_label">Delivered</span>
-        </div>
-        <div
-          onClick={() =>
-            navigate(`/app/home/runsheet/${runsheetId}/undelivered`)
+        )}
+        <Header
+          variant="h2"
+          actions={
+            <Button
+              variant="icon"
+              iconName="refresh"
+              onClick={() => window.location.reload()}
+            />
           }
-          style={{ background: "#D91515" }}
-          className="runsheet_box pointer"
         >
-          <span className="runsheet_box_value">01</span>
-          <span className="runsheet_box_label">Undelivered</span>
-        </div>
-      </div>
+          <Select
+            selectedOption={selectedOption}
+            onChange={handleSelectChange}
+            options={runsheetData.map((sheet) => ({
+              label: `Runsheet (${sheet.id})`,
+              value: sheet.id,
+            }))}
+          />
+        </Header>
+      </SpaceBetween>
+      {runsheetData?.map((sheet) => {
+        if (sheet.id === selectedOption.value) {
+          return (
+            <div
+              style={{ marginTop: 10, marginBottom: 18 }}
+              className="home_custom_box_wrapper pointer"
+            >
+              <div style={{ background: "#4F5A68" }} className="runsheet_box">
+                <span className="runsheet_box_value">
+                  {sheet.pendingOrders}
+                </span>
+                <span className="runsheet_box_label blue_underline">
+                  Pending
+                </span>
+              </div>
+              <div
+                onClick={() =>
+                  navigate(`/app/home/runsheet/${runsheetId}/delivered`)
+                }
+                style={{ background: "#037F0C" }}
+                className="runsheet_box pointer"
+              >
+                <span className="runsheet_box_value">
+                  {sheet.deliveredOrders}
+                </span>
+                <span className="runsheet_box_label">Delivered</span>
+              </div>
+              <div
+                onClick={() =>
+                  navigate(`/app/home/runsheet/${runsheetId}/undelivered`)
+                }
+                style={{ background: "#D91515" }}
+                className="runsheet_box pointer"
+              >
+                <span className="runsheet_box_value">
+                  {sheet.orders - sheet.pendingOrders - sheet.deliveredOrders}
+                </span>
+                <span className="runsheet_box_label">Undelivered</span>
+              </div>
+            </div>
+          );
+        }
+        return null;
+      })}
       <TextFilter
         filteringText={searchText}
         filteringPlaceholder="Search by customer name"
