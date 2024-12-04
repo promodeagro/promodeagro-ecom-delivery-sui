@@ -38,6 +38,20 @@ const Notifications = () => {
       <SpaceBetween size="s" direction="vertical">
         {loading && <p>Loading notifications...</p>}
         {error && <p>Error: {error}</p>}
+        {!loading && !error && notifications.length === 0 && (
+        <div
+        style={{
+          textAlign: "center",
+          height: "60vh",
+          fontWeight: "bold",
+          display: "flex", // Flexbox for centering
+          justifyContent: "center", // Horizontal alignment
+          alignItems: "center", // Vertical alignment
+        }}
+      >
+        No Notification available<br></br> at the moment!
+      </div>
+      )}
         {notifications.map((notification) => (
           <Alert
             key={notification.id}
@@ -47,7 +61,7 @@ const Notifications = () => {
             onDismiss={() => console.log(`Dismissed notification ${notification.id}`)}
           >
             <div style={{ color: '#d3d3d3', fontWeight: '400' }}>
-              {formatDate(notification.createdAt)} 
+              {formatDate(notification.createdAt)}
             </div>
           </Alert>
         ))}

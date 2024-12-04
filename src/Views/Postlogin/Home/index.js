@@ -33,7 +33,6 @@ const Home = () => {
         acceptRunSheetAPI({ riderId, runsheetId })
       );
       if (response?.meta?.requestStatus === "fulfilled") {
-        // Reload the page to refresh data
         window.location.reload();
       }
     } catch (err) {
@@ -56,9 +55,16 @@ const Home = () => {
           <span className="header_underline">Home</span>
         </Header>
         <div
-          style={{ textAlign: "center", height: "60vh", fontWeight: "bold" }}
+          style={{
+            textAlign: "center",
+            height: "60vh",
+            fontWeight: "bold",
+            display: "flex", // Flexbox for centering
+            justifyContent: "center", // Horizontal alignment
+            alignItems: "center", // Vertical alignment
+          }}
         >
-          No runsheet is assigned
+          No runsheet is assigned!
         </div>
       </SpaceBetween>
     );
