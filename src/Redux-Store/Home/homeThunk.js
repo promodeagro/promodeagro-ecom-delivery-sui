@@ -1,27 +1,27 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import Config from 'Views/Config';
 
-const getToken = () => {
-    const token = localStorage.getItem("user");
-    return token ? JSON.parse(token).accessToken : null;
-};
+// const getToken = () => {
+//     const token = localStorage.getItem("user");
+//     return token ? JSON.parse(token).accessToken : null;
+// };
 
 export const fetchRunsheet = createAsyncThunk(
   "runsheet/fetch",
   async (_, { rejectWithValue }) => {
     const riderId = localStorage.getItem("id")?.replace(/['"]+/g, '');  
-    const accessToken = getToken();  
+    // const accessToken = getToken();  
         if (!riderId) return rejectWithValue("Rider ID not found");
-    if (!accessToken) return rejectWithValue("Token not found");
+    // if (!accessToken) return rejectWithValue("Token not found");
     
     try {
       console.log("Rider ID:", riderId); 
             const url = Config.GETRUNSHEETS.replace("{id}", riderId);
       console.log("Requested URL:", url); 
       const response = await fetch(url, {
-        headers: {  
-          Authorization: `Bearer ${accessToken}`, 
-        },
+        // headers: {  
+        //   Authorization: `Bearer ${accessToken}`, 
+        // },
       });
             if (!response.ok) {
         console.error("Failed response:", response.status, response.statusText); 
@@ -41,7 +41,7 @@ export const fetchRunsheet = createAsyncThunk(
 export const acceptRunSheetAPI = createAsyncThunk(
   "runsheet/accept",
   async ({ riderId, runsheetId }, { rejectWithValue }) => {
-    const accessToken = getToken();
+    // const accessToken = getToken();
     console.log("Accepting runsheet...");
     console.log("Rider ID:", riderId);
     console.log("Runsheet ID:", runsheetId);
@@ -51,10 +51,10 @@ export const acceptRunSheetAPI = createAsyncThunk(
       return rejectWithValue("Rider ID not found");
     }
 
-    if (!accessToken) {
-      console.error("Token not found");
-      return rejectWithValue("Token not found");
-    }
+    // if (!accessToken) {
+    //   console.error("Token not found");
+    //   return rejectWithValue("Token not found");
+    // }
 
     try {
       const url = Config.ACCEPTRUNSHEET.replace("{id}", riderId).replace("{runsheetId}", runsheetId);
@@ -62,9 +62,9 @@ export const acceptRunSheetAPI = createAsyncThunk(
 
       const response = await fetch(url, {
         method: "GET",  
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
+        // headers: {
+        //   Authorization: `Bearer ${accessToken}`,
+        // },
       });
       if (!response.ok) {
         console.error("Failed response:", response.status, response.statusText);
@@ -84,16 +84,16 @@ export const acceptRunSheetAPI = createAsyncThunk(
 export const fetchRunsheetDetail = createAsyncThunk(
   "runsheet/fetchDetail",
   async ({ riderId, runsheetId }, { rejectWithValue }) => {
-    const accessToken = getToken();
+    // const accessToken = getToken();
 
     if (!riderId) {
       console.error("Rider ID not found");
       return rejectWithValue("Rider ID not found");
     }
-    if (!accessToken) {
-      console.error("Token not found");
-      return rejectWithValue("Token not found");
-    }
+    // if (!accessToken) {
+    //   console.error("Token not found");
+    //   return rejectWithValue("Token not found");
+    // }
 
     try {
       const url = Config.RUNSHEETDETAIL.replace("{id}", riderId).replace(
@@ -104,7 +104,7 @@ export const fetchRunsheetDetail = createAsyncThunk(
       console.log("Constructed URL for Runsheet Detail:", url);
 
       const response = await fetch(url, {
-        headers: { Authorization: `Bearer ${accessToken}` },
+        // headers: { Authorization: `Bearer ${accessToken}` },
       });
 
       if (!response.ok) {
@@ -128,14 +128,14 @@ export const cancelOrderAPI = createAsyncThunk(
   async ({ id, runsheetId, orderId, reason }, { rejectWithValue }) => {
     console.log("Cancel Order API Payload:", { id, runsheetId, orderId, reason });
 
-    const accessToken = localStorage.getItem("user")
-      ? JSON.parse(localStorage.getItem("user")).accessToken
-      : null;
+    // const accessToken = localStorage.getItem("user")
+    //   ? JSON.parse(localStorage.getItem("user")).accessToken
+    //   : null;
 
-    if (!accessToken) {
-      console.error("Access token not found");
-      return rejectWithValue("Token not found");
-    }
+    // if (!accessToken) {
+    //   console.error("Access token not found");
+    //   return rejectWithValue("Token not found");
+    // }
 
     if (!id || !runsheetId || !orderId) {
       console.error("Missing required parameters:", { id, runsheetId, orderId });
@@ -154,7 +154,7 @@ export const cancelOrderAPI = createAsyncThunk(
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
+          // Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({id, runsheetId, orderId, reason }), 
       });

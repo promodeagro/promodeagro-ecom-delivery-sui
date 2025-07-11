@@ -58,27 +58,36 @@ const OtpVerification = () => {
       }
       const session = localStorage.getItem("session");
 
-      dispatch(validateOtp({ number, code: otp.join(""), userType: "rider", session // Pass the session here
-      }))
+      dispatch(validateOtp({ number, otp: otp.join("") }))
         .unwrap()
         .then((result) => {
-          localStorage.setItem(
-            "user",
-            JSON.stringify(result.data.tokens)
-          );
-          localStorage.setItem("id", JSON.stringify(result.data.user.id));
-          localStorage.setItem("userinfo", JSON.stringify(result.data.user));
-          localStorage.setItem(
-            "login",
-            JSON.stringify(result.data.tokens.accessToken)
-          );
-          localStorage.setItem(
-            "refreshToken",
-            JSON.stringify(result.data.tokens.refreshToken)
-          );
-          console.log("OTP verification successful!"); 
+          // Uncommented: Store tokens and user info after successful OTP verification
+          // localStorage.setItem(
+          //   "user",
+          //   JSON.stringify(result.data.tokens)
+          // );
+          // localStorage.setItem("id", JSON.stringify(result.data.user.id));
+          // Patch: Store phone number as name if name is empty
+          if (result.data && result.data.rider) {
+            const patchedUser = {
+              ...result.data.rider,
+              name: result.data.rider.name || result.data.rider.phone_number
+            };
+            localStorage.setItem("userinfo", JSON.stringify(patchedUser));
+          }
+          // localStorage.setItem(
+          //   "login",
+          //   JSON.stringify(result.data.tokens.accessToken)
+          // );
+          // localStorage.setItem(
+          //   "refreshToken",
+          //   JSON.stringify(result.data.tokens.refreshToken)
+          // );
+          console.log("OTP verification successful!", result);
 
-          navigate("/app/home");
+          if (result.data && result.data.success) {
+            navigate("/app/home");
+          }
         })
         .catch((error) => {
           console.error("Error verifying OTP:", error);

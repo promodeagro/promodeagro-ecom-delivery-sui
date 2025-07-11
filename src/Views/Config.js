@@ -1,4 +1,4 @@
-const BASE_URL = "https://hru1nl9r81.execute-api.ap-south-1.amazonaws.com";
+const BASE_URL = "http://localhost:3000/dev";
 
 const Config = {
   BASE_URL,
@@ -11,9 +11,8 @@ const Config = {
   ACCEPTRUNSHEET: `${BASE_URL}/rider/{id}/runsheet/{runsheetId}/accept`,
   RUNSHEETDETAIL: `${BASE_URL}/rider/{id}/runsheet/{runsheetId}`,
   CANCELORDER: `${BASE_URL}/rider/{id}/runsheet/{runsheetId}/order/{orderId}/cancel`,
-  RECEIVENOTIFICATION: `${BASE_URL}/notification/{id}`,
+  RECEIVENOTIFICATION: `${BASE_URL}/rider/{id}/notifications`,
   COMPLETEORDER: `${BASE_URL}/rider/{id}/runsheet/{runsheetId}/order/{orderId}/complete`,
-
 };
 
 export default Config;

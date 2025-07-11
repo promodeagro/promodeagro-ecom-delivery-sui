@@ -3,19 +3,19 @@ import Config from "Views/Config";
 
 export const signOut = createAsyncThunk("auth/signOut", async (_, { rejectWithValue }) => {
   try {
-    const user = JSON.parse(localStorage.getItem("user")); // Retrieve user object
-    const accessToken = user?.accessToken; // Extract access token
+    // const user = JSON.parse(localStorage.getItem("user")); // Retrieve user object
+    // const accessToken = user?.accessToken; // Extract access token
 
-    if (!accessToken) {
-      throw new Error("Access token not found in user object");
-    }
+    // if (!accessToken) {
+    //   throw new Error("Access token not found in user object");
+    // }
 
     const response = await fetch(Config.SIGN_OUT, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ accessToken }), // Pass access token in request body
+      // body: JSON.stringify({ accessToken }), // Pass access token in request body
     });
 
     if (!response.ok) {

@@ -11,8 +11,8 @@ const Topbar = () => {
   const dispatch = useDispatch();
   const [runsheetLength, setRunsheetLength] = useState(null);
   const userInfo = JSON.parse(localStorage.getItem("userinfo"));
-  const fullName = userInfo ? userInfo.personalDetails.fullName : "Guest";
-  const email = userInfo ? userInfo.personalDetails.email : "No email available";
+  const fullName = userInfo?.personalDetails?.fullName || userInfo?.name || userInfo?.phone_number || "Guest";
+  const email = userInfo?.personalDetails?.email || "No email available";
 
   // Fetch runsheet data on component mount
   useEffect(() => {

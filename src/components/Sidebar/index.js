@@ -25,7 +25,7 @@ const Sidebar = () => {
   const [activeHref, setActiveHref] = React.useState("");
 
   const userInfo = JSON.parse(localStorage.getItem("userinfo"));
-  const fullName = userInfo ? userInfo.personalDetails.fullName : "Guest";
+  const fullName = userInfo?.personalDetails?.fullName || userInfo?.name || userInfo?.phone_number || "Guest";
 
   useEffect(() => {
     setActiveHref(location.pathname);

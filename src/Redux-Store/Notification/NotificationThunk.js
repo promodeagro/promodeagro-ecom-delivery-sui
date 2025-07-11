@@ -7,22 +7,22 @@ const getRiderId = () => {
 };
 
 // Function to retrieve the access token from localStorage
-const getToken = () => {
-  const token = localStorage.getItem('user');
-  return token ? JSON.parse(token).accessToken : null;
-};
+// const getToken = () => {
+//   const token = localStorage.getItem('user');
+//   return token ? JSON.parse(token).accessToken : null;
+// };
 
 // Thunk for fetching notifications
 export const fetchNotifications = createAsyncThunk(
   'notifications/fetchNotifications',
   async (_, { rejectWithValue }) => {
     const riderId = getRiderId();
-    const token = getToken();
+    // const token = getToken();
 
-    if (!riderId || !token) {
-      console.error('Missing rider ID or access token');
-      return rejectWithValue('Missing rider ID or access token');
-    }
+    // if (!riderId || !token) {
+    //   console.error('Missing rider ID or access token');
+    //   return rejectWithValue('Missing rider ID or access token');
+    // }
 
     // Construct the API URL
     const url = Config.RECEIVENOTIFICATION.replace('{id}', riderId);
@@ -33,7 +33,7 @@ export const fetchNotifications = createAsyncThunk(
       const response = await fetch(url, {
         method: 'GET',
         headers: {
-          Authorization: `Bearer ${token}`,
+          // Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
       });
@@ -46,7 +46,14 @@ export const fetchNotifications = createAsyncThunk(
       }
 
       console.log(`API Response (URL: ${url}):`, data);
-      return data; // Assuming API returns an array of notifications
+      // Always return an array for notifications
+      if (Array.isArray(data.notifications)) {
+        return data.notifications;
+      } else if (data.notifications) {
+        return [data.notifications];
+      } else {
+        return [];
+      }
     } catch (error) {
       console.error(`Network Error (URL: ${url}):`, error);
       return rejectWithValue(error.message || 'An error occurred while fetching notifications');
